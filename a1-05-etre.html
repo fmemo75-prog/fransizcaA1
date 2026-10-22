@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 5 · Être ve uyruklar · Fransızca A1</title>
+<link rel="stylesheet" href="ders.css">
+<style>
+/* ders.css ile uyumlu, yalnızca bu sayfaya özel küçük eklemeler */
+:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
+.d5{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d5 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
+.d5 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
+.vid{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#e8ecf8}
+.vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.kart b{display:block;font-size:1.15rem;color:var(--lac)}
+.kart small{color:#555}
+.kart .e{color:var(--kir)}
+.ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
+.neg{border-color:var(--kir)}.neg b{color:var(--kir)}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
+.nav a{color:var(--lac);font-weight:700}
+</style>
+</head>
+<body>
+<main class="d5">
+<p><a href="index.html">← Ders listesi</a></p>
+<h1>Ders 5 · Être ve uyruklar</h1>
+<p>Bu derste "olmak" fiilini (<b>être</b>) öğreniyor, uyruk söylemeyi ve "değilim" demeyi çalışıyoruz. Önce konuyu anlıyoruz, sonra kartlara tıklayıp dinliyoruz.</p>
+
+<!-- Video: YouTube kimliğini aşağıdaki VIDEO_ID yerine yazın. Boş bırakılırsa "yakında" görünür. -->
+<div class="vid" id="video"></div>
+
+<h2>1. Être: "olmak"</h2>
+<p>Ders 2'de <b>Je suis…</b> demiştik. Şimdi fiilin tüm çekimi. Ders 4'teki <i>avoir</i> gibi, bu fiil de düzensizdir; çekimi ezberlemek yerine çok dinleyin.</p>
+<div class="grid" id="etre"></div>
+<div class="ipucu"><b>İpucu:</b> <i>tu es</i>, <i>vous êtes</i>. Bu iki kalıbı Ders 4'teki <i>tu as</i>, <i>vous avez</i> ile karşılaştırın. Aynı ses, farklı fiil: <b>e</b> ve <b>a</b>.</div>
+
+<h2>2. Uyruklar: erkek ve kadın</h2>
+<p>Fransızcada uyruk, konuşanın veya bahsedilen kişinin <b>cinsiyetine</b> göre değişir. Sezgi basit: kadında sona genellikle <b class="e">e</b> gelir. Yazıda fark eder, kulakla bazen duyulur, bazen duyulmaz. Dinleyerek farkı yakalayın.</p>
+<div class="grid" id="uyruk"></div>
+<div class="ipucu"><b>İpucu:</b> <i>turc → turque</i> özel bir durum, <i>c</i> sesi korunsun diye <i>qu</i> olur. <i>français → française</i> ve <i>anglais → anglaise</i> sonunda "z" sesi duyulur.</div>
+
+<h2>3. Mini diyalog</h2>
+<svg viewBox="0 0 360 250" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
+  <g id="b1" style="cursor:pointer" onclick="konus('Tu es français ?')"><rect x="10" y="10" width="200" height="44" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="22" y="37" font-size="15" fill="#002395">Mehmet: Tu es français ?</text></g>
+  <g style="cursor:pointer" onclick="konus('Non, je ne suis pas française. Je suis turque.')"><rect x="60" y="70" width="290" height="56" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="72" y="93" font-size="14" fill="#a00">İpek: Non, je ne suis pas</text><text x="72" y="113" font-size="14" fill="#a00">française. Je suis turque.</text></g>
+  <g style="cursor:pointer" onclick="konus('Moi, je suis turc. Tu es de Paris ?')"><rect x="10" y="142" width="250" height="44" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="22" y="169" font-size="14" fill="#002395">Mehmet: Moi, je suis turc.</text></g>
+  <g style="cursor:pointer" onclick="konus('Non, je ne suis pas de Paris. Je suis de Nevşehir.')"><rect x="40" y="198" width="310" height="44" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="52" y="225" font-size="13" fill="#a00">İpek: Non, je ne suis pas de Paris.</text></g>
+</svg>
+<p><small>Baloncuklara tıklayın, dinleyin.</small></p>
+
+<h2>4. "Değilim": ne … pas</h2>
+<p>Olumsuz yapmak için fiilin <b>iki yanına</b> bir sandviç gibi <b class="e">ne</b> ve <b class="e">pas</b> koyuyoruz. Kuralı ezberlemeyin, önce dinleyin ve örüntüyü kendiniz fark edin:</p>
+<div class="grid" id="neg"></div>
+<div class="ipucu"><b>Fark ettiniz mi?</b> Fiil sesli harfle başlayınca (<i>est</i>) <i>ne</i> kısalıp <b>n'</b> oluyor: <i>il <b>n'</b>est pas</i>. <i>Je ne suis pas</i> için ise <i>ne</i> kısalmıyor, çünkü <i>suis</i> sessiz harfle başlıyor. Konuşmada <i>ne</i> çok hafif duyulur, kulağınız asıl <i>pas</i>'ı yakalasın.</div>
+
+<h2>5. Etkinlik</h2>
+<div id="quiz"></div>
+<p class="sonuc" id="skor"></p>
+
+<div class="nav">
+  <a href="a1-04-yas.html">← Önceki ders</a>
+  <!-- Ders 6 yüklenince bu bağlantıyı açın: <a href="a1-06-aile.html">Sonraki ders →</a> -->
+</div>
+</main>
+
+<script>
+var VIDEO_ID="";
+(function(){var v=document.getElementById("video");
+ v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 5 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
+
+function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
+ var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
+
+var ETRE=[["je suis","ben"],["tu es","sen"],["il est","o (erkek)"],["elle est","o (kadın)"],["nous sommes","biz"],["vous êtes","siz"],["ils sont","onlar (erkek/karışık)"],["elles sont","onlar (kadın)"]];
+var UY=[["turc","turque","Türk"],["français","française","Fransız"],["italien","italienne","İtalyan"],["allemand","allemande","Alman"],["espagnol","espagnole","İspanyol"],["anglais","anglaise","İngiliz"],["américain","américaine","Amerikalı"],["japonais","japonaise","Japon"]];
+var NEG=[["Je ne suis pas turc.","Ben Türk değilim."],["Tu n'es pas français.","Sen Fransız değilsin."],["Il n'est pas italien.","O (erkek) İtalyan değil."],["Elle n'est pas allemande.","O (kadın) Alman değil."],["Nous ne sommes pas anglais.","Biz İngiliz değiliz."],["Vous n'êtes pas japonais.","Siz Japon değilsiniz."],["Ils ne sont pas espagnols.","Onlar İspanyol değil."]];
+
+function kart(h,a,b,cls){var x=document.createElement("button");x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
+var g=document.getElementById("etre");ETRE.forEach(function(e){g.appendChild(kart("<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[0]))});
+g=document.getElementById("uyruk");UY.forEach(function(u){
+ g.appendChild(kart("<b>"+u[0]+"</b><small>♂ "+u[2]+"</small>","Il est "+u[0]));
+ g.appendChild(kart("<b>"+u[1]+"</b><small>♀ "+u[2]+"</small>","Elle est "+u[1]))});
+g=document.getElementById("neg");NEG.forEach(function(n){g.appendChild(kart("<b>"+n[0]+"</b><small>"+n[1]+"</small>",n[0],0,"neg"))});
+
+/* Etkinlik: say = dinleme sorusu (sorunun cümlesini sesli okur) */
+var Q=[
+ {q:"Dinleyin. Kim konuşuyor?",say:"Je suis turque.",o:["Bir erkek","Bir kadın"],a:1},
+ {q:"« Nous ___ français. » Boşluğa hangisi gelir?",o:["suis","sommes","êtes"],a:1},
+ {q:"Dinleyin. Hangi cümleyi duydunuz?",say:"Il n'est pas italien.",o:["Il est italien.","Il n'est pas italien.","Elle n'est pas italienne."],a:1},
+ {q:"Kadın için doğru uyruk hangisi?",o:["turc","turque","turke"],a:1},
+ {q:"« Vous ___ turc ? » (Siz Türk müsünüz?)",o:["es","est","êtes"],a:2},
+ {q:"« Je ne suis pas allemand. » ne demek?",o:["Ben Alman değilim.","Ben Almanım.","O Alman değil."],a:0},
+ {q:"Dinleyin. Hangisini duydunuz?",say:"Elles sont anglaises.",o:["Ils sont anglais.","Elles sont anglaises.","Elle est anglaise."],a:1}
+];
+var puan=0,cevap=0,box=document.getElementById("quiz");
+Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
+ var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
+ d.innerHTML=h;
+ if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
+ var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
+  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
+   if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
+   if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
+  bs.push(b);d.appendChild(b)});box.appendChild(d)});
+if(window.speechSynthesis)speechSynthesis.getVoices();
+</script>
+</body>
+</html>
