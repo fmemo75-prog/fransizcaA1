@@ -1,145 +1,54 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ders 6 · Genel tekrar (Tema 1) · Fransızca A1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransızca A1 Dersleri | Fatih Mehmet CANITEZ</title>
 <link rel="stylesheet" href="ders.css">
 <style>
-:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
-.d6{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
-.d6 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
-.d6 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
-/* Video dikey (9:16). Yatay video için padding-top:56.25% ve max-width:none yapın. */
-.vid{position:relative;padding-top:177.78%;max-width:340px;margin:0 auto;border-radius:12px;overflow:hidden;background:#e8ecf8}
-.ses{display:block;margin:10px auto 0}
-.vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
-.kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
-.kart b{display:block;font-size:1.1rem;color:var(--lac)}
-.kart small{color:#555}
-.kart .em{display:block;font-size:2rem;line-height:1.2}
-.kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
-.ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
-.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
-.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
-.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
-.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
-.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
-.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
-.nav a{color:var(--lac);font-weight:700}
+details.unite>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+details.unite>summary::-webkit-details-marker{display:none}
+details.unite>summary h2{margin:0}
+details.unite>summary .say{font-size:13px;opacity:.75;white-space:nowrap}
+details.unite>summary .say::after{content:" ▾"}
+details.unite[open]>summary .say::after{content:" ▴"}
+details.unite[open]>summary{margin-bottom:8px}
 </style>
 </head>
 <body>
-<main class="d6">
-<p><a href="index.html">← Ders listesi</a></p>
-<h1>Ders 6 · Genel tekrar: Tema 1</h1>
-<p>Bu derste selamlaşma, kendini tanıtma, yaş söyleme ve sayıları (0-10) ve tanıdık kelimeleri birlikte tekrar ediyoruz. Yeni konu yok. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
-
-<div class="vid" id="video"></div>
-<button class="say ses" id="sesbtn" type="button">🔊 Sesi hazırla</button>
-<p style="text-align:center"><small>Önce bu düğmeye dokunun, sonra videoyu başlatın. Konuşmaları sayfa okur.</small></p>
-
-<h2>1. Selamlaşma ve nezaket</h2>
-<div class="grid" id="sel"></div>
-<div class="ipucu"><b>İpucu:</b> <i>Bonjour</i> gün boyu kullanılır. <i>Salut</i> arkadaşlar arasındadır. <i>Au revoir</i> ayrılırken söylenir.</div>
-
-<h2>2. Hâl hatır sorma</h2>
-<div class="grid" id="cv"></div>
-
-<h2>3. Kendini tanıtma: je ve tu</h2>
-<p><b>Je</b> "ben", <b>tu</b> "sen" demek. Soru ve cevaptaki fiil de buna göre değişiyor, dinleyip fark edin:</p>
-<div class="grid" id="ad"></div>
-<div class="ipucu"><b>Fark ettiniz mi?</b> Ben dediğimizde <i>je m'appelle</i>, sen dediğimizde <i>tu t'appelles</i>. Her iki durumda da <i>m'</i> ve <i>t'</i> zamire karşılık geliyor.</div>
-
-<h2>4. Yaş söyleme: avoir</h2>
-<p>Fransızcada yaş için "sahip olmak" fiili (<b>avoir</b>) kullanılır: "Ben 8 yaşına sahibim."</p>
-<div class="grid" id="yas"></div>
-<div class="ipucu"><b>İpucu:</b> <i>je</i> sesli harfle başlayan bir fiilin önüne gelince <i>j'</i> olur: <i>j'ai</i>. Soruda <i>tu as</i> demiyoruz ama cevapta <i>j'ai</i> diyoruz.</div>
-
-<h2>5. Sayılar 0-10</h2>
-<div class="grid" id="say"></div>
-
-<h2>6. Tanıdık kelimeler</h2>
-<p>Bunların çoğunu zaten biliyorsunuz, Türkçeye çok benziyor. Yazılışına değil, söyleyişine odaklanın.</p>
-<div class="grid" id="kel"></div>
-
-<h2>7. Mini diyalog</h2>
-<p>Baloncuklara tıklayıp dinleyin.</p>
-<svg viewBox="0 0 360 200" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
-  <g style="cursor:pointer" onclick="konus('Ça va bien ?')"><rect x="10" y="6" width="220" height="38" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="30" font-size="13" fill="#002395">Mehmet: Ça va bien ?</text></g>
-  <g style="cursor:pointer" onclick="konus('Oui, ça va bien. Et toi ?')"><rect x="40" y="54" width="310" height="38" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="50" y="78" font-size="13" fill="#a00">İpek: Oui, ça va bien. Et toi ?</text></g>
-  <g style="cursor:pointer" onclick="konus('Ça va ! Tu as quel âge ?')"><rect x="10" y="102" width="290" height="38" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="126" font-size="13" fill="#002395">Mehmet: Ça va ! Tu as quel âge ?</text></g>
-  <g style="cursor:pointer" onclick="konus('J\'ai sept ans.')"><rect x="40" y="150" width="230" height="38" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="50" y="174" font-size="13" fill="#a00">İpek: J'ai sept ans.</text></g>
-</svg>
-
-<h2>8. Etkinlik</h2>
-<p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
-<div id="quiz"></div>
-<p class="sonuc" id="skor"></p>
-
-<div class="nav">
-  <a href="a1-05-etre.html">← Önceki ders</a>
-  <!-- Ders 7 yüklenince bu bağlantıyı açın: <a href="a1-07-….html">Sonraki ders →</a> -->
+<div class="container">
+<a href="https://ikinciyabancidilfransizca.blogspot.com/" class="back-btn">← Bloga dön</a>
+<div class="hero">
+<small>FRANSIZCA A1</small>
+<h1>Fransızca A1 Dersleri</h1>
+<div style="font-size:14px">Türkçe anlatım, Fransızca ses ve küçük etkinlikler</div>
 </div>
-</main>
 
-<script>
-var VIDEO_ID="GeAAgSL2Yyo";
-/* Videonun sesi YOK (sessiz sürüm yüklenir). Cümleleri sayfa okur: [saniye, kim, cümle] */
-var DUB=[[0,"M","Ça va bien ?"],[2.7,"I","Oui, ça va bien. Et toi ?"],[4.3,"M","Ça va ! Tu as quel âge ?"],[6.0,"I","J'ai sept ans."]];
-var P=null,tm=null,son=-1;
-function sesSec(k){var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf("fr")==0});
- var re=k=="M"?/thomas|paul|henri|nicolas|antoine|claude|male|homme/i:/am[eé]lie|hortense|julie|marie|audrey|denise|eloise|female|femme/i;
- return v.filter(function(x){return re.test(x.name)})[0]||v[0];}
-function soyle(d){try{var u=new SpeechSynthesisUtterance(d[2]);u.lang="fr-FR";u.rate=.95;var v=sesSec(d[1]);if(v)u.voice=v;u.pitch=d[1]=="M"?.85:1.3;speechSynthesis.speak(u);}catch(e){}}
-function dur(){if(tm){clearInterval(tm);tm=null}try{speechSynthesis.cancel()}catch(e){}}
-function basla(){dur();tm=setInterval(function(){var t=P.getCurrentTime(),i,k=-1;
- for(i=0;i<DUB.length;i++)if(t>=DUB[i][0])k=i;
- if(t<0.3)son=-1;
- if(k>son&&t<DUB[k][0]+1.2){son=k;soyle(DUB[k])}},100)}
-function durum(e){if(e.data===1)basla();else{dur();if(e.data===0)son=-1}}
-(function(){var v=document.getElementById("video");
- if(!VIDEO_ID){v.innerHTML="<div>Video yakında</div>";return}
- v.innerHTML='<div id="yt"></div>';
- var sc=document.createElement("script");sc.src="https://www.youtube.com/iframe_api";document.head.appendChild(sc);
- window.onYouTubeIframeAPIReady=function(){P=new YT.Player("yt",{host:"https://www.youtube-nocookie.com",videoId:VIDEO_ID,playerVars:{rel:0,playsinline:1},events:{onStateChange:durum}})};})();
-document.getElementById("sesbtn").onclick=function(){try{speechSynthesis.speak(new SpeechSynthesisUtterance(" "))}catch(e){}this.textContent="Ses hazır ✓";};
+<div class="card">
+<details class="unite">
+<summary><h2>Ünite 1 · Selamlaşma ve Tanışma</h2><span class="say">6 ders</span></summary>
+<p style="margin:0;font-size:14px">Bu ünitede selamlaşmayı, kendini tanıtmayı, sayıları, yaş söylemeyi ve "olmak" fiilini (être) öğreniyoruz. Dersleri sırayla izleyin: her derste önce konuyu Türkçe anlar, videoyu izler, kartlara tıklayıp dinler ve etkinlikle denersiniz. Son ders genel tekrardır.</p>
+<div class="lessons">
+<a class="lesson" href="a1-01-selamlasma.html"><div class="no">1</div><div><b>Bonjour ! Selamlaşma</b><span>Bonjour, Salut, Bonsoir, Merci, Ça va ?</span></div></a>
+<a class="lesson" href="a1-02-tanisma.html"><div class="no">2</div><div><b>Je m'appelle… Kendini tanıtma</b><span>Comment tu t'appelles ?, Je suis turc / turque, J'habite à…</span></div></a>
+<a class="lesson" href="a1-03-sayilar.html"><div class="no">3</div><div><b>Les nombres 0-10 · Sayılar ve selamlaşma</b><span>zéro … dix, Comme ci comme ça, À demain</span></div></a>
+<a class="lesson" href="a1-04-yas.html"><div class="no">4</div><div><b>Quel âge as-tu ? · Yaşı sormak</b><span>avoir, J'ai … ans, 11-60 arası sayılar, tu / vous</span></div></a>
+<a class="lesson" href="a1-05-etre.html"><div class="no">5</div><div><b>Être ve uyruklar · Olmak fiili</b><span>je suis, tu es, il est… · turc / turque, français / française · Je ne suis pas…</span></div></a>
+<a class="lesson" href="a1-06-tekrar.html"><div class="no">6</div><div><b>Genel tekrar · Ünite 1</b><span>Bonjour · Ça va ? · je m'appelle · J'ai … ans · sayılar · tanıdık kelimeler</span></div></a>
+<!-- Yeni ders eklemek için yukarıdaki satırı kopyalayıp numarayı, adresi ve başlığı değiştirin -->
+</div>
+</details>
+</div>
 
-function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
- var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
-function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
-function doldur(id,liste,cls,ek){var g=document.getElementById(id);liste.forEach(function(e){g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>"+(ek?ek(e):""),e[3]||e[0],cls))})}
+<div class="card" style="border-left-color:#25d366">
+<h2>İletişim</h2>
+<p style="margin:0;font-size:14px">Soru, öneri ya da düzeltme için yazabilirsiniz.</p>
+<a href="https://wa.me/905054466760?text=Merhaba%2C%20Frans%C4%B1zca%20A1%20dersleri%20hakk%C4%B1nda%20yaz%C4%B1yorum." target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;color:#fff;font-weight:700;font-size:16px;padding:16px;border-radius:14px;margin-top:12px;background:#25d366">💬 WhatsApp ile Mesaj Gönder</a>
+<a href="mailto:fmemo75@gmail.com" style="display:block;text-align:center;text-decoration:none;color:#fff;font-weight:700;font-size:16px;padding:16px;border-radius:14px;margin-top:12px;background:#34495e">✉️ fmemo75@gmail.com</a>
+<a href="tel:+905054466760" style="display:block;text-align:center;text-decoration:none;color:#fff;font-weight:700;font-size:16px;padding:16px;border-radius:14px;margin-top:12px;background:#3498db">📞 0505 446 67 60</a>
+</div>
 
-doldur("sel",[["Bonjour","merhaba, günaydın"],["Salut","selam"],["Au revoir","hoşça kal"],["À bientôt","yakında görüşürüz"],["Merci","teşekkürler"],["Pardon","pardon, özür dilerim"],["De rien","bir şey değil"]]);
-doldur("cv",[["Ça va bien ?","İyi misin?"],["Oui, ça va bien.","Evet, iyiyim."],["Non, ça ne va pas.","Hayır, iyi değilim."],["Et toi ?","Ya sen?"]],"k");
-doldur("ad",[["Je m'appelle Ali.","Benim adım Ali."],["Tu t'appelles comment ?","Adın ne?"],["Comment tu t'appelles ?","Adın ne? (başka biçim)"]]);
-doldur("yas",[["Tu as quel âge ?","Kaç yaşındasın?"],["J'ai huit ans.","8 yaşındayım."],["J'ai dix ans.","10 yaşındayım."]],"k");
-doldur("say",[["zéro","0"],["un","1"],["deux","2"],["trois","3"],["quatre","4"],["cinq","5"],["six","6"],["sept","7"],["huit","8"],["neuf","9"],["dix","10"]]);
-doldur("kel",[["le train","tren","🚆"],["le biscuit","bisküvi","🍪"],["le camion","kamyon","🚚"],["le métro","metro","🚇"],["la musique","müzik","🎵"],["le cinéma","sinema","🎬"],["le film","film","🎞️"],["la guitare","gitar","🎸"],["le manteau","palto","🧥"],["le sport","spor","⚽"],["le restaurant","restoran","🍽️"],["la gare","tren garı","🚉"],["le musée","müze","🏛️"],["le pique-nique","piknik","🧺"],["le château","şato","🏰"],["le coiffeur","kuaför","💇"],["la banque","banka","🏦"],["la poste","postane","📮"],["le taxi","taksi","🚕"]]);
-
-/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
-var Q=[
- {q:"Dinleyin. Bu cümle ne demek?",say:"Je m'appelle Elif.",o:["Sen Elif'sin.","O Elif.","Benim adım Elif."],a:2},
- {q:"« Tu ___ quel âge ? » Boşluğa hangisi gelir?",o:["a","ai","as"],a:2},
- {q:"Dinleyin. Hangi sayıyı duydunuz?",say:"sept",o:["7","6","9"],a:0},
- {q:"« J'___ huit ans. » Boşluğa hangisi gelir?",o:["as","ai","a"],a:1},
- {q:"Giderken ne dersiniz?",o:["Bonjour","Au revoir","Merci"],a:1},
- {q:"Dinleyin. Bu soru ne soruyor?",say:"Tu t'appelles comment ?",o:["Adın ne?","Kaç yaşındasın?","Nasılsın?"],a:0},
- {q:"Dinleyin. Hangi kelimeyi duydunuz?",say:"le métro",o:["🚆 le train","🚕 le taxi","🚇 le métro"],a:2}
-];
-var puan=0,cevap=0,box=document.getElementById("quiz");
-Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
- var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
- d.innerHTML=h;
- if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
- var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
-  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
-   if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
-   if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
-  bs.push(b);d.appendChild(b)});box.appendChild(d)});
-if(window.speechSynthesis)speechSynthesis.getVoices();
-</script>
+<p class="note">© Fatih Mehmet CANITEZ · Fransızca A1</p>
+</div>
 </body>
 </html>
