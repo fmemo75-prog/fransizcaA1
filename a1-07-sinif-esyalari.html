@@ -73,14 +73,39 @@
 
 <script>
 var VIDEO_ID="z0Xoip0PV1g";
-(function(){var v=document.getElementById("video");
- v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 7 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
+(function(){
+  var v=document.getElementById("video");
+  v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 7 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
+})();
 
-</script>
-function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
- var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
-function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
-function doldur(id,liste,cls){var g=document.getElementById(id);liste.forEach(function(e){g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls))})}
+function konus(t){
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);
+    u.lang="fr-FR";
+    u.rate=.85;
+    var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];
+    if(f) u.voice=f;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function kart(h,a,cls){
+  var x=document.createElement("button");
+  x.type="button";
+  x.className="kart "+(cls||"");
+  x.innerHTML=h;
+  x.onclick=function(){konus(a)};
+  return x;
+}
+
+function doldur(id,liste,cls){
+  var g=document.getElementById(id);
+  if(!g) return;
+  liste.forEach(function(e){
+    g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls));
+  });
+}
 
 doldur("kalip",[["Qu'est-ce que c'est ?","Bu nedir?"],["C'est un livre.","Bu bir kitap."],["C'est une gomme.","Bu bir silgi."]],"k");
 doldur("esya",[["un livre","kitap","📖"],["un cahier","defter","📓"],["un crayon","kurşun kalem","✏️"],["une gomme","silgi","🧽"],["une règle","cetvel","📏"],["une trousse","kalemlik","👝"],["un cartable","okul çantası","🎒"],["une colle","yapıştırıcı","🧴"],["une chaise","sandalye","🪑"],["une table","masa","🪑"]]);
@@ -96,17 +121,45 @@ var Q=[
  {q:"Dinleyin. Bu cümle ne demek?",say:"C'est un livre.",o:["Bu bir defter.","Bu bir kitap.","Bu bir silgi."],a:1},
  {q:"🧴 « Qu'est-ce que c'est ? » Doğru cevap hangisi?",o:["C'est une colle.","Je m'appelle colle.","J'ai une colle."],a:0}
 ];
+
 var puan=0,cevap=0,box=document.getElementById("quiz");
-Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
- var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
- d.innerHTML=h;
- if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
- var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
-  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
-   if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
-   if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
-  bs.push(b);d.appendChild(b)});box.appendChild(d)});
-if(window.speechSynthesis)speechSynthesis.getVoices();
+
+if(box){
+  Q.forEach(function(s,i){
+    var d=document.createElement("div");
+    d.className="q";
+    var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";
+    if(s.say) h+='<button class="say" type="button">🔊 Dinle</button>';
+    d.innerHTML=h;
+    if(s.say) d.querySelector(".say").onclick=function(){konus(s.say)};
+    
+    var bs=[];
+    s.o.forEach(function(t,j){
+      var b=document.createElement("button");
+      b.type="button";
+      b.className="o";
+      b.textContent=t;
+      b.onclick=function(){
+        if(d.dataset.k)return;
+        d.dataset.k=1;
+        cevap++;
+        if(j==s.a){
+          b.classList.add("dog");
+          puan++;
+        }else{
+          b.classList.add("yan");
+          bs[s.a].classList.add("dog");
+        }
+        if(cevap==Q.length) document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.");
+      };
+      bs.push(b);
+      d.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+}
+
+if(window.speechSynthesis) speechSynthesis.getVoices();
 </script>
 </body>
 </html>
