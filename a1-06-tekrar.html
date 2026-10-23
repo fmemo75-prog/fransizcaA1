@@ -85,27 +85,48 @@
 </div>
 </main>
 
+<style>
+  /* Video bölümünü küçültmek ve ortalamak için CSS */
+  .video-container {
+    max-width: 560px; /* Video genişliğini sınırlandırır */
+    margin: 0 auto;    /* Sayfada ortalar */
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+  .video-container iframe, 
+  .video-container #yt {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+
+<div id="video" class="video-container"></div>
+
 <script>
-var VIDEO_ID="GeAAgSL2Yyo";
-/* Videonun sesi YOK (sessiz sürüm yüklenir). Cümleleri sayfa okur: [saniye, kim, cümle] */
-var DUB=[[0,"M","Ça va bien ?"],[2.7,"I","Oui, ça va bien. Et toi ?"],[4.3,"M","Ça va ! Tu as quel âge ?"],[6.0,"I","J'ai sept ans."]];
-var P=null,tm=null,son=-1;
-function sesSec(k){var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf("fr")==0});
- var re=k=="M"?/thomas|paul|henri|nicolas|antoine|claude|male|homme/i:/am[eé]lie|hortense|julie|marie|audrey|denise|eloise|female|femme/i;
- return v.filter(function(x){return re.test(x.name)})[0]||v[0];}
-function soyle(d){try{var u=new SpeechSynthesisUtterance(d[2]);u.lang="fr-FR";u.rate=.95;var v=sesSec(d[1]);if(v)u.voice=v;u.pitch=d[1]=="M"?.85:1.3;speechSynthesis.speak(u);}catch(e){}}
-function dur(){if(tm){clearInterval(tm);tm=null}try{speechSynthesis.cancel()}catch(e){}}
-function basla(){dur();tm=setInterval(function(){var t=P.getCurrentTime(),i,k=-1;
- for(i=0;i<DUB.length;i++)if(t>=DUB[i][0])k=i;
- if(t<0.3)son=-1;
- if(k>son&&t<DUB[k][0]+1.2){son=k;soyle(DUB[k])}},100)}
-function durum(e){if(e.data===1)basla();else{dur();if(e.data===0)son=-1}}
-(function(){var v=document.getElementById("video");
- if(!VIDEO_ID){v.innerHTML="<div>Video yakında</div>";return}
- v.innerHTML='<div id="yt"></div>';
- var sc=document.createElement("script");sc.src="https://www.youtube.com/iframe_api";document.head.appendChild(sc);
- window.onYouTubeIframeAPIReady=function(){P=new YT.Player("yt",{host:"https://www.youtube-nocookie.com",videoId:VIDEO_ID,playerVars:{rel:0,playsinline:1},events:{onStateChange:durum}})};})();
-document.getElementById("sesbtn").onclick=function(){try{speechSynthesis.speak(new SpeechSynthesisUtterance(" "))}catch(e){}this.textContent="Ses hazır ✓";};
+var VIDEO_ID = "GeAAgSL2Yyo";
+
+(function() {
+  var v = document.getElementById("video");
+  if (!VIDEO_ID) {
+    v.innerHTML = "<div>Video yakında</div>";
+    return;
+  }
+  v.innerHTML = '<div id="yt"></div>';
+  
+  var sc = document.createElement("script");
+  sc.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(sc);
+
+  window.onYouTubeIframeAPIReady = function() {
+    new YT.Player("yt", {
+      host: "https://www.youtube-nocookie.com",
+      videoId: VIDEO_ID,
+      playerVars: { rel: 0, playsinline: 1 }
+    });
+  };
+})();
+</script>
 
 function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
  var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
