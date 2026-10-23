@@ -74,7 +74,7 @@
 <script>
 var VIDEO_ID="";
 (function(){var v=document.getElementById("video");
- v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'z0Xoip0PV1g?feature=share'" title="Ders 7 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
+ v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'z0Xoip0PV1g?" title="Ders 7 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
 
 function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
  var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
