@@ -75,8 +75,8 @@
 var VIDEO_ID="z0Xoip0PV1g";
 (function(){var v=document.getElementById("video");
  v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 7 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
-</script>
 
+</script>
 function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
  var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
 function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
