@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fransızca A1 Dersleri | Fatih Mehmet CANITEZ</title>
 <link rel="stylesheet" href="ders.css">
+<style>
+details.unite>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+details.unite>summary::-webkit-details-marker{display:none}
+details.unite>summary h2{margin:0}
+details.unite>summary .say{font-size:13px;opacity:.75;white-space:nowrap}
+details.unite>summary .say::after{content:" ▾"}
+details.unite[open]>summary .say::after{content:" ▴"}
+details.unite[open]>summary{margin-bottom:8px}
+</style>
 </head>
 <body>
 <div class="container">
@@ -14,16 +23,23 @@
 <h1>Fransızca A1 Dersleri</h1>
 <div style="font-size:14px">Türkçe anlatım, Fransızca ses ve küçük etkinlikler</div>
 </div>
+
 <div class="card">
-<h2>Dersler</h2>
-<p style="margin:0;font-size:14px">Dersleri sırayla izleyin. Her derste önce konuyu Türkçe anlarsınız, sonra dinler ve etkinlikle denersiniz.</p>
+<details class="unite">
+<summary><h2>Ünite 1 · Selamlaşma ve Tanışma</h2><span class="say">6 ders</span></summary>
+<p style="margin:0;font-size:14px">Bu ünitede selamlaşmayı, kendini tanıtmayı, sayıları, yaş söylemeyi ve "olmak" fiilini (être) öğreniyoruz. Dersleri sırayla izleyin: her derste önce konuyu Türkçe anlar, videoyu izler, kartlara tıklayıp dinler ve etkinlikle denersiniz. Son ders genel tekrardır.</p>
 <div class="lessons">
 <a class="lesson" href="a1-01-selamlasma.html"><div class="no">1</div><div><b>Bonjour ! Selamlaşma</b><span>Bonjour, Salut, Bonsoir, Merci, Ça va ?</span></div></a>
 <a class="lesson" href="a1-02-tanisma.html"><div class="no">2</div><div><b>Je m'appelle… Kendini tanıtma</b><span>Comment tu t'appelles ?, Je suis turc / turque, J'habite à…</span></div></a>
 <a class="lesson" href="a1-03-sayilar.html"><div class="no">3</div><div><b>Les nombres 0-10 · Sayılar ve selamlaşma</b><span>zéro … dix, Comme ci comme ça, À demain</span></div></a>
 <a class="lesson" href="a1-04-yas.html"><div class="no">4</div><div><b>Quel âge as-tu ? · Yaşı sormak</b><span>avoir, J'ai … ans, 11-60 arası sayılar, tu / vous</span></div></a>
 <a class="lesson" href="a1-05-etre.html"><div class="no">5</div><div><b>Être ve uyruklar · Olmak fiili</b><span>je suis, tu es, il est… · turc / turque, français / française · Je ne suis pas…</span></div></a>
+<a class="lesson" href="a1-06-tekrar.html"><div class="no">6</div><div><b>Genel tekrar · Ünite 1</b><span>Bonjour · Ça va ? · je m'appelle · J'ai … ans · sayılar · tanıdık kelimeler</span></div></a>
+<!-- Yeni ders eklemek için yukarıdaki satırı kopyalayıp numarayı, adresi ve başlığı değiştirin -->
 </div>
+</details>
+</div>
+
 <div class="card" style="border-left-color:#25d366">
 <h2>İletişim</h2>
 <p style="margin:0;font-size:14px">Soru, öneri ya da düzeltme için yazabilirsiniz.</p>
