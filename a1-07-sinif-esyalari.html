@@ -27,6 +27,9 @@
 .sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
 .nav a{color:var(--lac);font-weight:700}
+.vidler{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.vid-etiket{margin:0 0 4px;font-size:.9rem}
+@media(max-width:600px){.vidler{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -35,7 +38,16 @@
 <h1>Ders 7 · Sınıf eşyaları</h1>
 <p>Yeni ünitemiz <b>À l'école</b> (Okulda). Bu derste sınıftaki eşyaların adlarını öğreniyor, "Bu nedir?" diye sormayı ve cevap vermeyi öğreniyoruz. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
 
-<div class="vid" id="video"></div>
+<div class="vidler">
+  <div>
+    <p class="vid-etiket"><b>📹 Video 1</b></p>
+    <div class="vid" id="video1"></div>
+  </div>
+  <div>
+    <p class="vid-etiket"><b>📹 Video 2</b></p>
+    <div class="vid" id="video2"></div>
+  </div>
+</div>
 
 <h2>1. Bu nedir?</h2>
 <p>Bir şeyin adını sormak ve söylemek için iki kalıp yeterli:</p>
@@ -72,10 +84,13 @@
 </main>
 
 <script>
-var VIDEO_ID="z0Xoip0PV1g";
+var VIDEOLAR=["z0Xoip0PV1g","B_WLSI2tFdY"];
 (function(){
-  var v=document.getElementById("video");
-  v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 7 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
+  VIDEOLAR.forEach(function(vid,i){
+    var v=document.getElementById("video"+(i+1));
+    if(!v) return;
+    v.innerHTML=vid?'<iframe src="https://www.youtube-nocookie.com/embed/'+vid+'" title="Ders 7 videosu '+(i+1)+'" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
+  });
 })();
 
 function konus(t){
