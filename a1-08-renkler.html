@@ -83,7 +83,18 @@
 <div id="gun-av"></div>
 <p class="sonuc" id="gun-skor" style="display:none"></p>
 
-<h2>6. Etkinlik</h2>
+<h2>6. Okuldaki Kişiler ve Mekânlar</h2>
+<p>Fransızcada isimler <b>dişil</b> taşır: <i>le / un</i> (erkil), <i>la / une</i> (dişil), <i>les / des</i> (çoğul). Kartlara tıklayıp dinleyin.</p>
+
+<h3>Okul mekânları</h3>
+<div class="grid" id="mekan"></div>
+
+<h3>Okuldaki kişiler</h3>
+<div class="grid" id="kisi"></div>
+
+<div class="ipucu"><b>İpucu:</b> “Bu kim?” → <i>C’est qui ?</i>  |  “Burası ne?” → <i>C’est quoi ?</i>  |  “Bu sınıftır.” → <i>C’est la classe.</i></div>
+
+<h2>7. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
 <div id="quiz"></div>
 <p class="sonuc" id="skor"></p>
@@ -115,6 +126,9 @@ doldur("esya",[["un cahier rouge","kırmızı defter","📓"],["un crayon jaune"
 
 var GUNLER=[["lundi","Pazartesi","📅"],["mardi","Salı","📅"],["mercredi","Çarşamba","📅"],["jeudi","Perşembe","📅"],["vendredi","Cuma","📅"],["samedi","Cumartesi","📅"],["dimanche","Pazar","📅"]];
 doldur("gun",GUNLER);
+
+doldur("mekan",[["l’école","okul","🏫"],["la classe","sınıf","🔼"],["la cour","okul bahçesi","⛳"],["la cantine","yemekhane","🍽️"],["un gymnase","spor salonu","🏋️"],["des toilettes","tuvaletler","🚿"]]);
+doldur("kisi",[["le maître","erkek öğretmen","👨‍🏫"],["la maîtresse","kadın öğretmen","👩‍🏫"],["l’élève","öğrenci","📚"],["le professeur","profesör","👨‍💼"],["le directeur","müdür","📎"]]);
 
 /* Sözcük Avı */
 (function(){
