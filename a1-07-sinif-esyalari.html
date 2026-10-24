@@ -74,8 +74,8 @@
 
 <h2>5. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
+<div id="bar" style="margin:12px 0 16px"><i></i></div>
 <div id="quiz"></div>
-<p class="sonuc" id="skor"></p>
 
 <div class="nav">
   <a href="a1-06-tekrar.html">← Önceki ders</a>
@@ -137,42 +137,68 @@ var Q=[
  {q:"🧴 « Qu'est-ce que c'est ? » Doğru cevap hangisi?",o:["C'est une colle.","Je m'appelle colle.","J'ai une colle."],a:0}
 ];
 
-var puan=0,cevap=0,box=document.getElementById("quiz");
+var qIdx=0, puan=0, cevaplandi=false, box=document.getElementById("quiz"), bar=document.querySelector("#bar i");
 
-if(box){
-  Q.forEach(function(s,i){
-    var d=document.createElement("div");
-    d.className="q";
-    var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";
-    if(s.say) h+='<button class="say" type="button">🔊 Dinle</button>';
-    d.innerHTML=h;
-    if(s.say) d.querySelector(".say").onclick=function(){konus(s.say)};
-    
-    var bs=[];
-    s.o.forEach(function(t,j){
-      var b=document.createElement("button");
-      b.type="button";
-      b.className="o";
-      b.textContent=t;
-      b.onclick=function(){
-        if(d.dataset.k)return;
-        d.dataset.k=1;
-        cevap++;
-        if(j==s.a){
-          b.classList.add("dog");
-          puan++;
-        }else{
-          b.classList.add("yan");
-          bs[s.a].classList.add("dog");
-        }
-        if(cevap==Q.length) document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.");
-      };
-      bs.push(b);
-      d.appendChild(b);
-    });
-    box.appendChild(d);
+function soruGoster(){
+  cevaplandi=false;
+  if(bar) bar.style.width=(qIdx/Q.length*100)+'%';
+  if(qIdx>=Q.length){
+    if(bar) bar.style.width='100%';
+    box.innerHTML='<div class="q" style="text-align:center;padding:24px 16px">' +
+      '<p style="font-size:1.3rem;font-weight:700;color:var(--lac);margin:0 0 10px">🎉 Etkinlik Tamamlandı!</p>' +
+      '<p style="font-size:1.15rem;margin:0 0 16px"><b>Skorunuz:</b> '+puan+' / '+Q.length+(puan>=5?' ⭐ Harika!':' · Kartları tekrar dinleyip yeniden deneyebilirsiniz.')+'</p>' +
+      '<button class="say" type="button" onclick="quizBastan()">🔄 Tekrar Dene</button>' +
+      '</div>';
+    return;
+  }
+  var s=Q[qIdx];
+  var h='<div class="q">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+     '<small style="font-weight:700;color:var(--lac)">Soru '+(qIdx+1)+' / '+Q.length+'</small>' +
+     '</div>';
+  h+='<p style="font-size:1.05rem;font-weight:600;margin:6px 0 12px">'+s.q+'</p>';
+  if(s.say){
+    h+='<button class="say" type="button" style="margin-bottom:12px" onclick="konus(\''+s.say.replace(/'/g, "\\'")+'\')">🔊 Dinle</button>';
+  }
+  h+='<div class="opts">';
+  s.o.forEach(function(opt,j){
+    h+='<button type="button" class="opt" onclick="secimYap('+j+',this)">'+opt+'</button>';
   });
+  h+='</div>';
+  h+='<div id="fb" style="min-height:26px;font-weight:600;margin-top:12px" aria-live="polite"></div>';
+  h+='</div>';
+  box.innerHTML=h;
+  if(s.say) konus(s.say);
 }
+
+function secimYap(j, btn){
+  if(cevaplandi) return;
+  cevaplandi=true;
+  var s=Q[qIdx], fb=document.getElementById("fb"), bs=box.querySelectorAll(".opt");
+  if(j===s.a){
+    puan++;
+    btn.classList.add("ok");
+    fb.innerHTML='<span style="color:#27ae60">✅ Doğru!</span>';
+  } else {
+    btn.classList.add("no");
+    bs[s.a].classList.add("ok");
+    fb.innerHTML='<span style="color:var(--kir,#e74c3c)">❌ Doğru cevap: '+s.o[s.a]+'</span>';
+  }
+  fb.insertAdjacentHTML('afterend', '<button class="btn" style="margin-top:10px" type="button" onclick="sonrakiSoru()">'+(qIdx===Q.length-1?'Sonucu gör':'Sonraki soru →')+'</button>');
+}
+
+function sonrakiSoru(){
+  qIdx++;
+  soruGoster();
+}
+
+function quizBastan(){
+  qIdx=0;
+  puan=0;
+  soruGoster();
+}
+
+if(box) soruGoster();
 
 if(window.speechSynthesis) speechSynthesis.getVoices();
 </script>
