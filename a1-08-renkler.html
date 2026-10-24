@@ -30,12 +30,13 @@
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
 .nav a{color:var(--lac);font-weight:700}
 .d7 h3{color:var(--lac);font-size:1rem;margin:1.2em 0 .4em}
-.esles-wrap{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:440px;margin:10px 0}
-.eb{padding:10px 14px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer;text-align:center;transition:background .15s,border-color .15s}
-.eb:hover{background:#eef1fb}
-.eb.secili{background:#dde4f7;border-color:var(--lac);font-weight:700}
-.eb.dogru{background:#dff5e3;border-color:#2e9e4f;pointer-events:none;font-weight:700}
-.eb.yanlis{background:#fde3e3;border-color:var(--kir)}
+.kelime-seti{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 14px}
+.krozet{padding:4px 11px;border-radius:20px;background:#eef1fb;border:1.5px solid #c7cfe9;font-size:.82rem;font-weight:600}
+.krozet.bulundu{background:#dff5e3;border-color:#2e9e4f;text-decoration:line-through;color:#1a6e35}
+.izgara{display:inline-grid;gap:3px;user-select:none;-webkit-user-select:none;touch-action:none}
+.hucre{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1.5px solid #d0d5ea;border-radius:6px;font-weight:700;font-size:.82rem;cursor:pointer;background:#fff;text-transform:uppercase;transition:background .1s,border-color .1s}
+.hucre.secili{background:#c5d2f6;border-color:var(--lac);color:var(--lac)}
+.hucre.bulundu{background:#c8f0d3;border-color:#2e9e4f;color:#1a6e35}
 </style>
 </head>
 <body>
@@ -77,10 +78,10 @@
 <div class="grid" id="gun"></div>
 <div class="ipucu"><b>İpucu:</b> Fransızcada günler büyük harfle başlamaz: <i>lundi, mardi, mercredi…</i> Türkçede olduğu gibi büyük yazmak yanlış sayılır.</div>
 
-<h3>Eşleştirme</h3>
-<p>Sol sütundan Fransızca günü, sağ sütundan Türkçe karşılığını seçin.</p>
-<div class="esles-wrap" id="gun-esles"></div>
-<p class="sonuc" id="gun-skor"></p>
+<h3>Sözcük Avı</h3>
+<p>Haftanın yedi gününü ızgarada bulun. Tıklayıp sürükleyin (çapraz, yatay, dikey — her yönde olabilir).</p>
+<div id="gun-av"></div>
+<p class="sonuc" id="gun-skor" style="display:none"></p>
 
 <h2>6. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
@@ -115,35 +116,136 @@ doldur("esya",[["un cahier rouge","kırmızı defter","📓"],["un crayon jaune"
 var GUNLER=[["lundi","Pazartesi","📅"],["mardi","Salı","📅"],["mercredi","Çarşamba","📅"],["jeudi","Perşembe","📅"],["vendredi","Cuma","📅"],["samedi","Cumartesi","📅"],["dimanche","Pazar","📅"]];
 doldur("gun",GUNLER);
 
-/* Eşleştirme oyunu */
+/* Sözcük Avı */
 (function(){
- var wrap=document.getElementById("gun-esles");
- var skor=document.getElementById("gun-skor");
+ var KELIMELER=GUNLER.map(function(g){return g[0];});
+ var COLS=12,ROWS=10;
+ var DIRS=[[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+ var DOLDUR='abcdefghijlmnoprstuv';
+ var avEl=document.getElementById('gun-av');
+ var skEl=document.getElementById('gun-skor');
+ var cells=[],found=[],selected=[],startIdx=-1,dragging=false,data;
+
  function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
- var fr=shuffle(GUNLER.map(function(g,i){return{text:g[0],idx:i};}));
- var tr=shuffle(GUNLER.map(function(g,i){return{text:g[1],idx:i};}));
- var secili=null,esles=0;
- function yapBtn(item,side){
-  var b=document.createElement("button");b.type="button";b.className="eb";b.textContent=item.text;
-  b.onclick=function(){
-   if(b.classList.contains("dogru"))return;
-   if(secili&&secili.side===side){secili.btn.classList.remove("secili");secili=null;if(b===secili)return;}
-   if(!secili){secili={btn:b,idx:item.idx,side:side};b.classList.add("secili");return;}
-   if(secili.idx===item.idx){
-    b.classList.add("dogru");secili.btn.classList.remove("secili");secili.btn.classList.add("dogru");secili=null;esles++;
-    if(esles===GUNLER.length)skor.textContent="🎉 Tebrikler! Tüm günleri doğru eşleştirdiniz!";
-   }else{
-    var sb=secili.btn,tb=b;sb.classList.remove("secili");sb.classList.add("yanlis");tb.classList.add("yanlis");secili=null;
-    setTimeout(function(){sb.classList.remove("yanlis");tb.classList.remove("yanlis");},650);
+
+ function makeGrid(){
+  var grid=[];for(var r=0;r<ROWS;r++)grid.push(new Array(COLS).fill(''));
+  var placed=[];
+  var words=KELIMELER.slice().sort(function(a,b){return b.length-a.length;});
+  for(var wi=0;wi<words.length;wi++){
+   var word=words[wi],ok=false;
+   var sdirs=shuffle(DIRS.slice());
+   for(var di=0;di<sdirs.length&&!ok;di++){
+    var dr=sdirs[di][0],dc=sdirs[di][1];
+    for(var att=0;att<60&&!ok;att++){
+     var row=Math.floor(Math.random()*ROWS),col=Math.floor(Math.random()*COLS);
+     var er=row+dr*(word.length-1),ec=col+dc*(word.length-1);
+     if(er<0||er>=ROWS||ec<0||ec>=COLS)continue;
+     var fits=true;
+     for(var i=0;i<word.length;i++){var gv=grid[row+dr*i][col+dc*i];if(gv&&gv!==word[i]){fits=false;break;}}
+     if(fits){
+      var wc=[];
+      for(var i=0;i<word.length;i++){var rr=row+dr*i,cc=col+dc*i;grid[rr][cc]=word[i];wc.push(rr*COLS+cc);}
+      placed.push({word:word,cells:wc});ok=true;
+     }
+    }
    }
-  };
-  return b;
+  }
+  for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++)if(!grid[r][c])grid[r][c]=DOLDUR[Math.floor(Math.random()*DOLDUR.length)];
+  return{grid:grid,placed:placed};
  }
- var col1=document.createElement("div");col1.style.cssText="display:flex;flex-direction:column;gap:6px";
- var col2=document.createElement("div");col2.style.cssText="display:flex;flex-direction:column;gap:6px";
- fr.forEach(function(item){col1.appendChild(yapBtn(item,"fr"));});
- tr.forEach(function(item){col2.appendChild(yapBtn(item,"tr"));});
- wrap.appendChild(col1);wrap.appendChild(col2);
+
+ function getLine(a,b){
+  var ar=Math.floor(a/COLS),ac=a%COLS,br=Math.floor(b/COLS),bc=b%COLS;
+  var dr=br-ar,dc=bc-ac;
+  if(dr!==0&&dc!==0&&Math.abs(dr)!==Math.abs(dc))return[];
+  var n=Math.max(Math.abs(dr),Math.abs(dc))+1;
+  var sr=dr===0?0:(dr>0?1:-1),sc=dc===0?0:(dc>0?1:-1);
+  var line=[];for(var i=0;i<n;i++)line.push((ar+sr*i)*COLS+(ac+sc*i));
+  return line;
+ }
+
+ function clearSel(){cells.forEach(function(c){if(!c.classList.contains('bulundu'))c.classList.remove('secili');});selected=[];}
+
+ function updateSel(endIdx){
+  clearSel();
+  if(startIdx<0)return;
+  var line=getLine(startIdx,endIdx);
+  selected=line;
+  line.forEach(function(i){if(!cells[i].classList.contains('bulundu'))cells[i].classList.add('secili');});
+ }
+
+ function checkWord(){
+  if(selected.length<2){clearSel();startIdx=-1;return;}
+  var word=selected.map(function(i){return data.grid[Math.floor(i/COLS)][i%COLS];}).join('');
+  var rev=word.split('').reverse().join('');
+  var match=null;
+  data.placed.forEach(function(p){if(!match&&(p.word===word||p.word===rev))match=p;});
+  if(match&&found.indexOf(match.word)<0){
+   found.push(match.word);
+   match.cells.forEach(function(i){cells[i].classList.remove('secili');cells[i].classList.add('bulundu');});
+   var roz=document.getElementById('av-'+match.word);
+   if(roz)roz.classList.add('bulundu');
+   konus(match.word);
+   if(found.length===KELIMELER.length){skEl.style.display='';skEl.textContent='🎉 Tebrikler! Haftanın tüm günlerini buldunuz!';}
+  } else { clearSel(); }
+  startIdx=-1;
+ }
+
+ document.addEventListener('mouseup',function(){if(dragging){dragging=false;checkWord();}});
+
+ function render(){
+  found=[];selected=[];startIdx=-1;dragging=false;
+  data=makeGrid();
+  avEl.innerHTML='';
+  skEl.style.display='none';skEl.textContent='';
+
+  var wl=document.createElement('div');wl.className='kelime-seti';
+  KELIMELER.forEach(function(w,i){
+   var s=document.createElement('span');s.className='krozet';s.id='av-'+w;
+   s.textContent=w+' ('+GUNLER[i][1]+')';
+   wl.appendChild(s);
+  });
+  avEl.appendChild(wl);
+
+  var sc=document.createElement('div');sc.style.overflowX='auto';
+  var g=document.createElement('div');g.className='izgara';
+  g.style.gridTemplateColumns='repeat('+COLS+',30px)';
+  cells=[];
+  for(var r=0;r<ROWS;r++){
+   for(var c=0;c<COLS;c++){
+    (function(r,c,idx){
+     var h=document.createElement('div');h.className='hucre';
+     h.textContent=data.grid[r][c].toUpperCase();
+     h.dataset.idx=idx;
+     h.addEventListener('mousedown',function(e){e.preventDefault();dragging=true;startIdx=idx;updateSel(idx);});
+     h.addEventListener('mouseover',function(){if(dragging)updateSel(idx);});
+     cells.push(h);g.appendChild(h);
+    })(r,c,r*COLS+c);
+   }
+  }
+  g.addEventListener('touchstart',function(e){
+   e.preventDefault();
+   var t=e.touches[0],el=document.elementFromPoint(t.clientX,t.clientY);
+   if(el&&el.dataset&&el.dataset.idx!==undefined){dragging=true;startIdx=parseInt(el.dataset.idx);updateSel(startIdx);}
+  },{passive:false});
+  g.addEventListener('touchmove',function(e){
+   e.preventDefault();
+   if(!dragging)return;
+   var t=e.touches[0],el=document.elementFromPoint(t.clientX,t.clientY);
+   if(el&&el.dataset&&el.dataset.idx!==undefined)updateSel(parseInt(el.dataset.idx));
+  },{passive:false});
+  g.addEventListener('touchend',function(){if(dragging){dragging=false;checkWord();}});
+
+  sc.appendChild(g);avEl.appendChild(sc);
+
+  var btn=document.createElement('button');btn.type='button';btn.className='say';btn.style.marginTop='10px';
+  btn.innerHTML='🔄 Yeniden Karıştır';
+  btn.onclick=function(){render();};
+  avEl.appendChild(btn);
+ }
+
+ render();
 })();
 
 /* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
