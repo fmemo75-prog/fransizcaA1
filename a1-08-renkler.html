@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 8 · Renkler · Fransızca A1</title>
+<link rel="stylesheet" href="ders.css">
+<style>
+:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
+.d7{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d7 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
+.d7 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
+.vid{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#e8ecf8}
+.vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.kart b{display:block;font-size:1.1rem;color:var(--lac)}
+.kart small{color:#555}
+.kart .em{display:block;font-size:2rem;line-height:1.2}
+.kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
+.ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
+.nav a{color:var(--lac);font-weight:700}
+</style>
+</head>
+<body>
+<main class="d7">
+<p><a href="index.html">← Ders listesi</a></p>
+<h1>Ders 8 · Renkler</h1>
+<p>Bu derste renklerin adlarını öğreniyor, bir şeyin rengini sormayı ve söylemeyi öğreniyoruz. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
+
+<div class="vid" id="video"></div>
+
+<h2>1. Hangi renk?</h2>
+<p>Rengi sormak ve söylemek için iki kalıp yeterli:</p>
+<div class="grid" id="kalip"></div>
+<div class="ipucu"><b>İpucu:</b> <i>C'est</i> "bu ... dir" demek. Cevapta <i>c'est</i>'in ardına sadece rengi ekliyoruz.</div>
+
+<h2>2. Renkler</h2>
+<p>Kartlara tıklayın, rengi dinleyin.</p>
+<div class="grid" id="renk"></div>
+
+<h2>3. Eşya ve renk</h2>
+<p>Fransızcada renk, eşyanın <b>arkasından</b> gelir. Türkçede tersi: "mavi çanta". Dinleyin:</p>
+<div class="grid" id="esya"></div>
+<div class="ipucu"><b>Fark ettiniz mi?</b> <i>un cartable bleu</i> sırasıyla "bir çanta mavi" gibi duruyor. Önce eşya, sonra renk.</div>
+
+<h2>4. Mini diyalog</h2>
+<p>Videodaki diyaloğu baloncuklardan tekrar dinleyin.</p>
+<svg viewBox="0 0 360 210" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
+  <g style="cursor:pointer" onclick="konus('C\'est quelle couleur ?')"><rect x="10" y="8" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="33" font-size="13" fill="#002395">Mehmet: C'est quelle couleur ?</text></g>
+  <g style="cursor:pointer" onclick="konus('C\'est rouge.')"><rect x="50" y="58" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="83" font-size="13" fill="#a00">İpek: C'est rouge.</text></g>
+  <g style="cursor:pointer" onclick="konus('C\'est quelle couleur ?')"><rect x="10" y="108" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: C'est quelle couleur ?</text></g>
+  <g style="cursor:pointer" onclick="konus('C\'est bleu.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: C'est bleu.</text></g>
+</svg>
+
+<h2>5. Etkinlik</h2>
+<p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
+<div id="quiz"></div>
+<p class="sonuc" id="skor"></p>
+
+<div class="nav">
+  <a href="a1-07-sinif-esyalari.html">← Önceki ders</a>
+  <!-- Ders 9 yüklenince bu bağlantıyı açın: <a href="a1-09-….html">Sonraki ders →</a> -->
+</div>
+</main>
+
+<script>
+var VIDEO_ID="B_WLSI2tFdY";
+(function(){var v=document.getElementById("video");
+ v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 8 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
+
+function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
+ var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
+function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
+function doldur(id,liste,cls){var g=document.getElementById(id);liste.forEach(function(e){g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls))})}
+
+doldur("kalip",[["C'est quelle couleur ?","Bu hangi renk?"],["C'est rouge.","Bu kırmızı."],["C'est bleu.","Bu mavi."]],"k");
+doldur("renk",[["rouge","kırmızı","🔴"],["bleu","mavi","🔵"],["jaune","sarı","🟡"],["orange","turuncu","🟠"],["vert","yeşil","🟢"],["rose","pembe","🩷"],["noir","siyah","⚫"],["blanc","beyaz","⚪"],["gris","gri","🩶"]]);
+doldur("esya",[["un cahier rouge","kırmızı defter","📓"],["un crayon jaune","sarı kurşun kalem","✏️"],["un cartable bleu","mavi okul çantası","🎒"],["une gomme rose","pembe silgi","🧽"]],"k");
+
+/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
+var Q=[
+ {q:"Dinleyin. Bu soru ne soruyor?",say:"C'est quelle couleur ?",o:["Bu hangi renk?","Bu nedir?","Kaç yaşındasın?"],a:0},
+ {q:"Dinleyin. Hangi rengi duydunuz?",say:"C'est rouge.",o:["🔵 bleu","🔴 rouge","🟢 vert"],a:1},
+ {q:"Dinleyin. Hangi rengi duydunuz?",say:"C'est jaune.",o:["🟢 vert","🟠 orange","🟡 jaune"],a:2},
+ {q:"🔵 « C'est quelle couleur ? » Doğru cevap hangisi?",o:["C'est rouge.","C'est bleu.","C'est vert."],a:1},
+ {q:"« Rouge » Türkçede ne demek?",o:["Mavi","Kırmızı","Yeşil"],a:1},
+ {q:"Dinleyin. Bu hangi renk?",say:"C'est vert.",o:["Mavi","Yeşil","Sarı"],a:1},
+ {q:"Hangisi « sarı » demek?",o:["vert","rose","jaune"],a:2}
+];
+var puan=0,cevap=0,box=document.getElementById("quiz");
+Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
+ var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
+ d.innerHTML=h;
+ if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
+ var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
+  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
+   if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
+   if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
+  bs.push(b);d.appendChild(b)});box.appendChild(d)});
+if(window.speechSynthesis)speechSynthesis.getVoices();
+</script>
+</body>
+</html>
