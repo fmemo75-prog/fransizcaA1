@@ -262,14 +262,25 @@ doldur("kisi",[["le maître","erkek öğretmen","👨‍🏫"],["la maîtresse",
 
 /* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
 var Q=[
- {q:"Dinleyin. Bu soru ne soruyor?",say:"C'est quelle couleur ?",o:["Bu hangi renk?","Bu nedir?","Kaç yaşındasın?"],a:0},
+ /* 1. Renkler */
+ {q:"Dinleyin. Bu soru ne soruyor?",say:"C'est quelle couleur ?",o:["Bu hangi renk?","Bu nedir?","Bugün günlerden ne?"],a:0},
  {q:"Dinleyin. Hangi rengi duydunuz?",say:"C'est rouge.",o:["🔵 bleu","🔴 rouge","🟢 vert"],a:1},
- {q:"Dinleyin. Hangi rengi duydunuz?",say:"C'est jaune.",o:["🟢 vert","🟠 orange","🟡 jaune"],a:2},
- {q:"🔵 « C'est quelle couleur ? » Doğru cevap hangisi?",o:["C'est rouge.","C'est bleu.","C'est vert."],a:1},
- {q:"« Rouge » Türkçede ne demek?",o:["Mavi","Kırmızı","Yeşil"],a:1},
- {q:"Dinleyin. Bu hangi renk?",say:"C'est vert.",o:["Mavi","Yeşil","Sarı"],a:1},
- {q:"Hangisi « sarı » demek?",o:["vert","rose","jaune"],a:2}
+ {q:"Hangisi « sarı » anlamına gelir?",o:["vert","rose","jaune"],a:2},
+ {q:"Dinleyin. Hangi nesne ve renk söylendi?",say:"un cahier rouge",o:["Kırmızı bir defter","Mavi bir okul çantası","Sarı bir kurşun kalem"],a:0},
+
+ /* 2. Haftanın Günleri */
+ {q:"Dinleyin. Hangi gün telaffuz edildi?",say:"mercredi",o:["lundi","mercredi","vendredi"],a:1},
+ {q:"« Samedi » Türkçede hangi gündür?",o:["Cuma","Cumartesi","Pazar"],a:1},
+ {q:"Fransızcada hafta hangi günle başlar?",o:["lundi (Pazartesi)","dimanche (Pazar)","mardi (Salı)"],a:0},
+ {q:"Dinleyin. Hangi gün telaffuz edildi?",say:"vendredi",o:["jeudi","vendredi","dimanche"],a:1},
+
+ /* 3. Okuldaki Kişiler ve Mekânlar */
+ {q:"Dinleyin. Bu mekân neresidir?",say:"la cantine",o:["Yemekhane","Sınıf","Okul bahçesi"],a:0},
+ {q:"« le maître » Türkçede ne anlama gelir?",o:["Müdür","Erkek öğretmen","Öğrenci"],a:1},
+ {q:"Dinleyin. Hangi kişi söylendi?",say:"le directeur",o:["le professeur","le directeur","l'élève"],a:1},
+ {q:"« la classe » ne demektir?",o:["Sınıf","Spor salonu (un gymnase)","Tuvaletler (des toilettes)"],a:0}
 ];
+
 var puan=0,cevap=0,box=document.getElementById("quiz");
 Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
  var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
