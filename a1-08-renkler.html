@@ -29,6 +29,13 @@
 .sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
 .nav a{color:var(--lac);font-weight:700}
+.d7 h3{color:var(--lac);font-size:1rem;margin:1.2em 0 .4em}
+.esles-wrap{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:440px;margin:10px 0}
+.eb{padding:10px 14px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer;text-align:center;transition:background .15s,border-color .15s}
+.eb:hover{background:#eef1fb}
+.eb.secili{background:#dde4f7;border-color:var(--lac);font-weight:700}
+.eb.dogru{background:#dff5e3;border-color:#2e9e4f;pointer-events:none;font-weight:700}
+.eb.yanlis{background:#fde3e3;border-color:var(--kir)}
 </style>
 </head>
 <body>
@@ -65,7 +72,17 @@
   <g style="cursor:pointer" onclick="konus('C\'est bleu.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: C'est bleu.</text></g>
 </svg>
 
-<h2>5. Etkinlik</h2>
+<h2>5. Haftanın Günleri</h2>
+<p>Fransızcada günler <b>küçük harfle</b> yazılır ve hafta <i>lundi</i> (Pazartesi) ile başlar. Kartlara tıklayıp dinleyin.</p>
+<div class="grid" id="gun"></div>
+<div class="ipucu"><b>İpucu:</b> Fransızcada günler büyük harfle başlamaz: <i>lundi, mardi, mercredi…</i> Türkçede olduğu gibi büyük yazmak yanlış sayılır.</div>
+
+<h3>Eşleştirme</h3>
+<p>Sol sütundan Fransızca günü, sağ sütundan Türkçe karşılığını seçin.</p>
+<div class="esles-wrap" id="gun-esles"></div>
+<p class="sonuc" id="gun-skor"></p>
+
+<h2>6. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
 <div id="quiz"></div>
 <p class="sonuc" id="skor"></p>
@@ -94,6 +111,40 @@ function doldur(id,liste,cls){var g=document.getElementById(id);liste.forEach(fu
 doldur("kalip",[["C'est quelle couleur ?","Bu hangi renk?"],["C'est rouge.","Bu kırmızı."],["C'est bleu.","Bu mavi."]],"k");
 doldur("renk",[["rouge","kırmızı","🔴"],["bleu","mavi","🔵"],["jaune","sarı","🟡"],["orange","turuncu","🟠"],["vert","yeşil","🟢"],["rose","pembe","🩷"],["noir","siyah","⚫"],["blanc","beyaz","⚪"],["gris","gri","🩶"]]);
 doldur("esya",[["un cahier rouge","kırmızı defter","📓"],["un crayon jaune","sarı kurşun kalem","✏️"],["un cartable bleu","mavi okul çantası","🎒"],["une gomme rose","pembe silgi","🧽"]],"k");
+
+var GUNLER=[["lundi","Pazartesi","📅"],["mardi","Salı","📅"],["mercredi","Çarşamba","📅"],["jeudi","Perşembe","📅"],["vendredi","Cuma","📅"],["samedi","Cumartesi","📅"],["dimanche","Pazar","📅"]];
+doldur("gun",GUNLER);
+
+/* Eşleştirme oyunu */
+(function(){
+ var wrap=document.getElementById("gun-esles");
+ var skor=document.getElementById("gun-skor");
+ function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+ var fr=shuffle(GUNLER.map(function(g,i){return{text:g[0],idx:i};}));
+ var tr=shuffle(GUNLER.map(function(g,i){return{text:g[1],idx:i};}));
+ var secili=null,esles=0;
+ function yapBtn(item,side){
+  var b=document.createElement("button");b.type="button";b.className="eb";b.textContent=item.text;
+  b.onclick=function(){
+   if(b.classList.contains("dogru"))return;
+   if(secili&&secili.side===side){secili.btn.classList.remove("secili");secili=null;if(b===secili)return;}
+   if(!secili){secili={btn:b,idx:item.idx,side:side};b.classList.add("secili");return;}
+   if(secili.idx===item.idx){
+    b.classList.add("dogru");secili.btn.classList.remove("secili");secili.btn.classList.add("dogru");secili=null;esles++;
+    if(esles===GUNLER.length)skor.textContent="🎉 Tebrikler! Tüm günleri doğru eşleştirdiniz!";
+   }else{
+    var sb=secili.btn,tb=b;sb.classList.remove("secili");sb.classList.add("yanlis");tb.classList.add("yanlis");secili=null;
+    setTimeout(function(){sb.classList.remove("yanlis");tb.classList.remove("yanlis");},650);
+   }
+  };
+  return b;
+ }
+ var col1=document.createElement("div");col1.style.cssText="display:flex;flex-direction:column;gap:6px";
+ var col2=document.createElement("div");col2.style.cssText="display:flex;flex-direction:column;gap:6px";
+ fr.forEach(function(item){col1.appendChild(yapBtn(item,"fr"));});
+ tr.forEach(function(item){col2.appendChild(yapBtn(item,"tr"));});
+ wrap.appendChild(col1);wrap.appendChild(col2);
+})();
 
 /* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
 var Q=[
