@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 10 · Ma maison (Evim) — Fransızca A1</title>
+<style>
+:root{--bl:#002395;--rd:#ED2939;--gd:#C9A227;--bg:#f6f7fb;--tx:#1b1f2a;--card:#fff;--ok:#1f8a4c}
+@media (prefers-color-scheme:dark){:root{--bg:#10131c;--tx:#eef0f6;--card:#1a1f2e}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+header{background:var(--bl);color:#fff;padding:18px 16px;border-bottom:5px solid var(--rd)}
+header a{color:#fff;opacity:.85;font-size:.9rem;text-decoration:none}
+header h1{margin:6px 0 2px;font-size:1.5rem}
+header p{margin:0;opacity:.9}
+main{max-width:720px;margin:0 auto;padding:16px}
+section{background:var(--card);border-radius:14px;padding:16px;margin:16px 0;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+h2{margin:0 0 10px;font-size:1.2rem;color:var(--bl);border-left:5px solid var(--gd);padding-left:10px}
+@media (prefers-color-scheme:dark){h2{color:#9db4ff}}
+.fr{font-weight:700;color:var(--bl)}
+@media (prefers-color-scheme:dark){.fr{color:#9db4ff}}
+.vid{max-width:320px;margin:0 auto;aspect-ratio:9/16;background:#000;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
+.vid iframe{width:100%;height:100%;border:0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:520px){.grid{grid-template-columns:repeat(3,1fr)}}
+.wc{border:2px solid var(--gd);background:var(--card);color:var(--tx);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;font:inherit}
+.wc:active,.wc.on{background:#fff7dc;color:#1b1f2a}
+.wc .em{font-size:2.2rem;display:block}
+.wc .w{font-weight:700;color:var(--bl);display:block}
+.wc.on .w{color:var(--bl)}
+@media (prefers-color-scheme:dark){.wc .w{color:#9db4ff}.wc.on .w{color:var(--bl)}}
+.wc .tr{font-size:.85rem;opacity:.75;display:block}
+.tip{background:#fff7dc;color:#1b1f2a;border-left:5px solid var(--gd);border-radius:8px;padding:10px 12px;margin-top:12px}
+.tip b{color:var(--bl)}
+svg text{font-family:inherit}
+.bub{cursor:pointer}
+.q{margin:14px 0;padding-top:12px;border-top:1px dashed #bbb}
+.q:first-of-type{border-top:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opt{flex:1 1 120px;border:2px solid var(--bl);background:var(--card);color:var(--tx);border-radius:10px;padding:10px;font:inherit;cursor:pointer;font-size:1rem}
+.opt.good{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.bad{background:var(--rd);border-color:var(--rd);color:#fff}
+.play{background:var(--bl);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.score{font-size:1.15rem;font-weight:700;text-align:center;margin-top:12px}
+nav.pn{display:flex;justify-content:space-between;gap:10px;margin:20px 0 30px}
+nav.pn a{background:var(--bl);color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px}
+.qwrap{border:2px solid var(--bl);border-radius:14px;padding:14px;background:var(--card)}
+.qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.9rem}
+.dots{display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%;background:#c9cdd8}
+.dot.cur{background:var(--gd);transform:scale(1.25)}
+.dot.ok{background:var(--ok)}
+.dot.no{background:var(--rd)}
+.qbody{min-height:150px}
+.qnext{display:block;margin:12px 0 0 auto;background:var(--rd);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;cursor:pointer}
+.qnext[disabled]{opacity:.35;cursor:default}
+.pol{display:flex;flex-wrap:wrap;gap:8px}
+.pol button{flex:1 1 120px;background:var(--bl);color:#fff;border:0;border-radius:10px;padding:10px;font:inherit;cursor:pointer}
+h3{margin:14px 0 6px;font-size:1rem}
+:focus-visible{outline:3px solid var(--gd);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html">← Tüm dersler</a>
+  <h1>Ders 10 · Ma maison</h1>
+  <p>Ünite 3 · Bienvenue chez moi ! — Evim</p>
+</header>
+<main>
+
+<section>
+  <h2>Bu derste ne öğreniyoruz?</h2>
+  <p>Evimizin odalarını ve eşyalarını öğreniyoruz. Nerede olduğumuzu sormak için <span class="fr">Où tu es ?</span> (Sen neredesin?) diyoruz. Cevap: <span class="fr">Je suis dans le salon.</span> (Salondayım.) Bir şeyin yerini söylemek için de <span class="fr">dans</span> (içinde), <span class="fr">sur</span> (üstünde) ve <span class="fr">sous</span> (altında) kelimelerini kullanıyoruz.</p>
+</section>
+
+<section>
+  <h2>Video</h2>
+  <div class="vid" id="vid"></div>
+</section>
+
+<section>
+  <h2>Evin odaları ve eşyaları</h2>
+  <p>Karta dokun, Fransızcasını dinle.</p>
+  <h3>Odalar</h3>
+  <div class="grid" id="grid1"></div>
+  <h3>Eşyalar</h3>
+  <div class="grid" id="grid2"></div>
+</section>
+
+<section>
+  <h2>dans · sur · sous</h2>
+  <p>Resimlere dokun, cümleyi dinle.</p>
+  <svg viewBox="0 0 360 150" width="100%" role="img" aria-label="Top kutunun içinde, kutunun üstünde, masanın altında">
+    <g class="bub" data-say="La balle est dans la boîte." tabindex="0">
+      <rect x="8" y="8" width="108" height="134" rx="12" fill="#e4eaff" stroke="#002395" stroke-width="2"/>
+      <rect x="30" y="60" width="64" height="50" fill="#d9b382" stroke="#7a5a2b" stroke-width="2"/>
+      <circle cx="62" cy="86" r="14" fill="#ED2939"/>
+      <rect x="30" y="92" width="64" height="18" fill="#d9b382" stroke="#7a5a2b" stroke-width="2"/>
+      <text x="62" y="132" font-size="17" font-weight="700" text-anchor="middle" fill="#002395">dans</text>
+    </g>
+    <g class="bub" data-say="La balle est sur la boîte." tabindex="0">
+      <rect x="126" y="8" width="108" height="134" rx="12" fill="#e4eaff" stroke="#002395" stroke-width="2"/>
+      <circle cx="180" cy="48" r="14" fill="#ED2939"/>
+      <rect x="148" y="62" width="64" height="48" fill="#d9b382" stroke="#7a5a2b" stroke-width="2"/>
+      <text x="180" y="132" font-size="17" font-weight="700" text-anchor="middle" fill="#002395">sur</text>
+    </g>
+    <g class="bub" data-say="La balle est sous la table." tabindex="0">
+      <rect x="244" y="8" width="108" height="134" rx="12" fill="#e4eaff" stroke="#002395" stroke-width="2"/>
+      <rect x="262" y="40" width="72" height="10" fill="#d9b382" stroke="#7a5a2b" stroke-width="2"/>
+      <rect x="266" y="50" width="8" height="52" fill="#d9b382" stroke="#7a5a2b" stroke-width="2"/>
+      <rect x="322" y="50" width="8" height="52" fill="#d9b382" stroke="#7a5a2b" stroke-width="2"/>
+      <circle cx="298" cy="88" r="14" fill="#ED2939"/>
+      <text x="298" y="132" font-size="17" font-weight="700" text-anchor="middle" fill="#002395">sous</text>
+    </g>
+  </svg>
+</section>
+
+<section>
+  <h2>Nezaket kalıpları</h2>
+  <div class="pol" id="pol"></div>
+</section>
+
+<section>
+  <h2>Mini diyalog</h2>
+  <p>Baloncuklara dokun, cümleyi dinle.</p>
+  <svg viewBox="0 0 360 380" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
+    <g class="bub" data-say="Où tu es ?" tabindex="0">
+      <rect x="10" y="10" width="230" height="64" rx="16" fill="#e4eaff" stroke="#002395" stroke-width="2"/>
+      <text x="24" y="34" font-size="12" fill="#002395">Mehmet</text>
+      <text x="24" y="58" font-size="19" font-weight="700" fill="#1b1f2a">Où tu es ?</text>
+    </g>
+    <g class="bub" data-say="Je suis dans le salon." tabindex="0">
+      <rect x="60" y="100" width="290" height="64" rx="16" fill="#fde8ea" stroke="#ED2939" stroke-width="2"/>
+      <text x="74" y="124" font-size="12" fill="#7a0f1a">İpek</text>
+      <text x="74" y="148" font-size="19" font-weight="700" fill="#1b1f2a">Je suis dans le salon.</text>
+    </g>
+    <g class="bub" data-say="Où est le chat ?" tabindex="0">
+      <rect x="10" y="190" width="250" height="64" rx="16" fill="#e4eaff" stroke="#002395" stroke-width="2"/>
+      <text x="24" y="214" font-size="12" fill="#002395">Mehmet</text>
+      <text x="24" y="238" font-size="19" font-weight="700" fill="#1b1f2a">Où est le chat ?</text>
+    </g>
+    <g class="bub" data-say="Il est sur le canapé." tabindex="0">
+      <rect x="60" y="280" width="290" height="64" rx="16" fill="#fde8ea" stroke="#ED2939" stroke-width="2"/>
+      <text x="74" y="304" font-size="12" fill="#7a0f1a">İpek</text>
+      <text x="74" y="328" font-size="19" font-weight="700" fill="#1b1f2a">Il est sur le canapé.</text>
+    </g>
+  </svg>
+</section>
+
+<section>
+  <h2>Etkinlik (7 soru)</h2>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</section>
+
+<nav class="pn">
+  <a href="a1-09-aile.html">← Önceki ders</a>
+  <a href="index.html">Tüm dersler</a>
+</nav>
+</main>
+
+<script>
+// Video kimliği: tam 11 karakter. Boşsa "Video yakında" görünür.
+var VIDEO_ID = "Lazog6qWhKY";
+
+function say(t){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(t);
+  u.lang = "fr-FR"; u.rate = 0.85;
+  var v = speechSynthesis.getVoices().filter(function(x){return x.lang && x.lang.toLowerCase().indexOf("fr")===0;})[0];
+  if(v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+if("speechSynthesis" in window) speechSynthesis.getVoices();
+
+// Video
+var vid = document.getElementById("vid");
+if(VIDEO_ID){
+  vid.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 10 videosu" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
+}else{
+  vid.textContent = "Video yakında";
+}
+
+// Kelime kartları
+var rooms = [
+  ["🏠","la maison","ev","la maison"],
+  ["🛌","la chambre","yatak odası","la chambre"],
+  ["🛁","la salle de bain","banyo","la salle de bain"],
+  ["🍳","la cuisine","mutfak","la cuisine"],
+  ["📺","le salon","salon","le salon"],
+  ["🚽","les toilettes","tuvalet","les toilettes"],
+  ["🚗","le garage","garaj","le garage"]
+];
+var things = [
+  ["🛏️","le lit","yatak","le lit"],
+  ["🍽️","la table","masa","la table"],
+  ["🪑","la chaise","sandalye","la chaise"],
+  ["👔","l'armoire","dolap","l'armoire"],
+  ["💡","la lampe","lamba","la lampe"],
+  ["🪟","la fenêtre","pencere","la fenêtre"],
+  ["🚪","la porte","kapı","la porte"],
+  ["🛋️","le canapé","koltuk","le canapé"]
+];
+function mk(arr, el){
+  arr.forEach(function(w){
+    var b = document.createElement("button");
+    b.className = "wc";
+    b.innerHTML = '<span class="em">'+w[0]+'</span><span class="w">'+w[1]+'</span><span class="tr">'+w[2]+'</span>';
+    b.addEventListener("click", function(){
+      document.querySelectorAll(".wc.on").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on"); say(w[3]);
+    });
+    el.appendChild(b);
+  });
+}
+mk(rooms, document.getElementById("grid1"));
+mk(things, document.getElementById("grid2"));
+
+// Nezaket kalıpları
+[["Bonsoir !","İyi akşamlar"],["Bonne nuit !","İyi geceler"],["Bonne journée !","İyi günler"]].forEach(function(p){
+  var b = document.createElement("button"); b.type = "button";
+  b.innerHTML = '🔊 '+p[0]+'<br><small>'+p[1]+'</small>';
+  b.addEventListener("click", function(){ say(p[0]); });
+  document.getElementById("pol").appendChild(b);
+});
+
+// Diyalog baloncukları
+document.querySelectorAll(".bub").forEach(function(g){
+  g.addEventListener("click", function(){ say(g.getAttribute("data-say")); });
+  g.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); say(g.getAttribute("data-say")); }});
+});
+
+// Etkinlik
+var Q = [
+  {t:"Dinle ve doğru odayı seç.", say:"la cuisine", o:["🛁","🍳","🚗"], a:1},
+  {t:"Dinle ve doğru odayı seç.", say:"le garage", o:["🚗","🛁","🍳"], a:0},
+  {t:"Dinle: cümle ne diyor?", say:"Je suis dans le salon.", o:["Mutfaktayım.","Odamdayım.","Salondayım."], a:2},
+  {t:"Dinle: top nerede?", say:"La balle est sous la table.", o:["Masanın üstünde","Masanın altında","Masanın içinde"], a:1},
+  {t:"“Où tu es ?” ne demek?", o:["Sen kimsin?","Bu ne?","Sen neredesin?"], a:2},
+  {t:"Kedi koltuğun üstünde: “Il est ___ le canapé.”", o:["dans","sur","sous"], a:1},
+  {t:"“la fenêtre” ne demek?", o:["Kapı","Pencere","Lamba"], a:1}
+];
+var quiz = document.getElementById("quiz"), scoreEl = document.getElementById("score");
+var cur = 0, pts = 0, res = [];
+function render(){
+  scoreEl.textContent = "";
+  if(cur >= Q.length){
+    quiz.innerHTML = '<div class="qwrap" style="text-align:center"><div style="font-size:2.4rem">'+(pts===Q.length?"🎉":"👏")+'</div><div class="score">Sonuç: '+pts+' / '+Q.length+(pts===Q.length?' — Bravo !':'')+'</div><button class="qnext" style="margin:14px auto 0" type="button" id="again">Yeniden dene</button></div>';
+    document.getElementById("again").addEventListener("click", function(){ cur=0; pts=0; res=[]; render(); });
+    return;
+  }
+  var q = Q[cur], answered = false;
+  var dots = Q.map(function(_,k){ return '<span class="dot '+(k<cur?(res[k]?'ok':'no'):(k===cur?'cur':''))+'"></span>'; }).join("");
+  quiz.innerHTML = '<div class="qwrap"><div class="qtop"><b>Soru '+(cur+1)+' / '+Q.length+'</b><div class="dots">'+dots+'</div></div>'
+    + '<div class="qbody"><div>'+q.t+'</div>'+(q.say?'<button class="play" type="button" style="margin-top:8px">🔊 Dinle</button>':'')+'<div class="opts"></div></div>'
+    + '<button class="qnext" type="button" disabled>'+(cur===Q.length-1?'Sonucu gör':'Sonraki →')+'</button></div>';
+  var box = quiz.querySelector(".opts"), nx = quiz.querySelector(".qnext");
+  if(q.say){ quiz.querySelector(".play").addEventListener("click", function(){ say(q.say); }); }
+  q.o.forEach(function(txt,j){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "opt"; b.textContent = txt;
+    if(txt.length<3) b.style.fontSize = "1.8rem";
+    b.addEventListener("click", function(){
+      if(answered) return; answered = true;
+      var okk = (j===q.a); res[cur] = okk; if(okk) pts++;
+      b.classList.add(okk?"good":"bad");
+      if(!okk) box.children[q.a].classList.add("good");
+      nx.disabled = false;
+    });
+    box.appendChild(b);
+  });
+  nx.addEventListener("click", function(){ cur++; render(); });
+}
+render();
+</script>
+</body>
+</html>
