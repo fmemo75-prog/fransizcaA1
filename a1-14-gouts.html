@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 14 · Miam ! J'aime ça ! (Zevkler ve Tercihler) — Fransızca A1</title>
+<style>
+:root{--navy:#002395;--red:#ED2939;--gold:#C9A227;--bg:#f5f6fb;--ink:#1c2340;--line:#d9ddee}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:18px 16px 20px;border-bottom:5px solid var(--gold)}
+header a{color:#fff;opacity:.85;font-size:15px}
+header h1{margin:8px 0 2px;font-size:26px}
+header p{margin:0;opacity:.9;font-size:15px}
+main{max-width:720px;margin:0 auto;padding:8px 16px 40px}
+h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(--red);padding-left:10px}
+.sub{margin:0 0 12px;color:#556;font-size:15px}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.video{max-width:240px;margin:0 auto;aspect-ratio:9/16;background:#000;border-radius:14px;overflow:hidden}
+.video iframe{width:100%;height:100%;border:0;display:block}
+.video.soon{display:flex;align-items:center;justify-content:center;color:#fff;min-height:380px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:10px}
+.card{background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.card:hover,.card:focus-visible{border-color:var(--navy);outline:none}
+.card:active{background:#eef1ff}
+.card .e{font-size:38px;line-height:1.2;display:block;min-height:46px}
+.card .f{font-weight:700;color:var(--navy);display:block}
+.card .t{font-size:14px;color:#667;display:block}
+.pat{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;margin:0 0 8px;text-align:left;background:#fff;border:2px solid var(--line);border-left:6px solid var(--navy);border-radius:12px;padding:10px 14px;cursor:pointer;font:inherit;color:inherit}
+.pat:hover,.pat:focus-visible{border-color:var(--navy);outline:none}
+.pat b{color:var(--navy)}
+.pat span{color:#667;font-size:15px}
+.tip{background:#fff8e1;border:1px solid var(--gold);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:15.5px}
+.dlg{display:flex;align-items:flex-end;gap:8px;margin:12px 0}
+.dlg.r{flex-direction:row-reverse}
+.dlg svg{flex:none}
+.bub{position:relative;max-width:78%;background:#fff;border:2px solid var(--navy);border-radius:16px;padding:8px 14px;cursor:pointer;font:inherit;text-align:left;color:inherit}
+.dlg.r .bub{background:#eef1ff}
+.bub small{display:block;color:#667;font-size:13px}
+.bub b{font-size:18px;color:var(--navy)}
+.q{font-size:19px;font-weight:600;margin:6px 0 10px}
+.big{font-size:56px;text-align:center;margin:0}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:11px 14px;border:2px solid var(--line);border-radius:12px;background:#fff;font:inherit;cursor:pointer;color:inherit}
+.opt:hover:not(:disabled){border-color:var(--navy)}
+.opt.ok{background:#e4f6e8;border-color:#2e9e4f}
+.opt.no{background:#fde7e9;border-color:var(--red)}
+.btn{display:inline-block;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;cursor:pointer;margin-top:6px}
+.btn.l{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.fb{margin:8px 0;font-size:16px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:30px}
+.nav a,.nav span{color:var(--navy);font-weight:600}
+.nav span{opacity:.45}
+.score{font-size:40px;font-weight:800;color:var(--navy);text-align:center;margin:6px 0}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html">← Tüm dersler</a>
+<h1>Ders 14 · Miam ! J'aime ça !</h1>
+<p>Ünite 5 · Bon appétit ! — Zevkler, Tercihler ve Meyveler</p>
+</header>
+<main>
+
+<h2>Bu derste ne öğreniyoruz?</h2>
+<div class="box">
+<p style="margin:0">Bu derste meyveleri, tatlıları ve sevdiklerimizi anlatmayı öğreniyoruz. Bir yiyeceği sevdiğimizde <b>J'aime la banane.</b> (Muzu severim.), sevmediğimizde <b>Je n'aime pas l'abricot.</b> (Kayısıyı sevmem.) deriz. Tercih belirtmek için <b>Je préfère la pomme.</b> (Elmayı tercih ederim.) kalıbını; lezzetli bulduğumuzda ise <b>Miam ! C'est bon !</b> veya <b>C'est délicieux !</b> ifadelerini kullanırız.</p>
+</div>
+
+<h2>Video</h2>
+<p class="sub">Önce izle, sonra kartlara geç.</p>
+<div id="video"></div>
+
+<h2>Meyveler (Les fruits)</h2>
+<p class="sub">Karta dokun, Fransızcasını dinle.</p>
+<div class="grid" id="g-fruits"></div>
+
+<h2>Tatlılar ve Atıştırmalıklar</h2>
+<p class="sub">İkindi atıştırmalığında (le goûter) neler var?</p>
+<div class="grid" id="g-sweets"></div>
+<div class="tip"><b>Fark ettiniz mi?</b><br>
+• Genel olarak sevdiğimiz şeylerde <i>le, la, les</i> kullanırız: <b>J'aime la pomme.</b> (Elmayı severim.)<br>
+• Olumsuz yapmak için fiilin önüne <b>ne (n')</b>, sonrasına <b>pas</b> gelir: <b>Je n'aime pas.</b> (Sevmiyorum.)<br>
+• Bir şey lezzetliyse <b>C'est bon !</b> veya <b>C'est délicieux !</b>, lezzetli değilse <b>Ce n'est pas bon !</b> deriz.</div>
+
+<h2>Beğeni ve Tercih Kalıpları</h2>
+<p class="sub">Dokun, cümleyi dinle.</p>
+<div id="pats"></div>
+
+<h2>Mini diyalog</h2>
+<p class="sub">Baloncuklara dokun, cümleyi dinle.</p>
+<div id="dlg"></div>
+
+<h2>Etkinlik (7 soru)</h2>
+<div class="box" id="quiz"></div>
+
+<div class="nav">
+<a href="a1-13-repas.html">← Önceki ders</a>
+<a href="index.html">Tüm dersler</a>
+</div>
+</main>
+
+<script>
+/* YouTube video linki veya ID'sini buraya yapıştırabilirsiniz */Sxg-8O5F4_o
+var VIDEO_ID = "";
+
+function say(t){
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);
+    u.lang="fr-FR"; u.rate=.85;
+    var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf("fr")===0})[0];
+    if(v)u.voice=v;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function el(tag,cls,html){var n=document.createElement(tag);if(cls)n.className=cls;if(html!==undefined)n.innerHTML=html;return n}
+
+/* Video Oynatıcı */
+(function(){
+  var v = document.getElementById("video");
+  var raw = (VIDEO_ID || "").trim();
+  var m = raw.match(/(?:youtu\.be\/|youtube\.com\/(?:shorts\/|embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  var id = m ? m[1] : (raw.length === 11 ? raw : "");
+
+  if(id){
+    v.className = "video";
+    v.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?rel=0" title="Ders 14 videosu" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  } else {
+    v.className = "video soon";
+    v.textContent = "Video yakında";
+  }
+})();
+
+/* Kelime Kartları */
+var GROUPS={
+ "g-fruits":[
+   ["une pomme","🍎","elma"],
+   ["une banane","🍌","muz"],
+   ["une poire","🍐","armut"],
+   ["un abricot","🍑","kayısı"]
+ ],
+ "g-sweets":[
+   ["le gâteau","🍰","pasta, kek"],
+   ["un bonbon","🍬","şeker"],
+   ["le chocolat","🍫","çikolata"],
+   ["le miel","🍯","bal"],
+   ["la confiture","🍓","reçel"]
+ ]
+};
+Object.keys(GROUPS).forEach(function(id){
+  GROUPS[id].forEach(function(b){
+    var c=el("button","card",'<span class="e">'+b[1]+'</span><span class="f">'+b[0]+'</span><span class="t">'+b[2]+'</span>');
+    c.setAttribute("aria-label",b[0]);
+    c.onclick=function(){say(b[0])};
+    document.getElementById(id).appendChild(c);
+  });
+});
+
+/* Kalıplar */
+var PATS=[
+ ["J'aime la banane.","Muzu severim."],
+ ["Je n'aime pas l'abricot.","Kayısıyı sevmem."],
+ ["Qu'est-ce que tu préfères ?","Neyi tercih edersin?"],
+ ["Je préfère la pomme.","Elmayı tercih ederim."],
+ ["Miam ! C'est délicieux !","Nefis! Çok lezzetli!"],
+ ["C'est bon !","Bu lezzetli / güzel!"],
+ ["Ce n'est pas bon !","Bu lezzetli değil / güzel değil!"],
+ ["Tu aimes le gâteau ?","Pastayı sever misin?"],
+ ["Oui, j'adore le chocolat !","Evet, çikolataya bayılırım!"]
+];
+PATS.forEach(function(p){
+  var b=el("button","pat","<b>"+p[0]+"</b><span>"+p[1]+"</span>");
+  b.onclick=function(){say(p[0])};
+  document.getElementById("pats").appendChild(b);
+});
+
+/* Mini diyalog */
+var DLG=[
+ ["İpek","Miam ! J'aime la banane, c'est délicieux ! Et toi ?"],
+ ["Mehmet","Je n'aime pas l'abricot."],
+ ["İpek","Qu'est-ce que tu préfères ?"],
+ ["Mehmet","Moi, je préfère la pomme. C'est bon !"]
+];
+function face(who){
+  var m=who==="Mehmet";
+  return '<svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">'+
+  '<circle cx="26" cy="26" r="25" fill="'+(m?"#8ec5ff":"#ffe27a")+'"/>'+
+  '<circle cx="26" cy="22" r="10" fill="#f2c9a0"/>'+
+  (m?'<path d="M15 21c0-9 22-9 22 0-4-4-18-4-22 0z" fill="#4a2e1b"/>':'<path d="M15 21c0-10 22-10 22 0-4-4-18-4-22 0z" fill="#6b4226"/><circle cx="38" cy="14" r="3.5" fill="#6b4226"/><circle cx="37" cy="13" r="1.6" fill="#f06aa8"/>')+
+  '<circle cx="22" cy="23" r="1.3" fill="#222"/><circle cx="30" cy="23" r="1.3" fill="#222"/>'+
+  '<path d="M22 28q4 3 8 0" stroke="#a24" stroke-width="1.4" fill="none"/>'+
+  '<path d="M10 52c2-12 30-12 32 0z" fill="'+(m?"#9fd0ff":"#f3c623")+'"/></svg>';
+}
+DLG.forEach(function(d){
+  var row=el("div","dlg"+(d[0]==="Mehmet"?" r":""));
+  row.innerHTML=face(d[0]);
+  var b=el("button","bub","<small>"+d[0]+"</small><b>"+d[1]+"</b>");
+  b.onclick=function(){say(d[1])};
+  row.appendChild(b);
+  document.getElementById("dlg").appendChild(row);
+});
+
+/* Etkinlik */
+var Q=[
+ {say:"J'aime la banane.",q:"Ne dedi?",o:["Muzu sevmem.","Muzu severim.","Elma yerim.","Karnım aç."],a:1,e:"J'aime la banane = Muzu severim."},
+ {big:"🍎",q:"Bu hangi meyve?",o:["une poire","une banane","un abricot","une pomme"],a:3,e:"une pomme = elma."},
+ {say:"Je n'aime pas l'abricot.",q:"Cümlenin anlamı nedir?",o:["Kayısıyı sevmem.","Kayısı çok lezzetli.","Armut isterim.","Bir kayısı yiyorum."],a:0,e:"Je n'aime pas... = Sevmem / Sevmiyorum."},
+ {q:"'Elmayı tercih ederim' nasıl söylenir?",o:["Je mange la pomme.","Je préfère la pomme.","C'est une pomme.","J'ai une pomme."],a:1,e:"Je préfère = Tercih ederim."},
+ {say:"C'est délicieux !",q:"Bunu söyleyen kişi ne demek istiyor?",o:["Çok lezzetli! / Nefis!","Güzel değil.","Doydum.","Teşekkür ederim."],a:0,e:"délicieux = çok lezzetli, nefis."},
+ {big:"🍰",q:"Bu tatlının adı nedir?",o:["un bonbon","le pain","le gâteau","le fromage"],a:2,e:"le gâteau = pasta, kek."},
+ {q:"Je ___ aime pas le chocolat.",o:["n'","ne","pas","de"],a:0,e:"aime sesli harfle başladığı için 'n'aime pas' olur."}
+];
+var qi=0,score=0,box=document.getElementById("quiz");
+function show(){
+  box.innerHTML="";
+  if(qi>=Q.length){
+    box.appendChild(el("p","fb","Tebrikler, üniteyi tamamladınız!"));
+    box.appendChild(el("div","score",score+" / "+Q.length));
+    box.appendChild(el("p","fb",score>=6?"Harika! Bravo ! Ünite 5 başarıyla bitti.":score>=4?"İyi gidiyorsun. Kelimeleri bir daha tekrar et.":"Kartları tekrar dinle ve yeniden dene."));
+    var r=el("button","btn","Baştan başla");
+    r.onclick=function(){qi=0;score=0;show()};
+    box.appendChild(r);return;
+  }
+  var d=Q[qi];
+  box.appendChild(el("div","sub","Soru "+(qi+1)+" / "+Q.length));
+  if(d.big)box.appendChild(el("p","big",d.big));
+  box.appendChild(el("div","q",d.q));
+  if(d.say){
+    var s=el("button","btn l","🔊 Dinle");
+    s.onclick=function(){say(d.say)};
+    box.appendChild(s);
+    setTimeout(function(){say(d.say)},250);
+  }
+  var fb=el("div","fb");
+  var nxt=el("button","btn","Sonraki");
+  nxt.style.display="none";
+  nxt.onclick=function(){qi++;show()};
+  var btns=[];
+  d.o.forEach(function(t,i){
+    var b=el("button","opt",t);
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===d.a){b.classList.add("ok");score++;fb.textContent="Doğru! "+d.e}
+      else{b.classList.add("no");btns[d.a].classList.add("ok");fb.textContent="Doğrusu: "+d.o[d.a]+". "+d.e}
+      nxt.style.display="inline-block";
+      if(qi===Q.length-1)nxt.textContent="Sonucu gör";
+    };
+    btns.push(b);box.appendChild(b);
+  });
+  box.appendChild(fb);box.appendChild(nxt);
+}
+show();
+if(window.speechSynthesis)speechSynthesis.getVoices();
+</script>
+</body>
+</html>
