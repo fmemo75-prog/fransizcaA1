@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 15 · Hava durumu · Fransızca A1</title>
+<link rel="stylesheet" href="ders.css">
+<style>
+:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
+.d15{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d15 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
+.d15 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
+.vid{position:relative;width:100%;max-width:320px;margin:0 auto;padding-top:min(177.78%,568px);border-radius:12px;overflow:hidden;background:#e8ecf8}
+.vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.kart b{display:block;font-size:1.1rem;color:var(--lac)}
+.kart small{color:#555}
+.kart .em{display:block;font-size:2rem;line-height:1.2}
+.kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
+.ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
+.nav a{color:var(--lac);font-weight:700}
+</style>
+</head>
+<body>
+<main class="d15">
+<p><a href="index.html">← Ders listesi</a></p>
+<h1>Ders 15 · Hava durumu</h1>
+<p>Yeni ünitemiz <b>Je découvre</b> (Keşfediyorum). Bu derste havanın nasıl olduğunu sormayı ve söylemeyi, mevsimleri ve havaya göre ne giyeceğimizi öğreniyoruz. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
+
+<div class="vid" id="video"></div>
+
+<h2>1. Hava nasıl?</h2>
+<p>Havayı sormak ve söylemek için şu kalıplar yeterli:</p>
+<div class="grid" id="kalip"></div>
+
+<h2>2. Hava durumu</h2>
+<p>Kartlara tıklayın, cümleyi dinleyin.</p>
+<div class="grid" id="hava"></div>
+<div class="ipucu"><b>Fark ettiniz mi?</b> <i>beau</i>, <i>mauvais</i>, <i>chaud</i>, <i>froid</i> kelimelerinin önünde <i>il fait</i> var. <i>Il pleut</i> ve <i>il neige</i> ise tek parça. Cümleleri hep bu şekilde, bütün olarak tekrar edin.</div>
+
+<h2>3. Mevsimler</h2>
+<p>Fransızcada dört mevsim var. Kartlara tıklayıp dinleyin:</p>
+<div class="grid" id="mevsim"></div>
+<p>Mevsime göre hava nasıl olur? Dinleyin:</p>
+<div class="grid" id="mevsimc"></div>
+<div class="ipucu"><b>Fark ettiniz mi?</b> İlkbaharda <i>au printemps</i> diyoruz, diğer üç mevsimde <i>en été</i>, <i>en automne</i>, <i>en hiver</i>. Mevsim adıyla başlayan cümleyi bütün olarak tekrar edin.</div>
+
+<h2>4. Ne giyiyoruz?</h2>
+<p>Havaya göre kıyafet seçeriz. Önce kelimeleri dinleyin:</p>
+<div class="grid" id="giysi"></div>
+<p>Ne giydiğini sormak ve söylemek için:</p>
+<div class="grid" id="soru"></div>
+<p>Şimdi havaya ve mevsime göre cümleleri dinleyin:</p>
+<div class="grid" id="cumle"></div>
+
+<h2>5. Mini diyalog</h2>
+<p>Videodaki diyaloğu baloncuklardan tekrar dinleyin.</p>
+<svg viewBox="0 0 360 210" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
+  <g style="cursor:pointer" onclick="konus('Quel temps fait-il ?')"><rect x="10" y="8" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="33" font-size="13" fill="#002395">Mehmet: Quel temps fait-il ?</text></g>
+  <g style="cursor:pointer" onclick="konus('Il fait beau.')"><rect x="50" y="58" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="83" font-size="13" fill="#a00">İpek: Il fait beau.</text></g>
+  <g style="cursor:pointer" onclick="konus('Quel temps fait-il ?')"><rect x="10" y="108" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: Quel temps fait-il ?</text></g>
+  <g style="cursor:pointer" onclick="konus('Il pleut.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: Il pleut.</text></g>
+</svg>
+
+<h2>6. Etkinlik</h2>
+<p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
+<div id="quiz"></div>
+<p class="sonuc" id="skor"></p>
+
+<div class="nav">
+  <!-- Önceki ders bağlantısını buraya ekleyin: <a href="a1-14-….html">← Önceki ders</a> -->
+  <!-- Ders 16 yüklenince bu bağlantıyı açın: <a href="a1-16-….html">Sonraki ders →</a> -->
+</div>
+</main>
+
+<script>
+var VIDEO_ID="cr73xAVqZqg";
+(function(){var v=document.getElementById("video");
+ v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 15 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';})();
+
+function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
+ var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
+function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
+function doldur(id,liste,cls){var g=document.getElementById(id);liste.forEach(function(e){g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls))})}
+
+doldur("kalip",[["Quel temps fait-il ?","Hava nasıl?"],["Il fait beau.","Hava güzel."],["Il pleut.","Yağmur yağıyor."]],"k");
+doldur("hava",[["Il fait beau.","Hava güzel.","☀️"],["Il fait mauvais.","Hava kötü.","⛈️"],["Il fait chaud.","Hava sıcak.","🥵"],["Il fait froid.","Hava soğuk.","🥶"],["Il pleut.","Yağmur yağıyor.","🌧️"],["Il neige.","Kar yağıyor.","❄️"]]);
+doldur("mevsim",[["le printemps","ilkbahar","🌸"],["l'été","yaz","🏖️"],["l'automne","sonbahar","🍂"],["l'hiver","kış","⛄"]],"k");
+doldur("mevsimc",[["Au printemps, il fait beau.","İlkbaharda hava güzel.","🌸"],["En été, il fait chaud.","Yazın hava sıcak.","🏖️"],["En automne, il pleut.","Sonbaharda yağmur yağar.","🍂"],["En hiver, il fait froid.","Kışın hava soğuk.","⛄"]]);
+doldur("giysi",[["une chemise","gömlek","👔"],["un pantalon","pantolon","👖"],["un tee-shirt","tişört","👕"],["un short","şort","🩳"],["une robe","elbise","👗"],["un manteau","palto","🧥"],["des chaussures","ayakkabı","👟"],["des chaussettes","çorap","🧦"],["une écharpe","atkı","🧣"],["des gants","eldiven","🧤"],["une casquette","şapka (kasket)","🧢"],["un chapeau","şapka","👒"],["des vêtements","kıyafetler","👚"]]);
+doldur("soru",[["Qu'est-ce que tu mets ?","Ne giyiyorsun?"],["Je mets une robe.","Elbise giyiyorum."],["Mon vêtement préféré est un pantalon.","En sevdiğim kıyafet pantolon."]],"k");
+doldur("cumle",[["Il fait chaud. Je mets un tee-shirt.","Hava sıcak. Tişört giyiyorum.","🥵"],["Il fait chaud. Je mets un short.","Hava sıcak. Şort giyiyorum.","🏖️"],["Il fait froid. Je mets un manteau.","Hava soğuk. Palto giyiyorum.","🥶"],["En hiver, je porte une écharpe et des gants.","Kışın atkı ve eldiven takıyorum.","⛄"],["Au printemps, je porte une chemise.","İlkbaharda gömlek giyiyorum.","🌸"],["En été, on porte une casquette.","Yazın şapka takılır.","🏖️"]],"k");
+
+/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
+var Q=[
+ {q:"Dinleyin. Bu soru ne soruyor?",say:"Quel temps fait-il ?",o:["Hava nasıl?","Saat kaç?","Adın ne?"],a:0},
+ {q:"Dinleyin. Hangi havayı duydunuz?",say:"Il pleut.",o:["☀️ Il fait beau.","🌧️ Il pleut.","❄️ Il neige."],a:1},
+ {q:"Dinleyin. Hangi havayı duydunuz?",say:"Il neige.",o:["🌧️ Il pleut.","☀️ Il fait beau.","❄️ Il neige."],a:2},
+ {q:"☀️ « Quel temps fait-il ? » Doğru cevap hangisi?",o:["Il fait beau.","Il neige.","Il pleut."],a:0},
+ {q:"« Il fait froid. Je mets un ___. » Boşluğa hangisi gelir?",o:["short","manteau","tee-shirt"],a:1},
+ {q:"Dinleyin. Hangi havayı duydunuz?",say:"Il fait chaud.",o:["🥶 Il fait froid.","🥵 Il fait chaud.","❄️ Il neige."],a:1},
+ {q:"Dinleyin. Hangi mevsimi duydunuz?",say:"l'hiver",o:["🍂 l'automne","🏖️ l'été","⛄ l'hiver"],a:2}
+];
+var puan=0,cevap=0,box=document.getElementById("quiz");
+Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
+ var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
+ d.innerHTML=h;
+ if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
+ var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
+  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
+   if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
+   if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
+  bs.push(b);d.appendChild(b)});box.appendChild(d)});
+if(window.speechSynthesis)speechSynthesis.getVoices();
+</script>
+</body>
+</html>
