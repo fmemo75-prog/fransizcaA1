@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genel tekrar · Ünite 3 · Fransızca A1</title>
+<link rel="stylesheet" href="ders.css">
+<style>
+:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227;--ok:#2e9e4f}
+.dt{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.dt h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
+.dt h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.8em;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.dt h2 .pt{font-size:.95rem;color:#555;font-weight:600;white-space:nowrap}
+.dt .tal{margin:0 0 10px;color:#444;font-size:.95rem}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.dog{background:#dff5e3!important;border-color:var(--ok)!important}
+.yan{background:#fde3e3!important;border-color:var(--kir)!important}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.sel{outline:3px solid var(--alt)}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt button{display:block;width:100%;margin:0 0 8px;padding:12px 8px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer;min-height:48px}
+.mt button:disabled{cursor:default}
+.ans{min-height:52px;border:2px dashed #b8c2e6;border-radius:10px;padding:8px;margin:10px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pool{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:2px solid var(--lac);background:#eef1fb;border-radius:10px;padding:8px 12px;font:inherit;font-weight:700;color:var(--lac);cursor:pointer}
+.chip:disabled{opacity:.3;cursor:default}
+.btn{background:#fff;color:var(--lac);border:2px solid var(--lac);border-radius:10px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer;margin:4px 6px 0 0}
+.btn.p{background:var(--lac);color:#fff}
+input.tx{font:inherit;padding:10px;border:2px solid #c7cfe9;border-radius:10px;width:100%;max-width:420px;margin:8px 0}
+.fb{min-height:24px;font-weight:600;margin-top:6px}
+.tot{background:var(--lac);color:#fff;border-radius:14px;padding:16px;text-align:center;margin-top:28px;font-size:1.2rem;font-weight:700}
+.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
+.nav a{color:var(--lac);font-weight:700}
+</style>
+</head>
+<body>
+<main class="dt">
+<p><a href="index.html">← Ders listesi</a></p>
+<h1>Genel tekrar · Ünite 3: Bienvenue chez moi !</h1>
+<p>Bu sayfada konu anlatımı yok. Etkinlikleri kendi başınıza yapın. Sesleri duymak için telefonunuzun sesini açın.</p>
+
+<h2><span>Etkinlik 1 · Dinle ve seç</span><span class="pt" id="p0"></span></h2>
+<div id="a0"></div>
+
+<h2><span>Etkinlik 2 · Eşleştir</span><span class="pt" id="p1"></span></h2>
+<p class="tal">Soldaki Fransızca kelimeye dokunun (sesi duyarsınız), sonra sağdan anlamını seçin.</p>
+<div id="a1"></div>
+
+<h2><span>Etkinlik 3 · Cümleyi sırala</span><span class="pt" id="p2"></span></h2>
+<p class="tal">Kelimelere dokunarak Türkçe cümlenin Fransızcasını kurun.</p>
+<div id="a2"></div>
+
+<h2><span>Etkinlik 4 · Dinle ve yaz</span><span class="pt" id="p3"></span></h2>
+<p class="tal">Duyduğunuzu yazın. Aksan işaretlerini (é, è, ç…) yazmanız gerekmez.</p>
+<div id="a3"></div>
+
+<div class="tot" id="tot"></div>
+<div style="text-align:center"><button class="btn" type="button" onclick="location.reload()">🔄 Hepsini baştan yap</button></div>
+
+<div class="nav"><a href="a1-10-maison.html">← Önceki ders</a><a href="index.html">☰ Ders listesi</a><a href="a1-11-corps.html">Sonraki ünite →</a></div>
+</main>
+
+<script>
+var D={"mcq": [{"q": "Dinleyin. Bu kimdir?", "say": "une sœur", "o": ["Kız kardeş", "Erkek kardeş", "Büyükanne"], "a": 0}, {"q": "« C'est ___ père. » Boşluğa hangisi gelir?", "o": ["ma", "mon"], "a": 1}, {"q": "Dinleyin. Bu cümle ne demek?", "say": "Je suis dans le salon.", "o": ["Mutfaktayım.", "Salondayım.", "Odamdayım."], "a": 1}, {"q": "« Où tu es ? » ne demek?", "o": ["Sen neredesin?", "Bu kim?", "Bu ne?"], "a": 0}, {"q": "Dinleyin. Top nerede?", "say": "La balle est sous la table.", "o": ["Masanın üstünde", "Masanın altında", "Masanın içinde"], "a": 1}, {"q": "Kedi koltuğun üstünde: « Il est ___ le canapé. »", "o": ["dans", "sur", "sous"], "a": 1}], "match": [["la mère", "👩 anne"], ["un frère", "👦 erkek kardeş"], ["la cuisine", "🍳 mutfak"], ["le lit", "🛏️ yatak"], ["la fenêtre", "🪟 pencere"], ["le canapé", "🛋️ koltuk"]], "order": [["Voici ma famille !", "İşte ailem!"], ["C'est mon père.", "Bu benim babam."], ["Je suis dans le salon.", "Salondayım."], ["La balle est sous la table.", "Top masanın altında."]], "dict": [["la mère", "anne"], ["la porte", "kapı"], ["Où tu es ?", "Sen neredesin?"], ["Il est sur le canapé.", "O koltuğun üstünde."]]};
+function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
+ var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
+if(window.speechSynthesis)speechSynthesis.getVoices();
+function $(i){return document.getElementById(i)}
+function mk(tag,cls,html){var n=document.createElement(tag);if(cls)n.className=cls;if(html!==undefined)n.innerHTML=html;return n}
+function shuf(a,keep){var b,t=0;do{b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=b[i];b[i]=b[j];b[j]=x}t++}while(keep&&b.join('|')===a.join('|')&&t<10);return b}
+function norm(s){return s.toLowerCase().replace(/[’]/g,"'").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"")}
+
+var got=[0,0,0,0],max=[D.mcq.length,D.match.length,D.order.length,D.dict.length],done=[0,0,0,0];
+function upd(){var g=0,m=0,d=0;for(var i=0;i<4;i++){$("p"+i).textContent=got[i]+" / "+max[i];g+=got[i];m+=max[i];d+=done[i]}
+ $("tot").textContent="Toplam: "+g+" / "+m+(d==m?(g==m?" 🎉 Çok güzel!":" · Yanlışlarınız için etkinlikleri yeniden yapabilirsiniz."):"")}
+upd();
+
+/* 1. Dinle ve seç */
+D.mcq.forEach(function(s,i){var d=mk("div","q");
+ d.innerHTML="<p><b>"+(i+1)+".</b> "+s.q+"</p>"+(s.say?'<button class="say" type="button">🔊 Dinle</button>':'');
+ if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
+ var bs=[];s.o.forEach(function(t,j){var b=mk("button","o");b.type="button";b.textContent=t;
+  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;done[0]++;
+   if(j==s.a){b.classList.add("dog");got[0]++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}upd()};
+  bs.push(b);d.appendChild(b)});$("a0").appendChild(d)});
+
+/* 2. Eşleştir */
+(function(){var L=mk("div"),R=mk("div"),w=mk("div","mt");w.appendChild(L);w.appendChild(R);$("a1").appendChild(w);
+ var sel=null,wrong={},lb=[];
+ D.match.forEach(function(p,i){var b=mk("button","","🔊 "+p[0]);b.type="button";
+  b.onclick=function(){if(b.disabled)return;konus(p[0]);if(sel!==null)lb[sel].classList.remove("sel");sel=i;b.classList.add("sel")};
+  lb.push(b);L.appendChild(b)});
+ shuf(D.match.map(function(_,i){return i}),true).forEach(function(i){var b=mk("button","",D.match[i][1]);b.type="button";
+  b.onclick=function(){if(b.disabled||sel===null)return;
+   if(sel===i){b.disabled=true;b.classList.add("dog");lb[i].disabled=true;lb[i].classList.remove("sel");lb[i].classList.add("dog");
+    done[1]++;if(!wrong[i])got[1]++;sel=null;upd()}
+   else{wrong[sel]=true;b.classList.add("yan");setTimeout(function(){b.classList.remove("yan")},500)}};
+  R.appendChild(b)});})();
+
+/* 3. Cümleyi sırala */
+D.order.forEach(function(s,i){var d=mk("div","q"),target=s[0],toks=target.split(" "),used=[],bad=false,fin=false;
+ d.innerHTML='<p><b>'+(i+1)+'.</b> '+s[1]+' <button class="say" type="button">🔊 Dinle</button></p>';
+ d.querySelector(".say").onclick=function(){konus(target)};
+ var ans=mk("div","ans"),pool=mk("div","pool"),fb=mk("div","fb");fb.setAttribute("aria-live","polite");
+ var ck=mk("button","btn p","Kontrol et"),rs=mk("button","btn","Sıfırla");ck.type=rs.type="button";
+ var chips=shuf(toks.map(function(_,k){return k}),true).map(function(k){var c=mk("button","chip",toks[k]);c.type="button";
+  c.onclick=function(){if(fin)return;used.push(k);c.disabled=true;draw()};return c});
+ chips.forEach(function(c){pool.appendChild(c)});
+ function draw(){ans.innerHTML="";used.forEach(function(k,pos){var c=mk("button","chip",toks[k]);c.type="button";
+  c.onclick=function(){if(fin)return;used.splice(pos,1);chips[k].disabled=false;draw()};ans.appendChild(c)})}
+ rs.onclick=function(){if(fin)return;used=[];chips.forEach(function(c){c.disabled=false});draw();fb.textContent=""};
+ ck.onclick=function(){if(fin)return;var s2=used.map(function(k){return toks[k]}).join(" ");
+  if(s2===target){fin=true;ans.classList.add("dog");fb.innerHTML='<span style="color:#2e9e4f">✅ Doğru!</span>';done[2]++;if(!bad)got[2]++;upd();konus(target)}
+  else{bad=true;fb.innerHTML='<span style="color:#ED2939">❌ Tekrar deneyin.</span>'}};
+ d.appendChild(ans);d.appendChild(pool);d.appendChild(ck);d.appendChild(rs);d.appendChild(fb);$("a2").appendChild(d)});
+
+/* 4. Dinle ve yaz */
+D.dict.forEach(function(s,i){var d=mk("div","q"),tries=0,fin=false;
+ d.innerHTML='<p><b>'+(i+1)+'.</b> Anlamı: <i>'+s[1]+'</i> <button class="say" type="button">🔊 Dinle</button></p>';
+ d.querySelector(".say").onclick=function(){konus(s[0])};
+ var inp=mk("input","tx");inp.type="text";inp.setAttribute("autocomplete","off");inp.setAttribute("autocapitalize","off");inp.setAttribute("spellcheck","false");inp.setAttribute("aria-label","Duyduğunuzu yazın");
+ var ck=mk("button","btn p","Kontrol et");ck.type="button";var fb=mk("div","fb");fb.setAttribute("aria-live","polite");
+ function go(){if(fin)return;tries++;
+  if(norm(inp.value)===norm(s[0])){fin=true;inp.classList.add("dog");fb.innerHTML='<span style="color:#2e9e4f">✅ Doğru!</span>';done[3]++;if(tries==1)got[3]++;upd()}
+  else if(tries>=2){fin=true;inp.classList.add("yan");fb.innerHTML='<span style="color:#ED2939">❌ Doğrusu: <b>'+s[0]+'</b></span>';done[3]++;upd()}
+  else{fb.innerHTML='<span style="color:#ED2939">❌ Bir daha dinleyip deneyin.</span>'}}
+ ck.onclick=go;inp.onkeydown=function(e){if(e.key==="Enter")go()};
+ d.appendChild(inp);d.appendChild(ck);d.appendChild(fb);$("a3").appendChild(d)});
+</script>
+</body>
+</html>
