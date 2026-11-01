@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 16 · Ulaşım araçları · Fransızca A1</title>
+<link rel="stylesheet" href="ders.css">
+<style>
+:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
+.d16{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d16 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
+.d16 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
+.vid{position:relative;width:100%;max-width:320px;margin:0 auto;padding-top:min(177.78%,568px);border-radius:12px;overflow:hidden;background:#e8ecf8}
+.vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.kart b{display:block;font-size:1.1rem;color:var(--lac)}
+.kart small{color:#555}
+.kart .em{display:block;font-size:2rem;line-height:1.2}
+.kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
+.ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
+.nav a{color:var(--lac);font-weight:700}
+</style>
+</head>
+<body>
+<main class="d16">
+<p><a href="index.html">← Ders listesi</a></p>
+<h1>Ders 16 · Ulaşım araçları</h1>
+<p>Bu derste ulaşım araçlarının adlarını, okula nasıl gittiğimizi sormayı ve söylemeyi, nereye gittiğimizi anlatmayı öğreniyoruz. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
+
+<div class="vid" id="video"></div>
+
+<h2>1. Okula nasıl gidiyorsun?</h2>
+<p>Nasıl gittiğimizi sormak ve söylemek için şu kalıplar yeterli:</p>
+<div class="grid" id="kalip"></div>
+
+<h2>2. Ulaşım araçları</h2>
+<p>Kartlara tıklayın, kelimeyi dinleyin.</p>
+<div class="grid" id="arac"></div>
+<p>Şimdi nasıl gittiğimizi dinleyin:</p>
+<div class="grid" id="nasil"></div>
+<div class="ipucu"><b>Fark ettiniz mi?</b> Otobüs, tren, kamyon gibi araçlarda <i>en</i> diyoruz: <i>en bus</i>, <i>en train</i>. Bisiklette <i>à vélo</i>, yürüyerek giderken <i>à pied</i> diyoruz. Her kalıbı bütün olarak tekrar edin.</div>
+
+<h2>3. Nereye gidiyorsun?</h2>
+<p>Bir şehre giderken <i>je vais à</i> + şehir adı deriz. Dinleyin:</p>
+<div class="grid" id="sehir"></div>
+
+<h2>4. Mini diyalog</h2>
+<p>Videodaki diyaloğu baloncuklardan tekrar dinleyin.</p>
+<svg viewBox="0 0 360 160" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
+  <g style="cursor:pointer" onclick="konus('Comment vas-tu à l\'école ?')"><rect x="10" y="8" width="320" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="33" font-size="13" fill="#002395">Mehmet: Comment vas-tu à l'école ?</text></g>
+  <g style="cursor:pointer" onclick="konus('Je vais à l\'école en bus. Et toi ?')"><rect x="20" y="58" width="330" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="30" y="83" font-size="13" fill="#a00">İpek: Je vais à l'école en bus. Et toi ?</text></g>
+  <g style="cursor:pointer" onclick="konus('Je vais à l\'école à vélo.')"><rect x="10" y="108" width="320" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: Je vais à l'école à vélo.</text></g>
+</svg>
+
+<h2>5. Etkinlik</h2>
+<p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
+<div id="quiz"></div>
+<p class="sonuc" id="skor"></p>
+
+<div class="nav">
+  <a href="a1-15-meteo.html">← Önceki ders</a>
+  <!-- Sonraki ders yüklenince bu bağlantıyı açın: <a href="a1-17-….html">Sonraki ders →</a> -->
+</div>
+</main>
+
+<script>
+var VIDEO_ID="";
+(function(){var v=document.getElementById("video");
+ v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 16 videosu" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>':'<div>Video yakında</div>';})();
+
+function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
+ var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
+function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
+function doldur(id,liste,cls){var g=document.getElementById(id);liste.forEach(function(e){g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls))})}
+
+doldur("kalip",[["Comment vas-tu à l'école ?","Okula nasıl gidiyorsun?"],["Je vais à l'école en bus.","Okula otobüsle gidiyorum."],["Et toi ?","Ya sen?"]],"k");
+doldur("arac",[["un bus","otobüs","🚌"],["un train","tren","🚆"],["un camion","kamyon","🚚"],["un vélo","bisiklet","🚲"],["à pied","yürüyerek","🚶"]]);
+doldur("nasil",[["en bus","otobüsle","🚌"],["en train","trenle","🚆"],["en camion","kamyonla","🚚"],["à vélo","bisikletle","🚲"],["à pied","yürüyerek","🚶"]],"k");
+doldur("sehir",[["Je vais à Istanbul.","İstanbul'a gidiyorum.","🕌"],["Je vais à Paris.","Paris'e gidiyorum.","🗼"],["Je vais à l'école à vélo.","Okula bisikletle gidiyorum.","🏫"],["Je vais à l'école à pied.","Okula yürüyerek gidiyorum.","🚶"]],"k");
+
+/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
+var Q=[
+ {q:"Dinleyin. Bu soru ne soruyor?",say:"Comment vas-tu à l'école ?",o:["Okula nasıl gidiyorsun?","Okul nerede?","Adın ne?"],a:0},
+ {q:"Dinleyin. Hangisini duydunuz?",say:"Je vais à l'école en bus.",o:["🚌 en bus","🚆 en train","🚲 à vélo"],a:0},
+ {q:"Dinleyin. Hangisini duydunuz?",say:"Je vais à l'école à vélo.",o:["🚌 en bus","🚶 à pied","🚲 à vélo"],a:2},
+ {q:"« Je vais à l'école ___ bus. » Boşluğa hangisi gelir?",o:["à","en","au"],a:1},
+ {q:"« Je vais à l'école ___ vélo. » Boşluğa hangisi gelir?",o:["en","dans","à"],a:2},
+ {q:"Dinleyin. Hangisini duydunuz?",say:"Je vais à l'école à pied.",o:["🚚 en camion","🚶 à pied","🚆 en train"],a:1},
+ {q:"« Un camion » Türkçede ne demek?",o:["Kamyon","Tren","Bisiklet"],a:0}
+];
+var puan=0,cevap=0,box=document.getElementById("quiz");
+Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
+ var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
+ d.innerHTML=h;
+ if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
+ var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
+  b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
+   if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
+   if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
+  bs.push(b);d.appendChild(b)});box.appendChild(d)});
+if(window.speechSynthesis)speechSynthesis.getVoices();
+</script>
+</body>
+</html>
