@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="ders.css">
 <style>
 :root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
-.d7{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d7{max-width:800px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
 .d7 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
 .d7 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
 .vid-wrap{display:flex;gap:12px;flex-wrap:wrap}
@@ -23,9 +23,11 @@
 .kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
 .ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
 .q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
-.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
-.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
-.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.opt{display:block;width:100%;text-align:left;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.opt.ok{background:#dff5e3;border-color:#2e9e4f;font-weight:bold}
+.opt.no{background:#fde3e3;border-color:var(--kir);font-weight:bold}
+.say,.btn{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer;font-weight:600}
 .sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
 .nav a{color:var(--lac);font-weight:700}
@@ -37,6 +39,112 @@
 .hucre{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1.5px solid #d0d5ea;border-radius:6px;font-weight:700;font-size:.82rem;cursor:pointer;background:#fff;text-transform:uppercase;transition:background .1s,border-color .1s}
 .hucre.secili{background:#c5d2f6;border-color:var(--lac);color:var(--lac)}
 .hucre.bulundu{background:#c8f0d3;border-color:#2e9e4f;color:#1a6e35}
+
+/* --- AKILLI TAHTA ÇENGEL BULMACA STİLLERİ --- */
+.cw-section {
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
+  border-radius: 18px;
+  padding: 16px;
+  margin: 18px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.cw-board {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.cw-grid-wrap {
+  background: #e2e8f0;
+  padding: 10px;
+  border-radius: 14px;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.cw-grid {
+  display: grid;
+  gap: 4px;
+}
+.cw-cell {
+  width: 52px;
+  height: 52px;
+  background: #fff;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--lac);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  user-select: none;
+}
+.cw-cell.empty { background: transparent; box-shadow: none; cursor: default; }
+.cw-cell.selected { background: #fef08a !important; outline: 3px solid #eab308; z-index: 2; }
+.cw-cell.readonly { background: #f1f5f9; color: #475569; cursor: default; }
+.cw-cell .cw-num { position: absolute; top: 2px; left: 4px; font-size: 11px; font-weight: 700; color: #94a3b8; }
+
+.cw-clues {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 130px;
+}
+.cw-clue-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 18px;
+  font-weight: bold;
+}
+.cw-disc {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.cw-keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 15px;
+  max-width: 600px;
+}
+.cw-key {
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.cw-key:active { background: var(--lac); color: #fff; }
+.cw-key.action { width: 60px; background: #e2e8f0; }
+.cw-controls { display: flex; gap: 10px; margin-top: 12px; }
+.cw-btn { padding: 8px 20px; font-size: 18px; border-radius: 12px; border: 0; cursor: pointer; color: #fff; font-weight: bold; }
+.cw-btn.refresh { background: #475569; }
+.cw-btn.check { background: #16a34a; }
 </style>
 </head>
 <body>
@@ -55,6 +163,24 @@
 <h2>2. Renkler</h2>
 <p>Kartlara tıklayın, rengi dinleyin.</p>
 <div class="grid" id="renk"></div>
+
+<!-- ÇENGEL BULMACA BÖLÜMÜ -->
+<h3>🧩 Renk Bulmacası (Mots Croisés)</h3>
+<p><small>Renk ipuçlarına bakarak kutuları doldurun. Yeni oyun için 🔄, kontrol için ✔ butonuna basın.</small></p>
+
+<div class="cw-section">
+  <div class="cw-board">
+    <div class="cw-grid-wrap">
+      <div class="cw-grid" id="cw-grid"></div>
+    </div>
+    <div class="cw-clues" id="cw-clues"></div>
+  </div>
+  <div class="cw-keyboard" id="cw-keyboard"></div>
+  <div class="cw-controls">
+    <button class="cw-btn refresh" type="button" onclick="startNewCrossword()">🔄</button>
+    <button class="cw-btn check" type="button" onclick="checkCrossword()">✔</button>
+  </div>
+</div>
 
 <h2>3. Eşya ve renk</h2>
 <p>Fransızcada renk, eşyanın <b>arkasından</b> gelir. Türkçede tersi: "mavi çanta". Dinleyin:</p>
@@ -99,7 +225,6 @@
 
 <div class="nav">
   <a href="a1-07-sinif-esyalari.html">← Önceki ders</a>
-  <!-- Ders 9 yüklenince bu bağlantıyı açın: <a href="a1-09-….html">Sonraki ders →</a> -->
 </div>
 </main>
 
@@ -113,487 +238,37 @@ var VIDEO_ID2="a-KE-KIkYW4";
  v2.innerHTML=VIDEO_ID2?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID2+'" title="Ders 8 videosu 2" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
 })();
 
-function konus(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="fr-FR";u.rate=.85;
- var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];if(f)u.voice=f;speechSynthesis.speak(u);}catch(e){}}
-function kart(h,a,cls){var x=document.createElement("button");x.type="button";x.className="kart "+(cls||"");x.innerHTML=h;x.onclick=function(){konus(a)};return x}
-function doldur(id,liste,cls){var g=document.getElementById(id);liste.forEach(function(e){g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls))})}
+function konus(t){
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);
+    u.lang="fr-FR";
+    u.rate=.85;
+    var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];
+    if(f) u.voice=f;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function kart(h,a,cls){
+  var x=document.createElement("button");
+  x.type="button";
+  x.className="kart "+(cls||"");
+  x.innerHTML=h;
+  x.onclick=function(){konus(a)};
+  return x;
+}
+
+function doldur(id,liste,cls){
+  var g=document.getElementById(id);
+  liste.forEach(function(e){
+    g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls));
+  });
+}
 
 doldur("kalip",[["C'est quelle couleur ?","Bu hangi renk?"],["C'est rouge.","Bu kırmızı."],["C'est bleu.","Bu mavi."]],"k");
 doldur("renk",[["rouge","kırmızı","🔴"],["bleu","mavi","🔵"],["jaune","sarı","🟡"],["orange","turuncu","🟠"],["vert","yeşil","🟢"],["rose","pembe","🩷"],["noir","siyah","⚫"],["blanc","beyaz","⚪"],["gris","gri","🩶"]]);
 doldur("esya",[["un cahier rouge","kırmızı defter","📓"],["un crayon jaune","sarı kurşun kalem","✏️"],["un cartable bleu","mavi okul çantası","🎒"],["une gomme rose","pembe silgi","🧽"]],"k");
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Mots Croisés - Smartboard</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 15px;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .main-board {
-      display: flex;
-      gap: 30px;
-      background: white;
-      padding: 25px;
-      border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-      align-items: center;
-    }
-
-    /* Akıllı Tahta için Geniş Izgara */
-    #grid-container {
-      background: #edf2f7;
-      padding: 15px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .grid {
-      display: grid;
-      gap: 6px;
-    }
-
-    /* 70px x 70px büyük dokunmatik hücreler */
-    .cell {
-      width: 70px;
-      height: 70px;
-      background-color: #fff;
-      position: relative;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      font-weight: 800;
-      color: #2b6cb0;
-      cursor: pointer;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.06);
-      transition: all 0.15s ease;
-    }
-
-    .cell.empty {
-      background-color: transparent;
-      box-shadow: none;
-      cursor: default;
-    }
-
-    .cell.selected {
-      background-color: #fef08a !important;
-      outline: 4px solid #eab308;
-      z-index: 2;
-    }
-
-    .cell.readonly {
-      background-color: #f1f5f9;
-      color: #475569;
-      cursor: default;
-    }
-
-    .cell .num {
-      position: absolute;
-      top: 4px;
-      left: 6px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #94a3b8;
-    }
-
-    /* Sağ Taraftaki Renk İpuçları */
-    .clues-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      min-width: 170px;
-    }
-
-    .clue-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #f8fafc;
-      padding: 10px 18px;
-      border-radius: 14px;
-      border: 2px solid #e2e8f0;
-      font-size: 22px;
-      font-weight: bold;
-      color: #334155;
-    }
-
-    .color-disc {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      border: 3px solid white;
-    }
-
-    .direction {
-      font-size: 22px;
-      color: #64748b;
-    }
-
-    /* Akıllı Tahta Sanal Klavyesi */
-    .keyboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-      max-width: 850px;
-      background: white;
-      padding: 15px 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    }
-
-    .key-btn {
-      width: 58px;
-      height: 58px;
-      font-size: 24px;
-      font-weight: 800;
-      background: #f1f5f9;
-      color: #1e293b;
-      border: 2px solid #cbd5e1;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-
-    .key-btn:active {
-      background: #3b82f6;
-      color: white;
-      transform: scale(0.95);
-    }
-
-    .key-btn.action {
-      padding: 0 20px;
-      width: auto;
-      background: #e2e8f0;
-    }
-
-    /* Ana Kontrol Butonları (Yenile / Kontrol) */
-    .controls {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .ctrl-btn {
-      padding: 12px 28px;
-      font-size: 22px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .btn-new { background-color: #475569; }
-    .btn-check { background-color: #16a34a; }
-  </style>
-</head>
-<body>
-
-  <div class="main-board">
-    <div id="grid-container">
-      <div class="grid" id="grid"></div>
-    </div>
-
-    <!-- Sadece Renkler ve Oklar -->
-    <div class="clues-panel" id="clues"></div>
-  </div>
-
-  <!-- Akıllı Tahta Dokunmatik Klavye -->
-  <div class="keyboard" id="keyboard"></div>
-
-  <div class="controls">
-    <button class="ctrl-btn btn-new" onclick="startNewGame()">🔄</button>
-    <button class="ctrl-btn btn-check" onclick="checkAnswers()">✔</button>
-  </div>
-
-  <script>
-    const COLOR_DATA = {
-      "ROUGE":  "#ef4444",
-      "BLEU":   "#3b82f6",
-      "JAUNE":  "#eab308",
-      "ORANGE": "#f97316",
-      "VERT":   "#22c55e",
-      "ROSE":   "#ec4899",
-      "NOIR":   "#0f172a",
-      "BLANC":  "#ffffff",
-      "GRIS":   "#94a3b8"
-    };
-
-    let currentGrid = [];
-    let placedWords = [];
-    let activeCell = null;
-
-    // Sanal klavye tuşları (renklerde geçen harfler + silme)
-    const KEYS = ["A","B","C","E","G","I","J","L","N","O","R","S","T","U","V","⌫"];
-
-    function initKeyboard() {
-      const kb = document.getElementById("keyboard");
-      kb.innerHTML = "";
-      KEYS.forEach(k => {
-        const btn = document.createElement("div");
-        btn.className = "key-btn" + (k === "⌫" ? " action" : "");
-        btn.innerText = k;
-        btn.onpointerdown = (e) => {
-          e.preventDefault();
-          handleKeyPress(k);
-        };
-        kb.appendChild(btn);
-      });
-    }
-
-    function handleKeyPress(char) {
-      if (!activeCell || activeCell.classList.contains("readonly")) return;
-
-      if (char === "⌫") {
-        activeCell.innerText = "";
-        activeCell.dataset.val = "";
-      } else {
-        activeCell.innerText = char;
-        activeCell.dataset.val = char;
-        moveToNextCell();
-      }
-    }
-
-    function moveToNextCell() {
-      const editables = Array.from(document.querySelectorAll(".cell:not(.empty):not(.readonly)"));
-      const currentIndex = editables.indexOf(activeCell);
-      if (currentIndex > -1 && currentIndex + 1 < editables.length) {
-        selectCell(editables[currentIndex + 1]);
-      }
-    }
-
-    function selectCell(cell) {
-      if (cell.classList.contains("empty")) return;
-      if (activeCell) activeCell.classList.remove("selected");
-      activeCell = cell;
-      activeCell.classList.add("selected");
-    }
-
-    // Fiziksel klavye desteği
-    window.addEventListener("keydown", (e) => {
-      const key = e.key.toUpperCase();
-      if (key === "BACKSPACE") handleKeyPress("⌫");
-      else if (KEYS.includes(key)) handleKeyPress(key);
-    });
-
-    const shuffle = arr => arr.sort(() => Math.random() - 0.5);
-
-    function startNewGame() {
-      const words = Object.keys(COLOR_DATA);
-      let success = false;
-      let attempts = 0;
-
-      while (!success && attempts < 100) {
-        attempts++;
-        success = generateCrossword(shuffle([...words]).slice(0, 6));
-      }
-
-      if (success) render();
-      else startNewGame();
-    }
-
-    function generateCrossword(wordsToPlace) {
-      const GRID_SIZE = 15;
-      let grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(null));
-      placedWords = [];
-
-      const firstWord = wordsToPlace[0];
-      const startR = Math.floor(GRID_SIZE / 2);
-      const startC = Math.floor((GRID_SIZE - firstWord.length) / 2);
-
-      for (let i = 0; i < firstWord.length; i++) {
-        grid[startR][startC + i] = firstWord[i];
-      }
-      placedWords.push({ word: firstWord, r: startR, c: startC, dir: 'H' });
-
-      for (let w = 1; w < wordsToPlace.length; w++) {
-        const word = wordsToPlace[w];
-        let candidates = [];
-
-        for (let p of placedWords) {
-          const nextDir = p.dir === 'H' ? 'V' : 'H';
-          for (let i = 0; i < word.length; i++) {
-            for (let j = 0; j < p.word.length; j++) {
-              if (word[i] === p.word[j]) {
-                let r = nextDir === 'V' ? p.r - i : p.r + j;
-                let c = nextDir === 'V' ? p.c + j : p.c - i;
-                if (canPlace(grid, word, r, c, nextDir, GRID_SIZE)) {
-                  candidates.push({ r, c, dir: nextDir });
-                }
-              }
-            }
-          }
-        }
-
-        if (candidates.length > 0) {
-          const best = candidates[Math.floor(Math.random() * candidates.length)];
-          for (let i = 0; i < word.length; i++) {
-            let cr = best.dir === 'V' ? best.r + i : best.r;
-            let cc = best.dir === 'H' ? best.c + i : best.c;
-            grid[cr][cc] = word[i];
-          }
-          placedWords.push({ word, r: best.r, c: best.c, dir: best.dir });
-        } else {
-          return false;
-        }
-      }
-
-      currentGrid = grid;
-      return true;
-    }
-
-    function canPlace(grid, word, r, c, dir, size) {
-      if (r < 1 || c < 1) return false;
-      if (dir === 'H' && (c + word.length >= size - 1)) return false;
-      if (dir === 'V' && (r + word.length >= size - 1)) return false;
-
-      if (dir === 'H') {
-        if (grid[r][c - 1] !== null || grid[r][c + word.length] !== null) return false;
-      } else {
-        if (grid[r - 1][c] !== null || grid[r + word.length][c] !== null) return false;
-      }
-
-      for (let i = 0; i < word.length; i++) {
-        let cr = dir === 'V' ? r + i : r;
-        let cc = dir === 'H' ? c + i : c;
-        let cur = grid[cr][cc];
-        if (cur !== null && cur !== word[i]) return false;
-
-        if (cur === null) {
-          if (dir === 'H') {
-            if (grid[cr - 1][cc] !== null || grid[cr + 1][cc] !== null) return false;
-          } else {
-            if (grid[cr][cc - 1] !== null || grid[cr][cc + 1] !== null) return false;
-          }
-        }
-      }
-      return true;
-    }
-
-    function render() {
-      let minR = 99, maxR = 0, minC = 99, maxC = 0;
-      for (let r = 0; r < currentGrid.length; r++) {
-        for (let c = 0; c < currentGrid[0].length; c++) {
-          if (currentGrid[r][c] !== null) {
-            minR = Math.min(minR, r);
-            maxR = Math.max(maxR, r);
-            minC = Math.min(minC, c);
-            maxC = Math.max(maxC, c);
-          }
-        }
-      }
-
-      const rows = maxR - minR + 1;
-      const cols = maxC - minC + 1;
-
-      placedWords.sort((a, b) => (a.r - b.r) || (a.c - b.c));
-      placedWords.forEach((pw, idx) => {
-        pw.id = idx + 1;
-        pw.hintIndex = Math.floor(Math.random() * pw.word.length);
-      });
-
-      const gridEl = document.getElementById("grid");
-      gridEl.style.gridTemplateRows = `repeat(${rows}, 70px)`;
-      gridEl.style.gridTemplateColumns = `repeat(${cols}, 70px)`;
-      gridEl.innerHTML = "";
-      activeCell = null;
-
-      for (let r = minR; r <= maxR; r++) {
-        for (let c = minC; c <= maxC; c++) {
-          const char = currentGrid[r][c];
-          const cell = document.createElement("div");
-          cell.className = "cell";
-
-          if (char !== null) {
-            cell.dataset.answer = char;
-
-            const starter = placedWords.find(p => p.r === r && p.c === c);
-            if (starter) {
-              const numSpan = document.createElement("span");
-              numSpan.className = "num";
-              numSpan.innerText = starter.id;
-              cell.appendChild(numSpan);
-            }
-
-            const isHint = placedWords.some(p => {
-              if (p.dir === 'H') return p.r === r && (p.c + p.hintIndex) === c;
-              if (p.dir === 'V') return p.c === c && (p.r + p.hintIndex) === r;
-              return false;
-            });
-
-            if (isHint) {
-              cell.innerText = char;
-              cell.classList.add("readonly");
-            } else {
-              cell.onpointerdown = () => selectCell(cell);
-            }
-          } else {
-            cell.classList.add("empty");
-          }
-          gridEl.appendChild(cell);
-        }
-      }
-
-      // İlk boş hücreyi otomatik seç
-      const firstEditable = document.querySelector(".cell:not(.empty):not(.readonly)");
-      if (firstEditable) selectCell(firstEditable);
-
-      // İpuçları
-      const cluesEl = document.getElementById("clues");
-      cluesEl.innerHTML = "";
-      placedWords.forEach(pw => {
-        const item = document.createElement("div");
-        item.className = "clue-item";
-        item.innerHTML = `
-          <span>${pw.id}</span>
-          <span class="color-disc" style="background-color: ${COLOR_DATA[pw.word]};"></span>
-          <span class="direction">${pw.dir === 'H' ? '➔' : '🠫'}</span>
-        `;
-        cluesEl.appendChild(item);
-      });
-    }
-
-    function checkAnswers() {
-      const cells = document.querySelectorAll(".cell:not(.empty)");
-      cells.forEach(cell => {
-        const val = (cell.dataset.val || cell.innerText).trim().toUpperCase();
-        if (val === cell.dataset.answer) {
-          cell.style.color = "#16a34a";
-        } else if (!cell.classList.contains("readonly")) {
-          cell.style.color = "#dc2626";
-        }
-      });
-    }
-
-    initKeyboard();
-    startNewGame();
-  </script>
-</body>
-</html>
 
 var GUNLER=[["lundi","Pazartesi","📅"],["mardi","Salı","📅"],["mercredi","Çarşamba","📅"],["jeudi","Perşembe","📅"],["vendredi","Cuma","📅"],["samedi","Cumartesi","📅"],["dimanche","Pazar","📅"]];
 doldur("gun",GUNLER);
@@ -601,7 +276,232 @@ doldur("gun",GUNLER);
 doldur("mekan",[["l’école","okul","🏫"],["la classe","sınıf","🔼"],["la cour","okul bahçesi","⛳"],["la cantine","yemekhane","🍽️"],["un gymnase","spor salonu","🏋️"],["des toilettes","tuvaletler","🚿"]]);
 doldur("kisi",[["le maître","erkek öğretmen","👨‍🏫"],["la maîtresse","kadın öğretmen","👩‍🏫"],["l’élève","öğrenci","📚"],["le professeur","profesör","👨‍💼"],["le directeur","müdür","📎"]]);
 
-/* Sözcük Avı */
+/* =========================================================
+   DİNAMİK AKILLI TAHTA ÇENGEL BULMACA MOTORU
+========================================================= */
+(function(){
+  const COLOR_DATA = {
+    "ROUGE":  "#ef4444", "BLEU":   "#3b82f6", "JAUNE":  "#eab308",
+    "ORANGE": "#f97316", "VERT":   "#22c55e", "ROSE":   "#ec4899",
+    "NOIR":   "#0f172a", "BLANC":  "#ffffff", "GRIS":   "#94a3b8"
+  };
+
+  let currentGrid = [];
+  let placedWords = [];
+  let activeCell = null;
+  const KEYS = ["A","B","C","E","G","I","J","L","N","O","R","S","T","U","V","⌫"];
+
+  function initKeyboard() {
+    const kb = document.getElementById("cw-keyboard");
+    kb.innerHTML = "";
+    KEYS.forEach(k => {
+      const btn = document.createElement("div");
+      btn.className = "cw-key" + (k === "⌫" ? " action" : "");
+      btn.innerText = k;
+      btn.onpointerdown = (e) => { e.preventDefault(); handleKey(k); };
+      kb.appendChild(btn);
+    });
+  }
+
+  function handleKey(char) {
+    if (!activeCell || activeCell.classList.contains("readonly")) return;
+    if (char === "⌫") {
+      activeCell.innerText = "";
+      activeCell.dataset.val = "";
+    } else {
+      activeCell.innerText = char;
+      activeCell.dataset.val = char;
+      moveNext();
+    }
+  }
+
+  function moveNext() {
+    const editables = Array.from(document.querySelectorAll(".cw-cell:not(.empty):not(.readonly)"));
+    const curIdx = editables.indexOf(activeCell);
+    if (curIdx > -1 && curIdx + 1 < editables.length) selectCell(editables[curIdx + 1]);
+  }
+
+  function selectCell(cell) {
+    if (cell.classList.contains("empty")) return;
+    if (activeCell) activeCell.classList.remove("selected");
+    activeCell = cell;
+    activeCell.classList.add("selected");
+  }
+
+  window.addEventListener("keydown", (e) => {
+    const k = e.key.toUpperCase();
+    if (k === "BACKSPACE") handleKey("⌫");
+    else if (KEYS.includes(k)) handleKey(k);
+  });
+
+  const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+
+  window.startNewCrossword = function() {
+    const words = Object.keys(COLOR_DATA);
+    let ok = false, att = 0;
+    while (!ok && att < 80) {
+      att++;
+      ok = generate(shuffle([...words]).slice(0, 6));
+    }
+    if (ok) render();
+    else window.startNewCrossword();
+  };
+
+  function generate(words) {
+    const SIZE = 15;
+    let grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(null));
+    placedWords = [];
+
+    const first = words[0];
+    const sr = Math.floor(SIZE / 2), sc = Math.floor((SIZE - first.length) / 2);
+    for (let i = 0; i < first.length; i++) grid[sr][sc + i] = first[i];
+    placedWords.push({ word: first, r: sr, c: sc, dir: 'H' });
+
+    for (let w = 1; w < words.length; w++) {
+      const word = words[w];
+      let cand = [];
+      for (let p of placedWords) {
+        const ndir = p.dir === 'H' ? 'V' : 'H';
+        for (let i = 0; i < word.length; i++) {
+          for (let j = 0; j < p.word.length; j++) {
+            if (word[i] === p.word[j]) {
+              let r = ndir === 'V' ? p.r - i : p.r + j;
+              let c = ndir === 'V' ? p.c + j : p.c - i;
+              if (canPlace(grid, word, r, c, ndir, SIZE)) cand.push({ r, c, dir: ndir });
+            }
+          }
+        }
+      }
+      if (cand.length > 0) {
+        const b = cand[Math.floor(Math.random() * cand.length)];
+        for (let i = 0; i < word.length; i++) {
+          let cr = b.dir === 'V' ? b.r + i : b.r, cc = b.dir === 'H' ? b.c + i : b.c;
+          grid[cr][cc] = word[i];
+        }
+        placedWords.push({ word, r: b.r, c: b.c, dir: b.dir });
+      } else {
+        return false;
+      }
+    }
+    currentGrid = grid;
+    return true;
+  }
+
+  function canPlace(grid, word, r, c, dir, size) {
+    if (r < 1 || c < 1) return false;
+    if (dir === 'H' && (c + word.length >= size - 1)) return false;
+    if (dir === 'V' && (r + word.length >= size - 1)) return false;
+
+    if (dir === 'H') {
+      if (grid[r][c - 1] !== null || grid[r][c + word.length] !== null) return false;
+    } else {
+      if (grid[r - 1][c] !== null || grid[r + word.length][c] !== null) return false;
+    }
+
+    for (let i = 0; i < word.length; i++) {
+      let cr = dir === 'V' ? r + i : r, cc = dir === 'H' ? c + i : c;
+      let cur = grid[cr][cc];
+      if (cur !== null && cur !== word[i]) return false;
+      if (cur === null) {
+        if (dir === 'H' && (grid[cr - 1][cc] !== null || grid[cr + 1][cc] !== null)) return false;
+        if (dir === 'V' && (grid[cr][cc - 1] !== null || grid[cr][cc + 1] !== null)) return false;
+      }
+    }
+    return true;
+  }
+
+  function render() {
+    let minR = 99, maxR = 0, minC = 99, maxC = 0;
+    for (let r = 0; r < currentGrid.length; r++) {
+      for (let c = 0; c < currentGrid[0].length; c++) {
+        if (currentGrid[r][c] !== null) {
+          minR = Math.min(minR, r); maxR = Math.max(maxR, r);
+          minC = Math.min(minC, c); maxC = Math.max(maxC, c);
+        }
+      }
+    }
+    const rows = maxR - minR + 1, cols = maxC - minC + 1;
+
+    placedWords.sort((a, b) => (a.r - b.r) || (a.c - b.c));
+    placedWords.forEach((pw, idx) => {
+      pw.id = idx + 1;
+      pw.hintIdx = Math.floor(Math.random() * pw.word.length);
+    });
+
+    const gridEl = document.getElementById("cw-grid");
+    gridEl.style.gridTemplateRows = `repeat(${rows}, 52px)`;
+    gridEl.style.gridTemplateColumns = `repeat(${cols}, 52px)`;
+    gridEl.innerHTML = "";
+    activeCell = null;
+
+    for (let r = minR; r <= maxR; r++) {
+      for (let c = minC; c <= maxC; c++) {
+        const char = currentGrid[r][c];
+        const cell = document.createElement("div");
+        cell.className = "cw-cell";
+
+        if (char !== null) {
+          cell.dataset.ans = char;
+          const starter = placedWords.find(p => p.r === r && p.c === c);
+          if (starter) {
+            const num = document.createElement("span");
+            num.className = "cw-num";
+            num.innerText = starter.id;
+            cell.appendChild(num);
+          }
+          const isHint = placedWords.some(p => {
+            if (p.dir === 'H') return p.r === r && (p.c + p.hintIdx) === c;
+            if (p.dir === 'V') return p.c === c && (p.r + p.hintIdx) === r;
+            return false;
+          });
+          if (isHint) {
+            cell.innerText = char;
+            cell.classList.add("readonly");
+          } else {
+            cell.onpointerdown = () => selectCell(cell);
+          }
+        } else {
+          cell.classList.add("empty");
+        }
+        gridEl.appendChild(cell);
+      }
+    }
+
+    const first = document.querySelector(".cw-cell:not(.empty):not(.readonly)");
+    if (first) selectCell(first);
+
+    const cluesEl = document.getElementById("cw-clues");
+    cluesEl.innerHTML = "";
+    placedWords.forEach(pw => {
+      const item = document.createElement("div");
+      item.className = "cw-clue-item";
+      item.innerHTML = `
+        <span>${pw.id}</span>
+        <span class="cw-disc" style="background-color: ${COLOR_DATA[pw.word]};"></span>
+        <span>${pw.dir === 'H' ? '➔' : '🠫'}</span>
+      `;
+      cluesEl.appendChild(item);
+    });
+  }
+
+  window.checkCrossword = function() {
+    document.querySelectorAll(".cw-cell:not(.empty)").forEach(cell => {
+      const val = (cell.dataset.val || cell.innerText).trim().toUpperCase();
+      if (val === cell.dataset.ans) {
+        cell.style.color = "#16a34a";
+      } else if (!cell.classList.contains("readonly")) {
+        cell.style.color = "#dc2626";
+      }
+    });
+  };
+
+  initKeyboard();
+  window.startNewCrossword();
+})();
+
+/* =========================================================
+   SÖZCÜK AVI MOTORU (HAFTANIN GÜNLERİ)
+========================================================= */
 (function(){
  var KELIMELER=GUNLER.map(function(g){return g[0];});
  var COLS=12,ROWS=10;
@@ -679,7 +579,7 @@ doldur("kisi",[["le maître","erkek öğretmen","👨‍🏫"],["la maîtresse",
 
  document.addEventListener('mouseup',function(){if(dragging){dragging=false;checkWord();}});
 
- function render(){
+ function renderWordSearch(){
   found=[];selected=[];startIdx=-1;dragging=false;
   data=makeGrid();
   avEl.innerHTML='';
@@ -726,28 +626,25 @@ doldur("kisi",[["le maître","erkek öğretmen","👨‍🏫"],["la maîtresse",
 
   var btn=document.createElement('button');btn.type='button';btn.className='say';btn.style.marginTop='10px';
   btn.innerHTML='🔄 Yeniden Karıştır';
-  btn.onclick=function(){render();};
+  btn.onclick=function(){renderWordSearch();};
   avEl.appendChild(btn);
  }
 
- render();
+ renderWordSearch();
 })();
 
-/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
+/* =========================================================
+   TEST & QUIZ ETKİNLİĞİ
+========================================================= */
 var Q=[
- /* 1. Renkler */
  {q:"Dinleyin. Bu soru ne soruyor?",say:"C'est quelle couleur ?",o:["Bu hangi renk?","Bu nedir?","Bugün günlerden ne?"],a:0},
  {q:"Dinleyin. Hangi rengi duydunuz?",say:"C'est rouge.",o:["🔵 bleu","🔴 rouge","🟢 vert"],a:1},
  {q:"Hangisi « sarı » anlamına gelir?",o:["vert","rose","jaune"],a:2},
  {q:"Dinleyin. Hangi nesne ve renk söylendi?",say:"un cahier rouge",o:["Kırmızı bir defter","Mavi bir okul çantası","Sarı bir kurşun kalem"],a:0},
-
- /* 2. Haftanın Günleri */
  {q:"Dinleyin. Hangi gün telaffuz edildi?",say:"mercredi",o:["lundi","mercredi","vendredi"],a:1},
  {q:"« Samedi » Türkçede hangi gündür?",o:["Cuma","Cumartesi","Pazar"],a:1},
  {q:"Fransızcada hafta hangi günle başlar?",o:["lundi","dimanche","mardi"],a:0},
  {q:"Dinleyin. Hangi gün telaffuz edildi?",say:"vendredi",o:["jeudi","vendredi","dimanche"],a:1},
-
- /* 3. Okuldaki Kişiler ve Mekânlar */
  {q:"Dinleyin. Bu mekân neresidir?",say:"la cantine",o:["Yemekhane","Sınıf","Okul bahçesi"],a:0},
  {q:"« le maître » Türkçede ne anlama gelir?",o:["Müdür","Erkek öğretmen","Öğrenci"],a:1},
  {q:"Dinleyin. Hangi kişi söylendi?",say:"le directeur",o:["le professeur","le directeur","l'élève"],a:1},
@@ -804,19 +701,11 @@ function secimYap(j, btn){
   fb.insertAdjacentHTML('afterend', '<button class="btn" style="margin-top:10px" type="button" onclick="sonrakiSoru()">'+(qIdx===Q.length-1?'Sonucu gör':'Sonraki soru →')+'</button>');
 }
 
-function sonrakiSoru(){
-  qIdx++;
-  soruGoster();
-}
-
-function quizBastan(){
-  qIdx=0;
-  puan=0;
-  soruGoster();
-}
+function sonrakiSoru(){ qIdx++; soruGoster(); }
+function quizBastan(){ qIdx=0; puan=0; soruGoster(); }
 
 soruGoster();
-if(window.speechSynthesis)speechSynthesis.getVoices();
+if(window.speechSynthesis) speechSynthesis.getVoices();
 </script>
 </body>
 </html>
