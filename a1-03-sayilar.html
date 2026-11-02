@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fransızca A1 · Ders 3: Sayılar 0-10 ve Selamlaşma | Fatih Mehmet CANITEZ</title>
 <link rel="stylesheet" href="ders.css">
+<style>
+#ws-targets{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.ws-t{padding:5px 12px;border-radius:999px;background:#e8f1ff;border:1.5px solid #002395;font-weight:700;color:#002395;font-size:14px;min-width:78px;text-align:center;font-family:inherit}
+.ws-t.hint{background:#fff6cf;border-color:#d4a017;color:#7a5d00}
+.ws-t.done{background:#e6f7ec;border-color:#27ae60;color:#1e8449;cursor:pointer}
+#ws-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;max-width:440px;margin:12px auto;user-select:none;-webkit-user-select:none;touch-action:none}
+.ws-c{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#f7f9fc;border:1px solid #c9d3ea;border-radius:6px;font-weight:700;font-size:clamp(14px,4.4vw,20px);color:#2c3e50;cursor:pointer}
+.ws-c.sel{background:#ffe066;border-color:#d4a017}
+.ws-c.f0{background:#ffd6d6;border-color:#e74c3c}
+.ws-c.f1{background:#d6e6ff;border-color:#002395}
+.ws-c.f2{background:#d9f5e3;border-color:#27ae60}
+.ws-c.f3{background:#fff0b3;border-color:#d4a017}
+.ws-c.f4{background:#ead9ff;border-color:#8e44ad}
+.ws-c.f5{background:#ffe0c2;border-color:#e67e22}
+#ws-msg{min-height:24px;text-align:center;font-size:14px;font-weight:700;color:#002395;margin:4px 0 8px}
+.ws-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.ws-btns button{padding:9px 16px;border-radius:10px;border:1.5px solid #002395;background:#fff;color:#002395;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.ws-btns button:hover{background:#e8f1ff}
+</style>
 </head>
 <body>
 <div class="container">
@@ -143,7 +162,16 @@
 </div>
 
 <div class="card">
-<h2>4. Küçük etkinlik</h2>
+<h2>4. Sözcük avı: 0-10</h2>
+<p style="margin:0;font-size:14px">Rakamların Fransızca yazılışlarını tabloda bulun. Sözcükler yalnızca <b>soldan sağa →</b> ve <b>yukarıdan aşağıya ↓</b> yazılmıştır. İlk harfe basıp son harfe kadar sürükleyin (ya da önce ilk, sonra son harfe dokunun). Her yeni oyunda sözcüklerin yeri değişir.</p>
+<div id="ws-targets"></div>
+<div id="ws-grid"></div>
+<div id="ws-msg"></div>
+<div class="ws-btns"><button type="button" id="ws-new">🔄 Yeni oyun</button><button type="button" id="ws-hint">💡 Sözcükleri göster</button></div>
+</div>
+
+<div class="card">
+<h2>5. Küçük etkinlik</h2>
 <p style="margin:0;font-size:14px">🔊 olan sorularda önce sesi dinleyin.</p>
 <div id="bar" style="margin-top:12px"><i></i></div>
 <div id="quiz"></div>
@@ -163,6 +191,109 @@ var Q=[
 {p:'Yarın arkadaşınızla görüşeceksiniz. Vedalaşırken ne dersiniz?',o:['Bonsoir','À demain','Merci'],a:1},
 {p:'deux + trois = ?',o:['quatre','six','cinq'],a:2}
 ];
+</script>
+<script>
+(function(){
+var W=[['0','zéro','ZERO'],['1','un','UN'],['2','deux','DEUX'],['3','trois','TROIS'],['4','quatre','QUATRE'],['5','cinq','CINQ'],['6','six','SIX'],['7','sept','SEPT'],['8','huit','HUIT'],['9','neuf','NEUF'],['10','dix','DIX']];
+var N=10,A='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var g,found,hint=false,start=null,pending=null,dragging=false,path=[];
+var gridEl=document.getElementById('ws-grid'),tEl=document.getElementById('ws-targets'),mEl=document.getElementById('ws-msg');
+function rnd(n){return Math.floor(Math.random()*n)}
+function say(t){try{if(!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(t);u.lang='fr-FR';u.rate=.85;window.speechSynthesis.cancel();window.speechSynthesis.speak(u)}catch(e){}}
+function make(){
+ for(var tr=0;tr<300;tr++){
+  var b=[],r,c,i;
+  for(r=0;r<N;r++){b[r]=[];for(c=0;c<N;c++)b[r][c]=''}
+  var order=W.slice().sort(function(x,y){return y[2].length-x[2].length||Math.random()-.5});
+  var ok=true;
+  for(i=0;i<order.length&&ok;i++){
+   var w=order[i][2],L=w.length,done=false;
+   for(var t=0;t<400&&!done;t++){
+    var down=rnd(2);
+    r=rnd(down?N-L+1:N);c=rnd(down?N:N-L+1);
+    var fit=true,k;
+    for(k=0;k<L;k++){var rr=r+(down?k:0),cc=c+(down?0:k);if(b[rr][cc]!==''&&b[rr][cc]!==w[k]){fit=false;break}}
+    if(fit){for(k=0;k<L;k++){b[r+(down?k:0)][c+(down?0:k)]=w[k]}done=true}
+   }
+   if(!done)ok=false;
+  }
+  if(ok){for(r=0;r<N;r++)for(c=0;c<N;c++)if(b[r][c]==='')b[r][c]=A.charAt(rnd(26));return b}
+ }
+}
+function chips(){
+ var h='';
+ for(var i=0;i<W.length;i++){
+  var f=found[W[i][2]],cl='ws-t'+(f!==undefined?' done':(hint?' hint':''));
+  h+='<button type="button" class="'+cl+'" data-i="'+i+'">'+W[i][0]+' → '+((f!==undefined||hint)?W[i][1]:'?')+(f!==undefined?' ✓':'')+'</button>';
+ }
+ tEl.innerHTML=h;
+}
+function count(){var n=0;for(var k in found)n++;return n}
+function draw(){
+ var h='';
+ for(var r=0;r<N;r++)for(var c=0;c<N;c++)h+='<div class="ws-c" data-r="'+r+'" data-c="'+c+'">'+g[r][c]+'</div>';
+ gridEl.innerHTML=h;
+}
+function cellAt(r,c){return gridEl.children[r*N+c]}
+function clearSel(){var s=gridEl.querySelectorAll('.sel');for(var i=0;i<s.length;i++)s[i].classList.remove('sel')}
+function calc(s,e){
+ var dr=e[0]-s[0],dc=e[1]-s[1],p=[],k;
+ if(Math.abs(dc)>=Math.abs(dr)){if(dc<0)return [s];for(k=0;k<=dc;k++)p.push([s[0],s[1]+k])}
+ else{if(dr<0)return [s];for(k=0;k<=dr;k++)p.push([s[0]+k,s[1]])}
+ return p;
+}
+function paint(e){clearSel();path=calc(start,e);for(var i=0;i<path.length;i++)cellAt(path[i][0],path[i][1]).classList.add('sel')}
+function finish(){
+ var w='',i;
+ for(i=0;i<path.length;i++)w+=g[path[i][0]][path[i][1]];
+ var idx=-1;
+ for(i=0;i<W.length;i++)if(W[i][2]===w)idx=i;
+ clearSel();
+ if(path.length>1&&idx>=0&&found[w]===undefined){
+  var n=count();found[w]=n;
+  for(i=0;i<path.length;i++)cellAt(path[i][0],path[i][1]).classList.add('f'+(n%6));
+  say(W[idx][1]);
+  mEl.textContent='✔ '+W[idx][0]+' = '+W[idx][1]+'  ('+count()+'/'+W.length+')';
+  chips();
+  if(count()===W.length)mEl.textContent='🎉 Bravo! Tüm sayıları buldunuz ('+W.length+'/'+W.length+'). Yeni oyunda yerler değişir.';
+ }else if(path.length>1){
+  mEl.textContent=(idx>=0&&found[w]!==undefined)?'Bu sözcüğü zaten buldunuz.':'Bu bir sayı değil, tekrar deneyin.';
+ }
+ path=[];
+}
+function cellFrom(e){var el=document.elementFromPoint(e.clientX,e.clientY);return(el&&el.classList&&el.classList.contains('ws-c'))?el:null}
+gridEl.addEventListener('pointerdown',function(e){
+ var c=cellFrom(e);if(!c)return;e.preventDefault();
+ var p=[+c.getAttribute('data-r'),+c.getAttribute('data-c')];
+ if(pending){start=pending;pending=null;paint(p);finish();return}
+ dragging=true;start=p;paint(p);
+ try{gridEl.setPointerCapture(e.pointerId)}catch(x){}
+});
+gridEl.addEventListener('pointermove',function(e){
+ if(!dragging)return;var c=cellFrom(e);
+ if(c)paint([+c.getAttribute('data-r'),+c.getAttribute('data-c')]);
+});
+function up(){
+ if(!dragging)return;dragging=false;
+ if(path.length<=1){pending=start;clearSel();cellAt(start[0],start[1]).classList.add('sel');path=[];return}
+ finish();
+}
+gridEl.addEventListener('pointerup',up);
+gridEl.addEventListener('pointercancel',function(){dragging=false;pending=null;path=[];clearSel()});
+tEl.addEventListener('click',function(e){
+ var b=e.target.closest?e.target.closest('.ws-t'):null;if(!b)return;
+ var i=+b.getAttribute('data-i');if(found[W[i][2]]!==undefined)say(W[i][1]);
+});
+function newGame(){
+ g=make();found={};start=null;pending=null;dragging=false;path=[];
+ draw();chips();mEl.textContent='';
+}
+document.getElementById('ws-new').addEventListener('click',newGame);
+document.getElementById('ws-hint').addEventListener('click',function(){
+ hint=!hint;this.textContent=hint?'🙈 Sözcükleri gizle':'💡 Sözcükleri göster';chips();
+});
+newGame();
+})();
 </script>
 <script src="ders.js"></script>
 </body>
