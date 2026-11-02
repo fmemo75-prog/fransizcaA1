@@ -122,6 +122,479 @@ doldur("kalip",[["C'est quelle couleur ?","Bu hangi renk?"],["C'est rouge.","Bu 
 doldur("renk",[["rouge","kırmızı","🔴"],["bleu","mavi","🔵"],["jaune","sarı","🟡"],["orange","turuncu","🟠"],["vert","yeşil","🟢"],["rose","pembe","🩷"],["noir","siyah","⚫"],["blanc","beyaz","⚪"],["gris","gri","🩶"]]);
 doldur("esya",[["un cahier rouge","kırmızı defter","📓"],["un crayon jaune","sarı kurşun kalem","✏️"],["un cartable bleu","mavi okul çantası","🎒"],["une gomme rose","pembe silgi","🧽"]],"k");
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mots Croisés - Smartboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 15px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .main-board {
+      display: flex;
+      gap: 30px;
+      background: white;
+      padding: 25px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+      align-items: center;
+    }
+
+    /* Akıllı Tahta için Geniş Izgara */
+    #grid-container {
+      background: #edf2f7;
+      padding: 15px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid {
+      display: grid;
+      gap: 6px;
+    }
+
+    /* 70px x 70px büyük dokunmatik hücreler */
+    .cell {
+      width: 70px;
+      height: 70px;
+      background-color: #fff;
+      position: relative;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: #2b6cb0;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+      transition: all 0.15s ease;
+    }
+
+    .cell.empty {
+      background-color: transparent;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .cell.selected {
+      background-color: #fef08a !important;
+      outline: 4px solid #eab308;
+      z-index: 2;
+    }
+
+    .cell.readonly {
+      background-color: #f1f5f9;
+      color: #475569;
+      cursor: default;
+    }
+
+    .cell .num {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    /* Sağ Taraftaki Renk İpuçları */
+    .clues-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 170px;
+    }
+
+    .clue-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 10px 18px;
+      border-radius: 14px;
+      border: 2px solid #e2e8f0;
+      font-size: 22px;
+      font-weight: bold;
+      color: #334155;
+    }
+
+    .color-disc {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border: 3px solid white;
+    }
+
+    .direction {
+      font-size: 22px;
+      color: #64748b;
+    }
+
+    /* Akıllı Tahta Sanal Klavyesi */
+    .keyboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      max-width: 850px;
+      background: white;
+      padding: 15px 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .key-btn {
+      width: 58px;
+      height: 58px;
+      font-size: 24px;
+      font-weight: 800;
+      background: #f1f5f9;
+      color: #1e293b;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .key-btn:active {
+      background: #3b82f6;
+      color: white;
+      transform: scale(0.95);
+    }
+
+    .key-btn.action {
+      padding: 0 20px;
+      width: auto;
+      background: #e2e8f0;
+    }
+
+    /* Ana Kontrol Butonları (Yenile / Kontrol) */
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .ctrl-btn {
+      padding: 12px 28px;
+      font-size: 22px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-new { background-color: #475569; }
+    .btn-check { background-color: #16a34a; }
+  </style>
+</head>
+<body>
+
+  <div class="main-board">
+    <div id="grid-container">
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <!-- Sadece Renkler ve Oklar -->
+    <div class="clues-panel" id="clues"></div>
+  </div>
+
+  <!-- Akıllı Tahta Dokunmatik Klavye -->
+  <div class="keyboard" id="keyboard"></div>
+
+  <div class="controls">
+    <button class="ctrl-btn btn-new" onclick="startNewGame()">🔄</button>
+    <button class="ctrl-btn btn-check" onclick="checkAnswers()">✔</button>
+  </div>
+
+  <script>
+    const COLOR_DATA = {
+      "ROUGE":  "#ef4444",
+      "BLEU":   "#3b82f6",
+      "JAUNE":  "#eab308",
+      "ORANGE": "#f97316",
+      "VERT":   "#22c55e",
+      "ROSE":   "#ec4899",
+      "NOIR":   "#0f172a",
+      "BLANC":  "#ffffff",
+      "GRIS":   "#94a3b8"
+    };
+
+    let currentGrid = [];
+    let placedWords = [];
+    let activeCell = null;
+
+    // Sanal klavye tuşları (renklerde geçen harfler + silme)
+    const KEYS = ["A","B","C","E","G","I","J","L","N","O","R","S","T","U","V","⌫"];
+
+    function initKeyboard() {
+      const kb = document.getElementById("keyboard");
+      kb.innerHTML = "";
+      KEYS.forEach(k => {
+        const btn = document.createElement("div");
+        btn.className = "key-btn" + (k === "⌫" ? " action" : "");
+        btn.innerText = k;
+        btn.onpointerdown = (e) => {
+          e.preventDefault();
+          handleKeyPress(k);
+        };
+        kb.appendChild(btn);
+      });
+    }
+
+    function handleKeyPress(char) {
+      if (!activeCell || activeCell.classList.contains("readonly")) return;
+
+      if (char === "⌫") {
+        activeCell.innerText = "";
+        activeCell.dataset.val = "";
+      } else {
+        activeCell.innerText = char;
+        activeCell.dataset.val = char;
+        moveToNextCell();
+      }
+    }
+
+    function moveToNextCell() {
+      const editables = Array.from(document.querySelectorAll(".cell:not(.empty):not(.readonly)"));
+      const currentIndex = editables.indexOf(activeCell);
+      if (currentIndex > -1 && currentIndex + 1 < editables.length) {
+        selectCell(editables[currentIndex + 1]);
+      }
+    }
+
+    function selectCell(cell) {
+      if (cell.classList.contains("empty")) return;
+      if (activeCell) activeCell.classList.remove("selected");
+      activeCell = cell;
+      activeCell.classList.add("selected");
+    }
+
+    // Fiziksel klavye desteği
+    window.addEventListener("keydown", (e) => {
+      const key = e.key.toUpperCase();
+      if (key === "BACKSPACE") handleKeyPress("⌫");
+      else if (KEYS.includes(key)) handleKeyPress(key);
+    });
+
+    const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+
+    function startNewGame() {
+      const words = Object.keys(COLOR_DATA);
+      let success = false;
+      let attempts = 0;
+
+      while (!success && attempts < 100) {
+        attempts++;
+        success = generateCrossword(shuffle([...words]).slice(0, 6));
+      }
+
+      if (success) render();
+      else startNewGame();
+    }
+
+    function generateCrossword(wordsToPlace) {
+      const GRID_SIZE = 15;
+      let grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(null));
+      placedWords = [];
+
+      const firstWord = wordsToPlace[0];
+      const startR = Math.floor(GRID_SIZE / 2);
+      const startC = Math.floor((GRID_SIZE - firstWord.length) / 2);
+
+      for (let i = 0; i < firstWord.length; i++) {
+        grid[startR][startC + i] = firstWord[i];
+      }
+      placedWords.push({ word: firstWord, r: startR, c: startC, dir: 'H' });
+
+      for (let w = 1; w < wordsToPlace.length; w++) {
+        const word = wordsToPlace[w];
+        let candidates = [];
+
+        for (let p of placedWords) {
+          const nextDir = p.dir === 'H' ? 'V' : 'H';
+          for (let i = 0; i < word.length; i++) {
+            for (let j = 0; j < p.word.length; j++) {
+              if (word[i] === p.word[j]) {
+                let r = nextDir === 'V' ? p.r - i : p.r + j;
+                let c = nextDir === 'V' ? p.c + j : p.c - i;
+                if (canPlace(grid, word, r, c, nextDir, GRID_SIZE)) {
+                  candidates.push({ r, c, dir: nextDir });
+                }
+              }
+            }
+          }
+        }
+
+        if (candidates.length > 0) {
+          const best = candidates[Math.floor(Math.random() * candidates.length)];
+          for (let i = 0; i < word.length; i++) {
+            let cr = best.dir === 'V' ? best.r + i : best.r;
+            let cc = best.dir === 'H' ? best.c + i : best.c;
+            grid[cr][cc] = word[i];
+          }
+          placedWords.push({ word, r: best.r, c: best.c, dir: best.dir });
+        } else {
+          return false;
+        }
+      }
+
+      currentGrid = grid;
+      return true;
+    }
+
+    function canPlace(grid, word, r, c, dir, size) {
+      if (r < 1 || c < 1) return false;
+      if (dir === 'H' && (c + word.length >= size - 1)) return false;
+      if (dir === 'V' && (r + word.length >= size - 1)) return false;
+
+      if (dir === 'H') {
+        if (grid[r][c - 1] !== null || grid[r][c + word.length] !== null) return false;
+      } else {
+        if (grid[r - 1][c] !== null || grid[r + word.length][c] !== null) return false;
+      }
+
+      for (let i = 0; i < word.length; i++) {
+        let cr = dir === 'V' ? r + i : r;
+        let cc = dir === 'H' ? c + i : c;
+        let cur = grid[cr][cc];
+        if (cur !== null && cur !== word[i]) return false;
+
+        if (cur === null) {
+          if (dir === 'H') {
+            if (grid[cr - 1][cc] !== null || grid[cr + 1][cc] !== null) return false;
+          } else {
+            if (grid[cr][cc - 1] !== null || grid[cr][cc + 1] !== null) return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    function render() {
+      let minR = 99, maxR = 0, minC = 99, maxC = 0;
+      for (let r = 0; r < currentGrid.length; r++) {
+        for (let c = 0; c < currentGrid[0].length; c++) {
+          if (currentGrid[r][c] !== null) {
+            minR = Math.min(minR, r);
+            maxR = Math.max(maxR, r);
+            minC = Math.min(minC, c);
+            maxC = Math.max(maxC, c);
+          }
+        }
+      }
+
+      const rows = maxR - minR + 1;
+      const cols = maxC - minC + 1;
+
+      placedWords.sort((a, b) => (a.r - b.r) || (a.c - b.c));
+      placedWords.forEach((pw, idx) => {
+        pw.id = idx + 1;
+        pw.hintIndex = Math.floor(Math.random() * pw.word.length);
+      });
+
+      const gridEl = document.getElementById("grid");
+      gridEl.style.gridTemplateRows = `repeat(${rows}, 70px)`;
+      gridEl.style.gridTemplateColumns = `repeat(${cols}, 70px)`;
+      gridEl.innerHTML = "";
+      activeCell = null;
+
+      for (let r = minR; r <= maxR; r++) {
+        for (let c = minC; c <= maxC; c++) {
+          const char = currentGrid[r][c];
+          const cell = document.createElement("div");
+          cell.className = "cell";
+
+          if (char !== null) {
+            cell.dataset.answer = char;
+
+            const starter = placedWords.find(p => p.r === r && p.c === c);
+            if (starter) {
+              const numSpan = document.createElement("span");
+              numSpan.className = "num";
+              numSpan.innerText = starter.id;
+              cell.appendChild(numSpan);
+            }
+
+            const isHint = placedWords.some(p => {
+              if (p.dir === 'H') return p.r === r && (p.c + p.hintIndex) === c;
+              if (p.dir === 'V') return p.c === c && (p.r + p.hintIndex) === r;
+              return false;
+            });
+
+            if (isHint) {
+              cell.innerText = char;
+              cell.classList.add("readonly");
+            } else {
+              cell.onpointerdown = () => selectCell(cell);
+            }
+          } else {
+            cell.classList.add("empty");
+          }
+          gridEl.appendChild(cell);
+        }
+      }
+
+      // İlk boş hücreyi otomatik seç
+      const firstEditable = document.querySelector(".cell:not(.empty):not(.readonly)");
+      if (firstEditable) selectCell(firstEditable);
+
+      // İpuçları
+      const cluesEl = document.getElementById("clues");
+      cluesEl.innerHTML = "";
+      placedWords.forEach(pw => {
+        const item = document.createElement("div");
+        item.className = "clue-item";
+        item.innerHTML = `
+          <span>${pw.id}</span>
+          <span class="color-disc" style="background-color: ${COLOR_DATA[pw.word]};"></span>
+          <span class="direction">${pw.dir === 'H' ? '➔' : '🠫'}</span>
+        `;
+        cluesEl.appendChild(item);
+      });
+    }
+
+    function checkAnswers() {
+      const cells = document.querySelectorAll(".cell:not(.empty)");
+      cells.forEach(cell => {
+        const val = (cell.dataset.val || cell.innerText).trim().toUpperCase();
+        if (val === cell.dataset.answer) {
+          cell.style.color = "#16a34a";
+        } else if (!cell.classList.contains("readonly")) {
+          cell.style.color = "#dc2626";
+        }
+      });
+    }
+
+    initKeyboard();
+    startNewGame();
+  </script>
+</body>
+</html>
+
 var GUNLER=[["lundi","Pazartesi","📅"],["mardi","Salı","📅"],["mercredi","Çarşamba","📅"],["jeudi","Perşembe","📅"],["vendredi","Cuma","📅"],["samedi","Cumartesi","📅"],["dimanche","Pazar","📅"]];
 doldur("gun",GUNLER);
 
