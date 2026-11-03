@@ -57,6 +57,23 @@ nav.pn a{background:var(--bl);color:#fff;text-decoration:none;padding:10px 16px;
 .pol{display:flex;flex-wrap:wrap;gap:8px}
 .pol button{flex:1 1 120px;background:var(--bl);color:#fff;border:0;border-radius:10px;padding:10px;font:inherit;cursor:pointer}
 h3{margin:14px 0 6px;font-size:1rem}
+.house{border:2px solid var(--bl);border-radius:14px;overflow:hidden;background:var(--card)}
+.roof{background:var(--rd);color:#fff;text-align:center;padding:8px;font-weight:700;clip-path:polygon(0 100%,50% 0,100% 100%);padding-top:22px}
+.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px}
+.room{min-height:92px;border:2px solid var(--gd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px}
+.room.wide{grid-column:span 2}
+.room .rn{font-weight:700;color:var(--bl);font-size:.9rem}
+@media (prefers-color-scheme:dark){.room .rn{color:#9db4ff}}
+.room .in{font-size:1.6rem;min-height:1.8rem}
+.room.good{background:var(--ok);border-color:var(--ok);color:#fff}
+.room.good .rn{color:#fff}
+.room.bad{background:var(--rd);border-color:var(--rd);color:#fff;animation:shk .35s}
+.room.bad .rn{color:#fff}
+@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){.room.bad{animation:none}}
+.hgame{display:flex;align-items:center;justify-content:center;gap:14px;margin:12px 0}
+.hitem{font-size:3.2rem;line-height:1}
+.hmsg{text-align:center;font-weight:700;min-height:1.6em}
 :focus-visible{outline:3px solid var(--gd);outline-offset:2px}
 </style>
 </head>
@@ -148,6 +165,17 @@ h3{margin:14px 0 6px;font-size:1rem}
 </section>
 
 <section>
+  <h2>Oyun · Evi döşe 🏠</h2>
+  <p>Cümleyi dinle, eşyayı doğru odaya yerleştirmek için odaya dokun.</p>
+  <div class="hgame"><div class="hitem" id="hitem" aria-hidden="true"></div><button class="play" type="button" id="hplay">🔊 Dinle</button></div>
+  <div class="hmsg" id="hmsg" aria-live="polite"></div>
+  <div class="house">
+    <div class="roof">Ma maison</div>
+    <div class="rooms" id="rooms"></div>
+  </div>
+</section>
+
+<section>
   <h2>Etkinlik (7 soru)</h2>
   <div id="quiz"></div>
   <div class="score" id="score"></div>
@@ -230,6 +258,61 @@ document.querySelectorAll(".bub").forEach(function(g){
   g.addEventListener("click", function(){ say(g.getAttribute("data-say")); });
   g.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); say(g.getAttribute("data-say")); }});
 });
+
+// Oyun: Evi döşe
+var HR = [
+  ["chambre","🛌","la chambre"],
+  ["sdb","🛁","la salle de bain"],
+  ["cuisine","🍳","la cuisine"],
+  ["salon","📺","le salon","wide"],
+  ["garage","🚗","le garage"]
+];
+var HI = [
+  ["🛏️","Le lit est dans la chambre.","chambre"],
+  ["🛋️","Le canapé est dans le salon.","salon"],
+  ["🍽️","La table est dans la cuisine.","cuisine"],
+  ["💡","La lampe est dans la salle de bain.","sdb"],
+  ["🪑","La chaise est dans le garage.","garage"],
+  ["👔","L'armoire est dans la chambre.","chambre"]
+];
+var hOrder=[], hi=0, hErr=0, hLock=false, hBtn={};
+var hRooms=document.getElementById("rooms"), hItem=document.getElementById("hitem"), hMsg=document.getElementById("hmsg");
+HR.forEach(function(r){
+  var b=document.createElement("button"); b.type="button"; b.className="room"+(r[3]?" "+r[3]:"");
+  b.innerHTML='<span class="in"></span><span class="rn">'+r[1]+" "+r[2]+'</span>';
+  b.addEventListener("click",function(){ hPick(r[0]); });
+  hRooms.appendChild(b); hBtn[r[0]]=b;
+});
+function hStart(){
+  hOrder=HI.slice().sort(function(){return Math.random()-.5;}); hi=0; hErr=0; hLock=false;
+  Object.keys(hBtn).forEach(function(k){hBtn[k].querySelector(".in").textContent="";hBtn[k].className="room"+(k==="salon"?" wide":"");});
+  hShow();
+}
+function hShow(){
+  hMsg.textContent="Eşya "+(hi+1)+" / "+hOrder.length;
+  hItem.textContent=hOrder[hi][0]; say(hOrder[hi][1]);
+}
+function hPick(id){
+  if(hLock||hi>=hOrder.length) return;
+  var it=hOrder[hi], b=hBtn[id];
+  if(id===it[2]){
+    hLock=true; b.classList.add("good"); b.querySelector(".in").textContent+=it[0]; hMsg.textContent="✔ Bravo !";
+    setTimeout(function(){
+      b.classList.remove("good"); hi++; hLock=false;
+      if(hi>=hOrder.length){
+        hItem.textContent=hErr===0?"🎉":"👏";
+        hMsg.innerHTML='Bitti! '+hErr+' hata. <button class="play" type="button" id="hagain">Yeniden oyna</button>';
+        document.getElementById("hagain").addEventListener("click",hStart);
+      } else hShow();
+    },900);
+  }else{
+    hErr++; b.classList.remove("bad"); void b.offsetWidth; b.classList.add("bad");
+    hMsg.textContent="Tekrar dinle ve dene";
+    setTimeout(function(){b.classList.remove("bad");},600);
+  }
+}
+document.getElementById("hplay").addEventListener("click",function(){ if(hi<hOrder.length) say(hOrder[hi][1]); });
+hStart();
 
 // Etkinlik
 var Q = [
