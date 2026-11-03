@@ -30,6 +30,27 @@
 .vidler{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .vid-etiket{margin:0 0 4px;font-size:.9rem}
 @media(max-width:600px){.vidler{grid-template-columns:1fr}}
+#cw-grid{display:grid;gap:3px;max-width:400px;margin:12px auto}
+.cw-x{aspect-ratio:1}
+.cw-c{position:relative;aspect-ratio:1;background:#fff;border:2px solid var(--lac);border-radius:6px;overflow:hidden}
+.cw-c.giv{background:#e6ebfa}
+.cw-c.hl{background:#fff8dc;border-color:var(--alt)}
+.cw-c.giv.hl{background:#dfe6fa}
+.cw-c.ok{background:#dff5e3;border-color:#2e9e4f}
+.cw-c.no{background:#fde3e3;border-color:var(--kir)}
+.cw-c:focus-within{outline:3px solid var(--alt)}
+.cw-c input{width:100%;height:100%;border:0;background:transparent;text-align:center;font:700 clamp(18px,5.5vw,26px) system-ui,sans-serif;color:#1a1a2e;text-transform:uppercase;padding:8px 0 0;box-sizing:border-box;outline:none;caret-color:transparent;border-radius:0}
+.cw-c input.given{color:var(--lac)}
+.cw-n{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:var(--kir);pointer-events:none;z-index:1}
+.cw-clues{display:flex;flex-wrap:wrap;gap:8px 28px;margin:12px 0}
+.cw-clues ul{margin:4px 0 0;padding-left:0;list-style:none}
+.cw-clues li{margin:3px 0}
+.cw-clues li b{color:var(--kir);margin-right:4px}
+.cw-btns{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.cw-btns button{padding:9px 16px;border-radius:10px;border:2px solid var(--lac);background:#fff;color:var(--lac);font:inherit;font-weight:700;cursor:pointer}
+.cw-btns button:hover{background:#eef1fb}
+#cw-msg{min-height:26px;font-weight:700;color:var(--lac);margin:6px 0}
+#cw-done{display:flex;flex-wrap:wrap;gap:8px}
 </style>
 </head>
 <body>
@@ -72,7 +93,23 @@
   <g style="cursor:pointer" onclick="konus('C\'est une règle.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: C'est une règle.</text></g>
 </svg>
 
-<h2>5. Etkinlik</h2>
+<h2>5. Çengel bulmaca</h2>
+<p>Sınıf eşyalarını bulun ve Fransızca adlarını kutulara yazın (<i>un</i> / <i>une</i> yazmayın). Mavi kutulardaki harfler hazır verilmiştir. Her yeni bulmacada sözcükler ve yerleşim değişir.</p>
+<div id="cw-grid"></div>
+<div class="cw-clues">
+  <div><b>Yatay →</b><ul id="cw-a"></ul></div>
+  <div><b>Dikey ↓</b><ul id="cw-d"></ul></div>
+</div>
+<div class="cw-btns">
+  <button type="button" id="cw-check">✅ Kontrol et</button>
+  <button type="button" id="cw-hint">💡 Bir harf ver</button>
+  <button type="button" id="cw-reset">🔄 Temizle</button>
+  <button type="button" id="cw-new">🆕 Yeni bulmaca</button>
+</div>
+<div id="cw-msg" aria-live="polite"></div>
+<div id="cw-done"></div>
+
+<h2>6. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
 <div id="bar" style="margin:12px 0 16px"><i></i></div>
 <div id="quiz"></div>
@@ -199,6 +236,263 @@ function quizBastan(){
 }
 
 if(box) soruGoster();
+
+/* Çengel bulmaca (her seferinde farklı sözcük ve yerleşim) */
+(function(){
+var POOL=[
+ {w:'LIVRE',k:'📖 kitap',a:'un livre'},
+ {w:'CAHIER',k:'📓 defter',a:'un cahier'},
+ {w:'CRAYON',k:'✏️ kurşun kalem',a:'un crayon'},
+ {w:'GOMME',k:'🧽 silgi',a:'une gomme'},
+ {w:'TROUSSE',k:'👝 kalemlik',a:'une trousse'},
+ {w:'CARTABLE',k:'🎒 okul çantası',a:'un cartable'},
+ {w:'COLLE',k:'🧴 yapıştırıcı',a:'une colle'},
+ {w:'CHAISE',k:'🪑 sandalye',a:'une chaise'},
+ {w:'TABLE',k:'🪑 masa',a:'une table'},
+ {w:'CISEAUX',k:'✂️ makas',a:'des ciseaux'}
+];
+var FALLBACK=[{w:'LIVRE',r:0,c:3,d:'D'},{w:'CAHIER',r:1,c:0,d:'A'},{w:'COLLE',r:1,c:0,d:'D'},{w:'GOMME',r:2,c:6,d:'D'},{w:'CRAYON',r:3,c:2,d:'A'},{w:'TABLE',r:6,c:2,d:'A'}];
+var CW,cells,GIVEN,inputs,wraps,ROWS,COLS,dir='A',cur=null,wasCur=false;
+var gridEl=document.getElementById('cw-grid');
+if(!gridEl)return;
+var msg=document.getElementById('cw-msg'),doneEl=document.getElementById('cw-done');
+function rnd(n){return Math.floor(Math.random()*n)}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
+function find(w){return POOL.filter(function(q){return q.w===w})[0]}
+
+/* --- yerleşim üretici --- */
+function tryLayout(ws){
+ var grid={},placed=[],i;
+ function can(w,r,c,d){
+  var inter=0,k;
+  for(k=0;k<w.length;k++){
+   var rr=r+(d==='D'?k:0),cc=c+(d==='A'?k:0),ch=grid[rr+','+cc];
+   if(ch!==undefined){if(ch!==w.charAt(k))return -1;inter++}
+   else{
+    var a=d==='D'?[rr,cc+1]:[rr+1,cc],b=d==='D'?[rr,cc-1]:[rr-1,cc];
+    if(grid[a[0]+','+a[1]]!==undefined||grid[b[0]+','+b[1]]!==undefined)return -1;
+   }
+  }
+  var br=d==='D'?r-1:r,bc=d==='D'?c:c-1,ar=d==='D'?r+w.length:r,ac=d==='D'?c:c+w.length;
+  if(grid[br+','+bc]!==undefined||grid[ar+','+ac]!==undefined)return -1;
+  return inter;
+ }
+ function put(w,r,c,d){
+  for(var k=0;k<w.length;k++)grid[(r+(d==='D'?k:0))+','+(c+(d==='A'?k:0))]=w.charAt(k);
+  placed.push({w:w,r:r,c:c,d:d});
+ }
+ put(ws[0],0,0,'A');
+ for(i=1;i<ws.length;i++){
+  var w=ws[i],opts=[];
+  for(var key in grid){
+   var p=key.split(','),r0=+p[0],c0=+p[1];
+   for(var k=0;k<w.length;k++){
+    if(w.charAt(k)!==grid[key])continue;
+    var rr=r0-k,cc=c0-k;
+    if(can(w,rr,c0,'D')===1)opts.push([rr,c0,'D']);
+    if(can(w,r0,cc,'A')===1)opts.push([r0,cc,'A']);
+   }
+  }
+  if(!opts.length)return null;
+  var o=opts[rnd(opts.length)];put(w,o[0],o[1],o[2]);
+ }
+ return placed;
+}
+function valid(pl){
+ var g={},minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9;
+ pl.forEach(function(x){for(var k=0;k<x.w.length;k++){
+  var r=x.r+(x.d==='D'?k:0),c=x.c+(x.d==='A'?k:0);
+  g[r+','+c]=x.w.charAt(k);
+  if(r<minR)minR=r;if(r>maxR)maxR=r;if(c<minC)minC=c;if(c>maxC)maxC=c;
+ }});
+ var runs=[],r,c,s;
+ for(r=minR;r<=maxR;r++){s='';for(c=minC;c<=maxC+1;c++){var v=g[r+','+c];if(v)s+=v;else{if(s.length>1)runs.push(s);s=''}}}
+ for(c=minC;c<=maxC;c++){s='';for(r=minR;r<=maxR+1;r++){var v2=g[r+','+c];if(v2)s+=v2;else{if(s.length>1)runs.push(s);s=''}}}
+ var a=runs.sort().join('|'),b=pl.map(function(x){return x.w}).sort().join('|');
+ return a===b;
+}
+function generate(){
+ for(var t=0;t<4000;t++){
+  var ws=shuffle(POOL.map(function(q){return q.w})).slice(0,6);
+  var pl=tryLayout(ws);if(!pl)continue;
+  var minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9,na=0;
+  pl.forEach(function(x){
+   var er=x.r+(x.d==='D'?x.w.length-1:0),ec=x.c+(x.d==='A'?x.w.length-1:0);
+   if(x.r<minR)minR=x.r;if(er>maxR)maxR=er;if(x.c<minC)minC=x.c;if(ec>maxC)maxC=ec;
+   if(x.d==='A')na++;
+  });
+  if(maxR-minR+1>9||maxC-minC+1>9||na<2||na>4||!valid(pl))continue;
+  return pl;
+ }
+ return FALLBACK;
+}
+
+function inWord(cell,d){return cell&&cell.dirs[d]!==undefined}
+function build(){
+ var pl=generate(),minR=1e9,minC=1e9,maxR=-1e9,maxC=-1e9;
+ pl.forEach(function(x){
+  var er=x.r+(x.d==='D'?x.w.length-1:0),ec=x.c+(x.d==='A'?x.w.length-1:0);
+  if(x.r<minR)minR=x.r;if(x.c<minC)minC=x.c;if(er>maxR)maxR=er;if(ec>maxC)maxC=ec;
+ });
+ ROWS=maxR-minR+1;COLS=maxC-minC+1;
+ CW=pl.map(function(x){var q=find(x.w);return {w:x.w,r:x.r-minR,c:x.c-minC,d:x.d,k:q.k,a:q.a}});
+ cells={};inputs={};wraps={};GIVEN={};dir='A';cur=null;wasCur=false;
+ CW.forEach(function(x,i){
+  for(var k=0;k<x.w.length;k++){
+   var r=x.r+(x.d==='D'?k:0),c=x.c+(x.d==='A'?k:0),key=r+','+c;
+   if(!cells[key])cells[key]={r:r,c:c,ch:x.w.charAt(k),dirs:{}};
+   cells[key].dirs[x.d]=i;
+  }
+ });
+ /* numaralandırma */
+ var starts=[];
+ CW.forEach(function(x){var key=x.r+','+x.c;if(starts.indexOf(key)<0)starts.push(key)});
+ starts.sort(function(a,b){var p=a.split(',').map(Number),q=b.split(',').map(Number);return p[0]-q[0]||p[1]-q[1]});
+ CW.forEach(function(x){x.n=starts.indexOf(x.r+','+x.c)+1});
+ /* verilen harfler: her sözcüğün ilk harfi + rastgele ~%40 */
+ CW.forEach(function(x){GIVEN[x.r+','+x.c]=1});
+ var keys=Object.keys(cells),target=Math.round(keys.length*0.4),given=Object.keys(GIVEN).length;
+ function empties(i){var x=CW[i],n=0;for(var k=0;k<x.w.length;k++){if(!GIVEN[(x.r+(x.d==='D'?k:0))+','+(x.c+(x.d==='A'?k:0))])n++}return n}
+ shuffle(keys).forEach(function(key){
+  if(given>=target||GIVEN[key])return;
+  var ok=true;
+  for(var d in cells[key].dirs){if(empties(cells[key].dirs[d])<=2)ok=false}
+  if(ok){GIVEN[key]=1;given++}
+ });
+ /* çizim */
+ var h='';
+ for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){
+  var key=r+','+c,cell=cells[key];
+  if(!cell){h+='<div class="cw-x"></div>';continue}
+  var num=starts.indexOf(key)+1,g=GIVEN[key];
+  h+='<div class="cw-c'+(g?' giv':'')+'" data-k="'+key+'">'+(num?'<span class="cw-n">'+num+'</span>':'')+
+     '<input type="text" maxlength="1" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Satır '+(r+1)+', sütun '+(c+1)+'"'+
+     (g?' class="given" readonly tabindex="-1" value="'+cell.ch+'"':'')+'></div>';
+ }
+ gridEl.style.gridTemplateColumns='repeat('+COLS+',1fr)';
+ gridEl.style.maxWidth=Math.min(440,COLS*50)+'px';
+ gridEl.innerHTML=h;
+ var wl=gridEl.querySelectorAll('.cw-c');
+ for(var i=0;i<wl.length;i++){var k=wl[i].getAttribute('data-k');wraps[k]=wl[i];inputs[k]=wl[i].querySelector('input')}
+ var la='',ld='';
+ CW.slice().sort(function(a,b){return a.n-b.n}).forEach(function(x){
+  var li='<li><b>'+x.n+'.</b>'+x.k+' <small>('+x.w.length+' harf)</small></li>';
+  if(x.d==='A')la+=li;else ld+=li;
+ });
+ document.getElementById('cw-a').innerHTML=la;
+ document.getElementById('cw-d').innerHTML=ld;
+ msg.textContent='';doneEl.innerHTML='';
+ bindInputs();
+}
+
+function highlight(){
+ for(var k in wraps)wraps[k].classList.remove('hl');
+ if(!cur)return;
+ var cell=cells[cur],d=inWord(cell,dir)?dir:(dir==='A'?'D':'A');
+ if(!inWord(cell,d))return;
+ var x=CW[cell.dirs[d]];
+ for(var j=0;j<x.w.length;j++){
+  wraps[(x.r+(x.d==='D'?j:0))+','+(x.c+(x.d==='A'?j:0))].classList.add('hl');
+ }
+}
+function go(key){if(inputs[key]){inputs[key].focus()}}
+function step(r,c,d,s){return d==='A'?[r,c+s]:[r+s,c]}
+function move(d,s){
+ var cell=cells[cur];if(!cell)return;
+ var p=[cell.r,cell.c];
+ for(var n=0;n<COLS+ROWS;n++){
+  p=step(p[0],p[1],d,s);var key=p[0]+','+p[1],nx=cells[key];
+  if(!nx||!inWord(nx,d))return;
+  if(GIVEN[key])continue;
+  go(key);return;
+ }
+}
+function neighbour(dr,dc){
+ var cell=cells[cur];if(!cell)return;
+ var key=(cell.r+dr)+','+(cell.c+dc);
+ if(cells[key])go(key);
+}
+function clearMarks(){for(var k in wraps){wraps[k].classList.remove('ok');wraps[k].classList.remove('no')}}
+function bindInputs(){
+ Object.keys(inputs).forEach(function(key){
+  var inp=inputs[key],cell=cells[key];
+  inp.addEventListener('pointerdown',function(){wasCur=(cur===key)});
+  inp.addEventListener('focus',function(){
+   cur=key;
+   if(!inWord(cell,dir))dir=(dir==='A'?'D':'A');
+   highlight();
+  });
+  inp.addEventListener('click',function(){
+   if(wasCur&&inWord(cell,'A')&&inWord(cell,'D')){dir=(dir==='A'?'D':'A');highlight()}
+   wasCur=false;
+  });
+  if(GIVEN[key])return;
+  inp.addEventListener('input',function(){
+   var v=inp.value.toUpperCase().replace(/[^A-Z]/g,'');
+   v=v.slice(-1);inp.value=v;
+   wraps[key].classList.remove('ok');wraps[key].classList.remove('no');
+   if(v){var d=inWord(cell,dir)?dir:(dir==='A'?'D':'A');move(d,1)}
+  });
+ });
+}
+gridEl.addEventListener('keydown',function(e){
+ if(!cur)return;var k=e.key;
+ if(k==='ArrowRight'){e.preventDefault();dir='A';neighbour(0,1)}
+ else if(k==='ArrowLeft'){e.preventDefault();dir='A';neighbour(0,-1)}
+ else if(k==='ArrowDown'){e.preventDefault();dir='D';neighbour(1,0)}
+ else if(k==='ArrowUp'){e.preventDefault();dir='D';neighbour(-1,0)}
+ else if(k==='Backspace'&&!GIVEN[cur]&&inputs[cur].value===''){
+  e.preventDefault();
+  var cell=cells[cur],d=inWord(cell,dir)?dir:(dir==='A'?'D':'A');
+  var p=step(cell.r,cell.c,d,-1),key=p[0]+','+p[1];
+  if(cells[key]&&inWord(cells[key],d)){if(!GIVEN[key]){inputs[key].value='';wraps[key].classList.remove('ok');wraps[key].classList.remove('no')}go(key)}
+ }
+});
+function allCorrect(){
+ for(var k in cells){if(inputs[k].value.toUpperCase()!==cells[k].ch)return false}
+ return true;
+}
+function win(){
+ msg.textContent='🎉 Bravo! Bulmacayı tamamladınız. Sözcükleri dinleyin:';
+ var h='';
+ CW.forEach(function(x){h+='<button type="button" class="say" data-say="'+x.a+'">🔊 '+x.a+'</button>'});
+ doneEl.innerHTML=h;
+}
+doneEl.addEventListener('click',function(e){
+ var b=e.target.closest?e.target.closest('[data-say]'):null;
+ if(b&&window.konus)window.konus(b.getAttribute('data-say'));
+});
+document.getElementById('cw-check').addEventListener('click',function(){
+ clearMarks();
+ var total=0,right=0,empty=0;
+ for(var k in cells){
+  if(GIVEN[k])continue;total++;
+  var v=inputs[k].value.toUpperCase();
+  if(v==='')empty++;
+  else if(v===cells[k].ch){right++;wraps[k].classList.add('ok')}
+  else wraps[k].classList.add('no');
+ }
+ if(allCorrect()){win();return}
+ var wrong=total-right-empty;
+ msg.textContent=wrong?('Kırmızı kutulardaki harfleri düzeltin. ('+right+'/'+total+' doğru)'):('Şimdilik doğru gidiyorsunuz! ('+right+'/'+total+' doğru, '+empty+' boş)');
+ doneEl.innerHTML='';
+});
+document.getElementById('cw-hint').addEventListener('click',function(){
+ var list=[];
+ for(var k in cells){if(!GIVEN[k]&&inputs[k].value.toUpperCase()!==cells[k].ch)list.push(k)}
+ if(!list.length){msg.textContent='Tüm harfler doğru!';return}
+ var k=list[rnd(list.length)];
+ inputs[k].value=cells[k].ch;clearMarks();wraps[k].classList.add('ok');
+ msg.textContent='💡 Bir harf eklendi.';
+ if(allCorrect())win();
+});
+document.getElementById('cw-reset').addEventListener('click',function(){
+ for(var k in cells){if(!GIVEN[k])inputs[k].value=''}
+ clearMarks();msg.textContent='';doneEl.innerHTML='';
+});
+document.getElementById('cw-new').addEventListener('click',build);
+build();
+})();
 
 if(window.speechSynthesis) speechSynthesis.getVoices();
 </script>
