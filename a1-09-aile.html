@@ -55,6 +55,33 @@ nav.pn a{background:var(--bl);color:#fff;text-decoration:none;padding:10px 16px;
 .qnext{display:block;margin:12px 0 0 auto;background:var(--rd);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;cursor:pointer}
 .qnext[disabled]{opacity:.35;cursor:default}
 :focus-visible{outline:3px solid var(--gd);outline-offset:2px}
+.act-msg{min-height:26px;font-weight:700;text-align:center;margin:8px 0;color:var(--bl)}
+@media (prefers-color-scheme:dark){.act-msg{color:#9db4ff}}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;min-height:44px}
+.chip{border:2px solid var(--bl);background:var(--card);color:var(--tx);border-radius:999px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer}
+.chip.sel{background:var(--gd);border-color:var(--gd);color:#1b1f2a}
+.tree{display:flex;flex-direction:column;align-items:center;margin:12px 0}
+.tier{display:flex;gap:8px;width:100%;max-width:320px;justify-content:center}
+.tlink{width:3px;height:18px;background:var(--gd)}
+.slot{flex:1 1 0;max-width:100px;min-width:0;min-height:96px;border:2px dashed var(--gd);border-radius:12px;background:var(--card);color:var(--tx);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px;text-align:center}
+.slot .em{font-size:2.2rem;line-height:1.1}
+.slot .lab{font-size:.85rem;font-weight:700;color:var(--bl);min-height:1.3em}
+@media (prefers-color-scheme:dark){.slot .lab{color:#9db4ff}}
+.slot.sel{border-style:solid;background:#fff7dc;color:#1b1f2a}
+.slot.sel .lab{color:var(--bl)}
+.slot.ok{border-style:solid;border-color:var(--ok)}
+.slot.ok .lab{color:var(--ok)}
+.slot.bad,.chip.bad,.bk.bad{border-color:var(--rd);animation:shk .4s}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.baskets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.bk{border:3px solid var(--bl);border-radius:14px;background:var(--card);color:var(--tx);font:inherit;cursor:pointer;padding:10px;min-height:150px;text-align:center}
+.bk.mon{border-color:var(--rd)}
+.bk.sel{background:#fff7dc;color:#1b1f2a}
+.bk .bt{display:block;font-size:1.7rem;font-weight:800;color:var(--bl)}
+.bk.mon .bt{color:var(--rd)}
+.bk .bs{display:block;font-size:.8rem;opacity:.75;margin-bottom:6px}
+.bk .pl{display:block;font-weight:700;margin-top:4px}
+@media (prefers-color-scheme:dark){.bk:not(.mon) .bt{color:#9db4ff}.bk.sel .bt{color:var(--bl)}.bk.mon.sel .bt{color:var(--rd)}}
 </style>
 </head>
 <body>
@@ -103,6 +130,27 @@ nav.pn a{background:var(--bl);color:#fff;text-decoration:none;padding:10px 16px;
       <text x="24" y="264" font-size="19" font-weight="700" fill="#1b1f2a">C’est mon père.</text>
     </g>
   </svg>
+</section>
+
+<section>
+  <h2>Aile ağacını tamamla</h2>
+  <p>Aşağıdan bir kelimeye dokun, sonra ağaçta ona uyan kişiye dokun. (Önce kişiye, sonra kelimeye dokunabilirsin de.) Doğru yere koyunca cümleyi dinlersin. Yerleşmiş kişiye dokunursan cümleyi tekrar duyarsın.</p>
+  <div class="tree" id="ft-tree"></div>
+  <div class="bank" id="ft-bank"></div>
+  <div class="act-msg" id="ft-msg" aria-live="polite"></div>
+  <button class="play" type="button" id="ft-reset">🔄 Baştan başla</button>
+</section>
+
+<section>
+  <h2>Ma mı, mon mu?</h2>
+  <p>Bir kelimeye dokun, sonra doğru sepete dokun: <span class="fr">ma</span> mı, <span class="fr">mon</span> mu? Yeni oyunda kelimeler değişir.</p>
+  <div class="bank" id="mm-bank"></div>
+  <div class="baskets">
+    <button class="bk" type="button" id="mm-ma" data-b="ma"><span class="bt">ma</span><span class="bs">benim …</span><span class="lst"></span></button>
+    <button class="bk mon" type="button" id="mm-mon" data-b="mon"><span class="bt">mon</span><span class="bs">benim …</span><span class="lst"></span></button>
+  </div>
+  <div class="act-msg" id="mm-msg" aria-live="polite"></div>
+  <button class="play" type="button" id="mm-new">🔄 Yeni oyun</button>
 </section>
 
 <section>
@@ -172,6 +220,139 @@ document.querySelectorAll(".bub").forEach(function(g){
   g.addEventListener("click", function(){ say(g.getAttribute("data-say")); });
   g.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); say(g.getAttribute("data-say")); }});
 });
+
+// Aile ağacı bulmacası
+(function(){
+var P=[
+ {id:'mamie',em:'👵',w:'mamie',s:'Voici mamie.'},
+ {id:'papi',em:'👴',w:'papi',s:'Voici papi.'},
+ {id:'mere',em:'👩',w:'la mère',s:"C'est ma mère."},
+ {id:'pere',em:'👨',w:'le père',s:"C'est mon père."},
+ {id:'frere',em:'👦',w:'un frère',s:"C'est mon frère."},
+ {id:'soeur',em:'👧',w:'une sœur',s:"C'est ma sœur."},
+ {id:'bebe',em:'👶',w:'un bébé',s:'Voici le bébé.'}
+];
+var TIERS=[['mamie','papi'],['mere','pere'],['frere','soeur','bebe']];
+var treeEl=document.getElementById('ft-tree'),bank=document.getElementById('ft-bank'),msg=document.getElementById('ft-msg');
+if(!treeEl)return;
+var byId={},selChip=null,selSlot=null,done,errors;
+P.forEach(function(p){byId[p.id]=p});
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function chipEl(id){return bank.querySelector('[data-id="'+id+'"]')}
+function slotEl(id){return treeEl.querySelector('[data-id="'+id+'"]')}
+function build(){
+ done={};errors=0;selChip=null;selSlot=null;msg.textContent='';
+ var h='';
+ TIERS.forEach(function(t,i){
+  if(i)h+='<div class="tlink"></div>';
+  h+='<div class="tier">';
+  t.forEach(function(id){h+='<button type="button" class="slot" data-id="'+id+'" aria-label="Boş kutu"><span class="em">'+byId[id].em+'</span><span class="lab">?</span></button>'});
+  h+='</div>';
+ });
+ treeEl.innerHTML=h;
+ bank.innerHTML=shuffle(P.slice()).map(function(p){return '<button type="button" class="chip" data-id="'+p.id+'">'+p.w+'</button>'}).join('');
+}
+function clearSel(){
+ var s=document.querySelectorAll('#ft-tree .sel,#ft-bank .sel');
+ for(var i=0;i<s.length;i++)s[i].classList.remove('sel');
+ selChip=null;selSlot=null;
+}
+function attempt(){
+ var c=selChip,s=selSlot,ce=chipEl(c),se=slotEl(s);
+ clearSel();
+ if(c===s){
+  done[c]=1;
+  se.classList.add('ok');se.querySelector('.lab').textContent=byId[c].w;
+  se.setAttribute('aria-label',byId[c].w);
+  ce.parentNode.removeChild(ce);
+  say(byId[c].s);
+  var n=Object.keys(done).length;
+  msg.textContent='✔ '+byId[c].s+' ('+n+'/'+P.length+')';
+  if(n===P.length)msg.textContent='🎉 Bravo ! Aile ağacı tamam'+(errors?' (hata: '+errors+')':' — hiç hata yapmadın')+'.';
+ }else{
+  errors++;msg.textContent='Tekrar dene.';
+  ce.classList.add('bad');se.classList.add('bad');
+  setTimeout(function(){ce.classList.remove('bad');se.classList.remove('bad')},450);
+ }
+}
+bank.addEventListener('click',function(e){
+ var b=e.target.closest?e.target.closest('.chip'):null;if(!b)return;
+ var id=b.getAttribute('data-id');
+ if(selChip===id){b.classList.remove('sel');selChip=null;return}
+ var o=bank.querySelector('.sel');if(o)o.classList.remove('sel');
+ selChip=id;b.classList.add('sel');say(byId[id].w);
+ if(selSlot)attempt();
+});
+treeEl.addEventListener('click',function(e){
+ var b=e.target.closest?e.target.closest('.slot'):null;if(!b)return;
+ var id=b.getAttribute('data-id');
+ if(done[id]){say(byId[id].s);return}
+ if(selSlot===id){b.classList.remove('sel');selSlot=null;return}
+ var o=treeEl.querySelector('.sel');if(o)o.classList.remove('sel');
+ selSlot=id;b.classList.add('sel');
+ if(selChip)attempt();
+});
+document.getElementById('ft-reset').addEventListener('click',build);
+build();
+})();
+
+// Ma mı, mon mu?
+(function(){
+var POOL=[
+ {w:'mère',em:'👩',p:'ma'},{w:'père',em:'👨',p:'mon'},{w:'sœur',em:'👧',p:'ma'},{w:'frère',em:'👦',p:'mon'},
+ {w:'bébé',em:'👶',p:'mon'},{w:'mamie',em:'👵',p:'ma'},{w:'papi',em:'👴',p:'mon'},
+ {w:'maman',em:'👩',p:'ma'},{w:'papa',em:'👨',p:'mon'},{w:'famille',em:'👨‍👩‍👧‍👦',p:'ma'}
+];
+var bank=document.getElementById('mm-bank'),msg=document.getElementById('mm-msg'),
+    bks={ma:document.getElementById('mm-ma'),mon:document.getElementById('mm-mon')};
+if(!bank)return;
+var items,selChip=null,selBk=null,left,errors;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function chipEl(i){return bank.querySelector('[data-i="'+i+'"]')}
+function build(){
+ items=shuffle(POOL.slice()).slice(0,8);left=items.length;errors=0;selChip=null;selBk=null;msg.textContent='';
+ bank.innerHTML=items.map(function(x,i){return '<button type="button" class="chip" data-i="'+i+'">'+x.em+' '+x.w+'</button>'}).join('');
+ for(var k in bks){bks[k].querySelector('.lst').innerHTML='';bks[k].classList.remove('sel')}
+}
+function clearSel(){
+ var s=bank.querySelector('.sel');if(s)s.classList.remove('sel');
+ for(var k in bks)bks[k].classList.remove('sel');
+ selChip=null;selBk=null;
+}
+function attempt(){
+ var i=selChip,b=selBk,x=items[i],ce=chipEl(i),be=bks[b];
+ clearSel();
+ if(x.p===b){
+  var t=b+' '+x.w;
+  be.querySelector('.lst').insertAdjacentHTML('beforeend','<span class="pl">'+t+'</span>');
+  ce.parentNode.removeChild(ce);left--;say(t);
+  msg.textContent='✔ '+t;
+  if(!left)msg.textContent='🎉 Bravo ! '+(errors?'Hata: '+errors+'.':'Hiç hata yapmadın.')+' Hatırla: mère, sœur, mamie gibi dişil kelimelerle ma; père, frère, papi gibi eril kelimelerle mon.';
+ }else{
+  errors++;msg.textContent='Tekrar dene.';
+  ce.classList.add('bad');be.classList.add('bad');
+  setTimeout(function(){ce.classList.remove('bad');be.classList.remove('bad')},450);
+ }
+}
+bank.addEventListener('click',function(e){
+ var c=e.target.closest?e.target.closest('.chip'):null;if(!c)return;
+ var i=+c.getAttribute('data-i');
+ if(selChip===i){c.classList.remove('sel');selChip=null;return}
+ var o=bank.querySelector('.sel');if(o)o.classList.remove('sel');
+ selChip=i;c.classList.add('sel');say(items[i].w);
+ if(selBk)attempt();
+});
+['ma','mon'].forEach(function(b){
+ bks[b].addEventListener('click',function(){
+  if(selBk===b){bks[b].classList.remove('sel');selBk=null;return}
+  for(var k in bks)bks[k].classList.remove('sel');
+  selBk=b;bks[b].classList.add('sel');
+  if(selChip!==null)attempt();
+ });
+});
+document.getElementById('mm-new').addEventListener('click',build);
+build();
+})();
 
 // Etkinlik
 var Q = [
