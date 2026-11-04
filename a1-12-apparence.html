@@ -52,6 +52,21 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 .nav span{opacity:.45}
 .sw{display:inline-block;width:38px;height:38px;border-radius:50%;vertical-align:middle}
 .score{font-size:40px;font-weight:800;color:var(--navy);text-align:center;margin:6px 0}
+
+.gm-bar{display:flex;justify-content:space-between;gap:8px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.gm-clue{background:#eef1ff;border:2px solid var(--navy);border-radius:14px;padding:10px 14px;margin-bottom:12px}
+.gm-clue b{display:block;font-size:19px;color:var(--navy);margin-top:6px}
+.gm-clue label{display:block;font-size:14px;color:#556;margin-top:8px}
+.gm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gm-tile{background:#fff;border:3px solid var(--line);border-radius:14px;padding:4px;cursor:pointer}
+.gm-tile svg{display:block;width:100%;height:auto}
+.gm-tile img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:10px}
+.gm-tile:hover:not(:disabled){border-color:var(--navy)}
+.gm-tile.ok{border-color:#2e9e4f;background:#e4f6e8}
+.gm-tile.no{border-color:var(--red);background:#fde7e9;opacity:.55;animation:gmsh .35s}
+@keyframes gmsh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.gm-intro{text-align:center}
+.gm-intro .big{font-size:48px}
 </style>
 </head>
 <body>
@@ -92,6 +107,10 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 <h2>Mini diyalog</h2>
 <p class="sub">Baloncuklara dokun, cümleyi dinle.</p>
 <div id="dlg"></div>
+
+<h2>Oyun: Qui est-ce ?</h2>
+<p class="sub">İpucunu dinle, doğru karakteri bul. 3 kalbin var!</p>
+<div class="box" id="game"></div>
 
 <h2>Etkinlik (7 soru)</h2>
 <div class="box" id="quiz"></div>
@@ -229,6 +248,159 @@ function show(){
   });
   box.appendChild(fb);box.appendChild(nxt);
 }
+
+/* Oyun: Qui est-ce ? */
+(function(){
+  var root=document.getElementById("game");
+  var EYES=[["bleus","mavi","#1e63d6"],["verts","yeşil","#2e9e4f"],["marron","kahverengi","#8b5a2b"],["gris","gri","#9aa0a6"],["noirs","siyah","#111"]];
+  var HAIR=[["blonds","sarı","#e8c35a"],["bruns","kumral","#7a4a22"],["noirs","siyah","#1a1a1a"]];
+  var LEN=[["courts","kısa"],["longs","uzun"]];
+  var MOOD=[["triste","üzgün"],["heureux","mutlu"],["malade","hasta"]];
+  var KEYS=["eyes","hair","len","mood"];
+  var ROUNDS=6,KN=[1,1,2,2,3,3];
+  var round=0,score=0,lives=3,mistakes=0,locked=false,hideText=false,data=null;
+
+  function rnd(n){return Math.floor(Math.random()*n)}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=rnd(i+1);var t=a[i];a[i]=a[j];a[j]=t}return a}
+  /* 6 sabit karakter (images/12-1.jpg ... 12-6.jpg). Bilgiler görsellere göre buradan düzenlenir.
+     g: m=erkek f=kız | eyes: 0 bleus,1 verts,2 marron,3 gris,4 noirs | hair: 0 blonds,1 bruns,2 noirs
+     len: 0 courts,1 longs | mood: 0 triste,1 heureux,2 malade */
+  var CHARS=[
+    {g:"m",eyes:0,hair:0,len:0,mood:1,img:"images/12-1.jpg"},
+    {g:"f",eyes:1,hair:1,len:1,mood:0,img:"images/12-2.jpg"},
+    {g:"m",eyes:2,hair:2,len:0,mood:2,img:"images/12-3.jpg"},
+    {g:"f",eyes:2,hair:2,len:1,mood:1,img:"images/12-4.jpg"},
+    {g:"f",eyes:3,hair:1,len:1,mood:0,img:"images/12-5.jpg"},
+    {g:"m",eyes:0,hair:0,len:0,mood:2,img:"images/12-6.jpg"}
+  ];
+  var targets=[];
+  function match(c,t,keys){if(c.g!==t.g)return false;for(var i=0;i<keys.length;i++)if(c[keys[i]]!==t[keys[i]])return false;return true}
+  function combos(k){var out=[];(function rec(st,cur){if(cur.length===k){out.push(cur.slice());return}for(var i=st;i<KEYS.length;i++){cur.push(KEYS[i]);rec(i+1,cur);cur.pop()}})(0,[]);return out}
+
+  /* Hedef karakter için, onu tek başına bulduran k özellikli bir ipucu seçilir (k yetmezse artırılır) */
+  function makeRound(k,target){
+    var chars=shuffle(CHARS),t=CHARS[target],ti=chars.indexOf(t),list=shuffle(combos(k));
+    for(var j=0;j<list.length;j++){
+      var keys=list[j];
+      if(chars.filter(function(c){return match(c,t,keys)}).length===1)return {chars:chars,ti:ti,keys:keys};
+    }
+    return makeRound(k+1,target);
+  }
+  function resetGame(){round=0;score=0;lives=3;targets=shuffle([0,1,2,3,4,5])}
+  function cap(x){return x.charAt(0).toUpperCase()+x.slice(1)}
+  function clue(t,keys){
+    var f=t.g==="f",P=f?"Elle":"Il",fr=[],tr=[];
+    function has(k){return keys.indexOf(k)>=0}
+    if(has("eyes")){fr.push(P+" a les yeux "+EYES[t.eyes][0]+".");tr.push("Gözleri "+EYES[t.eyes][1]+".")}
+    if(has("hair")&&has("len")){fr.push(P+" a les cheveux "+HAIR[t.hair][0]+" et "+LEN[t.len][0]+".");tr.push("Saçı "+HAIR[t.hair][1]+" ve "+LEN[t.len][1]+".")}
+    else if(has("hair")){fr.push(P+" a les cheveux "+HAIR[t.hair][0]+".");tr.push("Saçı "+HAIR[t.hair][1]+".")}
+    else if(has("len")){fr.push(P+" a les cheveux "+LEN[t.len][0]+".");tr.push("Saçı "+LEN[t.len][1]+".")}
+    if(has("mood")){var m=MOOD[t.mood][0];if(m==="heureux"&&f)m="heureuse";fr.push(P+" est "+m+".");tr.push(cap(MOOD[t.mood][1])+".")}
+    return {fr:fr.join(" "),tr:(f?"Kız: ":"Erkek: ")+tr.join(" ")};
+  }
+
+  function charSvg(c){
+    var f=c.g==="f",skin=c.mood===2?"#d8e6b8":"#f2c9a0",hc=HAIR[c.hair][2],ec=EYES[c.eyes][2];
+    var o='<svg viewBox="0 0 100 110" aria-hidden="true">';
+    o+='<path d="M10 110c4-24 76-24 80 0z" fill="'+(f?"#f3a6c8":"#9fd0ff")+'"/>';
+    if(c.len===1)o+='<rect x="17" y="28" width="66" height="58" rx="22" fill="'+hc+'"/>';
+    o+='<circle cx="50" cy="52" r="29" fill="'+skin+'"/>';
+    o+='<path d="M20 50c0-34 60-34 60 0-9-11-19-15-30-15s-21 4-30 15z" fill="'+hc+'"/>';
+    if(f)o+='<circle cx="78" cy="26" r="6" fill="#f06aa8"/><circle cx="78" cy="26" r="2.2" fill="#fff"/>';
+    [38,62].forEach(function(x){
+      o+='<circle cx="'+x+'" cy="55" r="7" fill="#fff" stroke="#444" stroke-width=".8"/><circle cx="'+x+'" cy="55" r="4.4" fill="'+ec+'"/><circle cx="'+(x+1.4)+'" cy="53.4" r="1.2" fill="#fff"/>';
+    });
+    if(c.mood===0){
+      o+='<path d="M31 45l12 3M69 45l-12 3" stroke="#444" stroke-width="2" stroke-linecap="round"/>';
+      o+='<path d="M39 78q11-9 22 0" stroke="#a24" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+      o+='<path d="M33 63q-3 6 0 8q3-2 0-8z" fill="#4aa3ff"/>';
+    }else if(c.mood===1){
+      o+='<path d="M37 70q13 14 26 0z" fill="#fff" stroke="#a24" stroke-width="2" stroke-linejoin="round"/>';
+    }else{
+      o+='<path d="M31 47l12-2M69 47l-12-2" stroke="#444" stroke-width="2" stroke-linecap="round"/>';
+      o+='<path d="M38 76q4-4 8 0t8 0t8 0" stroke="#a24" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+    }
+    return o+'</svg>';
+  }
+  function hearts(){var h="";for(var i=0;i<3;i++)h+=i<lives?"❤️":"🤍";return h}
+
+  function intro(){
+    root.innerHTML="";
+    var d=el("div","gm-intro");
+    d.appendChild(el("p","big","🕵️"));
+    d.appendChild(el("div","q","Qui est-ce ?"));
+    d.appendChild(el("p","fb","Fransızca ipucunu dinle, 6 karakter arasından doğrusunu bul. 6 tur var, her yanlışta bir kalp kaybedersin. Her oyunda sıra ve ipuçları değişir."));
+    var b=el("button","btn","Oyuna başla");
+    b.onclick=function(){resetGame();play()};
+    d.appendChild(b);root.appendChild(d);
+  }
+
+  function play(){
+    root.innerHTML="";locked=false;mistakes=0;
+    data=makeRound(KN[round],targets[round]);
+    var cl=clue(data.chars[data.ti],data.keys);
+    var bar=el("div","gm-bar");
+    var scoreEl=el("span","","⭐ "+score),heartEl=el("span","",hearts());
+    bar.appendChild(el("span","","Tur "+(round+1)+" / "+ROUNDS));bar.appendChild(scoreEl);bar.appendChild(heartEl);
+    root.appendChild(bar);
+
+    var box=el("div","gm-clue");
+    var listen=el("button","btn l","🔊 Dinle");
+    listen.onclick=function(){say(cl.fr)};
+    var txt=el("b","",cl.fr);txt.hidden=hideText;
+    var lab=el("label");
+    var cb=document.createElement("input");cb.type="checkbox";cb.checked=hideText;
+    cb.onchange=function(){hideText=cb.checked;txt.hidden=hideText&&!locked};
+    lab.appendChild(cb);lab.appendChild(document.createTextNode(" Yazıyı gizle, sadece dinle"));
+    box.appendChild(listen);box.appendChild(txt);box.appendChild(lab);
+    root.appendChild(box);
+
+    var grid=el("div","gm-grid"),tiles=[];
+    var fb=el("div","fb"),nxt=el("button","btn","Sonraki tur");nxt.style.display="none";
+    function finish(win){
+      locked=true;txt.hidden=false;scoreEl.textContent="⭐ "+score;
+      fb.innerHTML=(win?"Doğru! ":"Doğrusu bu karakterdi. ")+"<b>"+cl.fr+"</b><br>"+cl.tr;
+      var last=!win||round===ROUNDS-1;
+      nxt.textContent=last?"Sonucu gör":"Sonraki tur";
+      nxt.onclick=function(){if(last)end();else{round++;play()}};
+      nxt.style.display="inline-block";
+    }
+    data.chars.forEach(function(c,i){
+      var b=el("button","gm-tile");
+      var im=document.createElement("img");im.src=c.img;im.alt="";
+      im.onerror=function(){b.innerHTML=charSvg(c)};
+      b.appendChild(im);
+      b.setAttribute("aria-label","karakter "+(i+1));
+      b.onclick=function(){
+        if(locked||b.disabled)return;
+        if(i===data.ti){b.classList.add("ok");score+=mistakes?5:10;finish(true)}
+        else{
+          lives--;mistakes++;b.classList.add("no");b.disabled=true;heartEl.textContent=hearts();
+          if(lives===0){tiles[data.ti].classList.add("ok");finish(false)}
+          else fb.textContent="Olmadı, tekrar dene. İstersen 🔊 ile yeniden dinle."
+        }
+      };
+      tiles.push(b);grid.appendChild(b);
+    });
+    root.appendChild(grid);root.appendChild(fb);root.appendChild(nxt);
+    setTimeout(function(){say(cl.fr)},300);
+  }
+
+  function end(){
+    root.innerHTML="";
+    var max=ROUNDS*10;
+    var stars=score>=50?"⭐⭐⭐":score>=30?"⭐⭐":"⭐";
+    var d=el("div","gm-intro");
+    d.appendChild(el("p","big",stars));
+    d.appendChild(el("div","score",score+" / "+max));
+    d.appendChild(el("p","fb",lives===0?"Kalpler bitti. Kartlardaki kelimelere göz at, yeniden dene!":score>=50?"Harika! Bravo !":"İyi gittin. Bir daha oynayınca yeni karakterler gelecek."));
+    var b=el("button","btn","Tekrar oyna");
+    b.onclick=function(){resetGame();play()};
+    d.appendChild(b);root.appendChild(d);
+  }
+  intro();
+})();
+
 show();
 if(window.speechSynthesis)speechSynthesis.getVoices();
 </script>
