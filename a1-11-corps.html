@@ -51,6 +51,21 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 .nav a,.nav span{color:var(--navy);font-weight:600}
 .nav span{opacity:.45}
 .score{font-size:40px;font-weight:800;color:var(--navy);text-align:center;margin:6px 0}
+
+.mt-pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:58px;padding:10px;background:#eef1ff;border-radius:12px;margin-bottom:12px}
+.chip{touch-action:none;user-select:none;-webkit-user-select:none;background:var(--navy);color:#fff;font-weight:700;padding:9px 14px;border-radius:10px;cursor:grab;position:relative;z-index:1}
+.chip.drag{z-index:50;box-shadow:0 6px 16px rgba(0,0,0,.3);cursor:grabbing}
+.chip.back{transition:transform .2s}
+.chip.sel{outline:3px solid var(--gold)}
+.mt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.slot{background:#fff;border:2px dashed var(--line);border-radius:14px;padding:10px 6px;text-align:center;min-height:128px}
+.slot .e{font-size:38px;line-height:1.2;display:block;min-height:46px}
+.slot .t{font-size:14px;color:#667;display:block}
+.slot .fill{display:block;margin-top:6px;min-height:26px;font-weight:700;color:var(--navy)}
+.slot.over{border-color:var(--navy);background:#eef1ff}
+.slot.ok{border-style:solid;border-color:#2e9e4f;background:#e4f6e8}
+.slot.no{border-color:var(--red);background:#fde7e9;animation:sh .35s}
+@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style>
 </head>
 <body>
@@ -83,6 +98,10 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 <h2>Mini diyalog</h2>
 <p class="sub">Baloncuklara dokun, cümleyi dinle.</p>
 <div id="dlg"></div>
+
+<h2>Sürükle ve eşleştir</h2>
+<p class="sub">Fransızca kelimeyi doğru resmin üstüne sürükle. (Sürüklemek zor olursa: kelimeye dokun, sonra resme dokun.) Her seferinde farklı 6 kelime gelir.</p>
+<div class="box" id="match"></div>
 
 <h2>Etkinlik (7 soru)</h2>
 <div class="box" id="quiz"></div>
@@ -216,6 +235,92 @@ function show(){
   });
   box.appendChild(fb);box.appendChild(nxt);
 }
+
+/* Sürükle-bırak eşleştirme */
+(function(){
+  var root=document.getElementById("match");
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+  function start(){
+    root.innerHTML="";
+    var items=shuffle(BODY).slice(0,6), tries=0, done=0, selected=null;
+    var pool=el("div","mt-pool"), grid=el("div","mt-grid"), msg=el("div","fb");
+    var chips=[], slots=[];
+    function slotAt(x,y){
+      for(var i=0;i<slots.length;i++){
+        var r=slots[i].getBoundingClientRect();
+        if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom&&!slots[i].classList.contains("ok"))return slots[i];
+      }
+      return null;
+    }
+    function reset(chip){chip.classList.add("back");chip.style.transform=""}
+    function clearOver(){slots.forEach(function(s){s.classList.remove("over")})}
+    function attempt(chip,slot){
+      if(chip.dataset.w===slot.dataset.w){
+        slot.classList.remove("no");slot.classList.add("ok");
+        slot.querySelector(".fill").textContent=chip.dataset.w;
+        chip.style.display="none";chip.classList.remove("sel");
+        selected=null;done++;say(chip.dataset.w);
+        msg.textContent="";
+        if(done===items.length){
+          msg.innerHTML="<b>Bravo !</b> Hepsini eşleştirdin. Yanlış deneme: "+tries+".";
+          var again=el("button","btn","Yeni kelimeler");
+          again.onclick=start;
+          msg.appendChild(document.createElement("br"));msg.appendChild(again);
+        }
+      }else{
+        tries++;
+        slot.classList.remove("no");void slot.offsetWidth;slot.classList.add("no");
+        setTimeout(function(){slot.classList.remove("no")},700);
+        msg.textContent="Olmadı, tekrar dene.";
+        reset(chip);chip.classList.remove("sel");selected=null;
+      }
+    }
+    items.forEach(function(b){
+      var sl=el("div","slot",'<span class="e">'+b[1]+'</span><span class="t">'+b[2]+'</span><span class="fill"></span>');
+      sl.dataset.w=b[0];
+      sl.onclick=function(){if(selected&&!sl.classList.contains("ok"))attempt(selected,sl)};
+      slots.push(sl);
+    });
+    shuffle(slots).forEach(function(s){grid.appendChild(s)});
+    shuffle(items).forEach(function(b){
+      var c=el("div","chip",b[0]);
+      c.dataset.w=b[0];
+      var sx=0,sy=0,moved=false,down=false;
+      c.addEventListener("pointerdown",function(e){
+        down=true;moved=false;sx=e.clientX;sy=e.clientY;
+        c.setPointerCapture(e.pointerId);
+        c.classList.remove("back");c.classList.add("drag");
+      });
+      c.addEventListener("pointermove",function(e){
+        if(!down)return;
+        var dx=e.clientX-sx,dy=e.clientY-sy;
+        if(Math.abs(dx)>6||Math.abs(dy)>6)moved=true;
+        if(moved){
+          c.style.transform="translate("+dx+"px,"+dy+"px)";
+          clearOver();var t=slotAt(e.clientX,e.clientY);if(t)t.classList.add("over");
+        }
+      });
+      function end(e,cancel){
+        if(!down)return;down=false;
+        c.classList.remove("drag");clearOver();
+        if(!moved){
+          reset(c);
+          if(selected===c){c.classList.remove("sel");selected=null}
+          else{chips.forEach(function(x){x.classList.remove("sel")});c.classList.add("sel");selected=c;say(c.dataset.w)}
+          return;
+        }
+        var t=cancel?null:slotAt(e.clientX,e.clientY);
+        if(t)attempt(c,t);else reset(c);
+      }
+      c.addEventListener("pointerup",function(e){end(e,false)});
+      c.addEventListener("pointercancel",function(e){end(e,true)});
+      chips.push(c);pool.appendChild(c);
+    });
+    root.appendChild(pool);root.appendChild(grid);root.appendChild(msg);
+  }
+  start();
+})();
+
 show();
 if(window.speechSynthesis)speechSynthesis.getVoices();
 </script>
