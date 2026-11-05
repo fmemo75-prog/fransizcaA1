@@ -51,6 +51,19 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 .nav a,.nav span{color:var(--navy);font-weight:600}
 .nav span{opacity:.45}
 .score{font-size:40px;font-weight:800;color:var(--navy);text-align:center;margin:6px 0}
+
+.wg-emo{font-size:64px;text-align:center;margin:0;line-height:1.2}
+.wg-tr{text-align:center;color:#556;margin:0 0 8px}
+.wg-slots,.wg-tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.wg-slot,.wg-tile{width:44px;height:50px;border-radius:10px;font:inherit;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0}
+.wg-slot{border:2px dashed var(--line);background:#fff;color:var(--navy);cursor:pointer}
+.wg-slot.f{border-style:solid;border-color:var(--navy)}
+.wg-tile{border:2px solid var(--navy);background:#eef1ff;color:var(--navy);cursor:pointer}
+.wg-tile:disabled{opacity:.25;cursor:default}
+.wg-slots.ok .wg-slot{background:#e4f6e8;border:2px solid #2e9e4f}
+.wg-slots.no .wg-slot{background:#fde7e9;border:2px solid var(--red);animation:wgs .3s}
+@keyframes wgs{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.wg-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -94,6 +107,10 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 <h2>Mini diyalog</h2>
 <p class="sub">Baloncuklara dokun, cümleyi dinle.</p>
 <div id="dlg"></div>
+
+<h2>Oyun: Harfleri sırala 🔤</h2>
+<p class="sub">Harflere dokun, kelimeyi yaz. Her oyunda 6 yeni kelime gelir!</p>
+<div class="box" id="wg"></div>
 
 <h2>Etkinlik (7 soru)</h2>
 <div class="box" id="quiz"></div>
@@ -216,6 +233,110 @@ DLG.forEach(function(d){
   row.appendChild(b);
   document.getElementById("dlg").appendChild(row);
 });
+
+/* Oyun: Harfleri sırala */
+var WG_POOL=[];
+Object.keys(GROUPS).forEach(function(id){
+  GROUPS[id].forEach(function(b){
+    var m=b[0].match(/^(le |la |les |un |une |l')(.+)$/);
+    if(!m)return;
+    var w=m[2];
+    if(w.length<4||/[ \-']/.test(w))return;
+    WG_POOL.push({w:w,full:b[0],e:b[1],t:b[2]});
+  });
+});
+var WG_N=6,wgBox=document.getElementById("wg"),wgList=[],wgI=0,wgScore=0;
+function wgShuffle(a){
+  a=a.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}
+  return a;
+}
+function wgNew(){
+  wgList=wgShuffle(WG_POOL).slice(0,WG_N);
+  wgI=0;wgScore=0;wgShow();
+}
+function wgShow(){
+  wgBox.innerHTML="";
+  if(wgI>=wgList.length){
+    wgBox.appendChild(el("p","fb","Oyun bitti!"));
+    wgBox.appendChild(el("div","score",wgScore+" / "+wgList.length));
+    wgBox.appendChild(el("p","fb",wgScore>=5?"Harika! Bravo !":wgScore>=3?"İyi gidiyorsun!":"Kartlara tekrar göz at, sonra yeniden dene."));
+    var r=el("button","btn","Yeni oyun (yeni kelimeler)");
+    r.onclick=wgNew;
+    wgBox.appendChild(r);return;
+  }
+  var d=wgList[wgI],letters=d.w.split(""),order,tries=0;
+  do{order=wgShuffle(letters.map(function(_,i){return i}));tries++}
+  while(tries<20&&order.every(function(x,i){return letters[x]===letters[i]}));
+  var ans=[],clean=true,done=false;
+  wgBox.appendChild(el("div","sub","Kelime "+(wgI+1)+" / "+wgList.length));
+  wgBox.appendChild(el("p","wg-emo",d.e));
+  wgBox.appendChild(el("p","wg-tr",d.t));
+  var slots=el("div","wg-slots"),tiles=el("div","wg-tiles"),fb=el("div","fb");
+  fb.style.textAlign="center";
+  var row=el("div","wg-row");
+  var listen=el("button","btn l","🔊 Dinle");
+  listen.onclick=function(){say(d.full)};
+  var undo=el("button","btn l","⌫ Sil");
+  var hint=el("button","btn l","💡 İpucu");
+  var nxt=el("button","btn","Sonraki");
+  nxt.style.display="none";
+  nxt.onclick=function(){wgI++;wgShow()};
+  if(wgI===wgList.length-1)nxt.textContent="Sonucu gör";
+  row.appendChild(listen);row.appendChild(undo);row.appendChild(hint);
+  var tb=[];
+  function realIdx(k){return order[k]}
+  function draw(){
+    slots.innerHTML="";slots.className="wg-slots";
+    for(var i=0;i<letters.length;i++){
+      var has=ans[i]!==undefined;
+      var s=el("button","wg-slot"+(has?" f":""),has?letters[realIdx(ans[i])]:"");
+      s.setAttribute("aria-label","harf "+(i+1));
+      (function(i){s.onclick=function(){if(done||ans[i]===undefined)return;ans.splice(i,1);fb.textContent="";draw()}})(i);
+      slots.appendChild(s);
+    }
+    tb.forEach(function(b,k){b.disabled=ans.indexOf(k)>-1||done});
+    if(ans.length===letters.length)check();
+  }
+  function check(){
+    var got=ans.map(function(k){return letters[realIdx(k)]}).join("");
+    if(got===d.w){
+      done=true;slots.className="wg-slots ok";
+      if(clean)wgScore++;
+      fb.textContent="Doğru! "+d.full+" = "+d.t;
+      say(d.full);nxt.style.display="inline-block";
+      hint.disabled=true;undo.disabled=true;
+      tb.forEach(function(b){b.disabled=true});
+    }else{
+      clean=false;slots.className="wg-slots no";
+      fb.textContent="Olmadı, harflere dokunup düzelt.";
+    }
+  }
+  order.forEach(function(idx,k){
+    var t=el("button","wg-tile",letters[idx]);
+    t.onclick=function(){
+      if(done||ans.length>=letters.length)return;
+      ans.push(k);fb.textContent="";draw();
+    };
+    tb.push(t);tiles.appendChild(t);
+  });
+  undo.onclick=function(){if(done)return;ans.pop();fb.textContent="";draw()};
+  hint.onclick=function(){
+    if(done)return;
+    clean=false;
+    var p=0;
+    while(p<ans.length&&letters[realIdx(ans[p])]===d.w.charAt(p))p++;
+    ans=ans.slice(0,p);
+    for(var k=0;k<tb.length;k++){
+      if(ans.indexOf(k)===-1&&letters[realIdx(k)]===d.w.charAt(p)){ans.push(k);break}
+    }
+    fb.textContent="İpucu: bir harf yerleşti.";draw();
+  };
+  wgBox.appendChild(slots);wgBox.appendChild(tiles);wgBox.appendChild(row);
+  wgBox.appendChild(fb);wgBox.appendChild(nxt);
+  draw();
+}
+wgNew();
 
 /* Etkinlik */
 var Q=[
