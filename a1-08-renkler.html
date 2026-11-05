@@ -11,7 +11,7 @@
 .d7 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
 .d7 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
 .vid-wrap{display:flex;gap:12px;flex-wrap:wrap}
-.vid-wrap .vid{flex:1 1 300px}
+.vid-wrap .vid{flex:1 1 220px;max-width:340px}
 .vid{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#e8ecf8}
 .vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
@@ -153,7 +153,7 @@
 <h1>Ders 8 · Renkler</h1>
 <p>Bu derste renklerin adlarını öğreniyor, bir şeyin rengini sormayı ve söylemeyi öğreniyoruz. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
 
-<div class="vid" id="video"></div>
+<div class="vid-wrap"><div class="vid" id="video"></div><div class="vid" id="video3"></div></div>
 
 <h2>1. Hangi renk?</h2>
 <p>Rengi sormak ve söylemek için iki kalıp yeterli:</p>
@@ -231,9 +231,12 @@
 <script>
 var VIDEO_ID="lU_RRCk3KmM";
 var VIDEO_ID2="a-KE-KIkYW4";
+var VIDEO_ID3="XUr-q3K9HoY";
 (function(){
  var v=document.getElementById("video");
  v.innerHTML=VIDEO_ID?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID+'" title="Ders 8 videosu" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
+ var v3=document.getElementById("video3");
+ v3.innerHTML=VIDEO_ID3?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID3+'?rel=0" title="Les couleurs" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
  var v2=document.getElementById("video2");
  v2.innerHTML=VIDEO_ID2?'<iframe src="https://www.youtube-nocookie.com/embed/'+VIDEO_ID2+'" title="Ders 8 videosu 2" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
 })();
