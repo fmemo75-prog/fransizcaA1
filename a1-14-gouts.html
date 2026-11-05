@@ -47,6 +47,14 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 .btn{display:inline-block;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;cursor:pointer;margin-top:6px}
 .btn.l{background:#fff;color:var(--navy);border:2px solid var(--navy)}
 .fb{margin:8px 0;font-size:16px}
+.ws{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-width:380px;margin:0 auto 12px;user-select:none}
+.ws button{aspect-ratio:1;padding:0;border:2px solid var(--line);border-radius:8px;background:#fff;font:700 20px system-ui,sans-serif;color:var(--navy);cursor:pointer}
+.ws button:hover{border-color:var(--navy)}
+.ws button.st{background:var(--gold);color:#fff;border-color:var(--gold)}
+.ws button.fd{background:#e4f6e8;border-color:#2e9e4f;color:#1d6b35}
+.wl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.wl span{background:#fff;border:2px solid var(--line);border-radius:20px;padding:4px 12px;font-size:15px}
+.wl span.fd{background:#e4f6e8;border-color:#2e9e4f;text-decoration:line-through;opacity:.8}
 .nav{display:flex;justify-content:space-between;gap:10px;margin-top:30px}
 .nav a,.nav span{color:var(--navy);font-weight:600}
 .nav span{opacity:.45}
@@ -89,6 +97,15 @@ h2{color:var(--navy);font-size:21px;margin:30px 0 4px;border-left:5px solid var(
 <h2>Mini diyalog</h2>
 <p class="sub">Baloncuklara dokun, cümleyi dinle.</p>
 <div id="dlg"></div>
+
+<h2>Sözcük avı (7 sözcük)</h2>
+<p class="sub">Sözcükler soldan sağa veya yukarıdan aşağıya gizlenmiş. Önce ilk harfe, sonra son harfe dokun.</p>
+<div class="box">
+<div class="ws" id="ws"></div>
+<div class="wl" id="wl"></div>
+<p class="fb" id="wfb" style="text-align:center"></p>
+<div style="text-align:center"><button class="btn l" id="wreset">Yeni oyun (yeni sözcükler)</button></div>
+</div>
 
 <h2>Etkinlik (7 soru)</h2>
 <div class="box" id="quiz"></div>
@@ -199,6 +216,107 @@ DLG.forEach(function(d){
   row.appendChild(b);
   document.getElementById("dlg").appendChild(row);
 });
+
+/* Sözcük avı */
+(function(){
+  var N=8;
+  /* Havuz: [GRİDDEKİ HARFLER, Fransızca, emoji + Türkçe]. Yeni sözcük eklemek için buraya satır ekleyin (en çok 8 harf, aksan/şapka yok). */
+  var POOL=[
+    ["POMME","une pomme","🍎 elma"],
+    ["BANANE","une banane","🍌 muz"],
+    ["POIRE","une poire","🍐 armut"],
+    ["ABRICOT","un abricot","🍑 kayısı"],
+    ["GATEAU","le gâteau","🍰 pasta"],
+    ["BONBON","un bonbon","🍬 şeker"],
+    ["CHOCOLAT","le chocolat","🍫 çikolata"],
+    ["MIEL","le miel","🍯 bal"],
+    ["FRAISE","une fraise","🍓 çilek"],
+    ["ORANGE","une orange","🍊 portakal"],
+    ["CITRON","un citron","🍋 limon"],
+    ["MELON","un melon","🍈 kavun"],
+    ["PAIN","le pain","🍞 ekmek"],
+    ["FROMAGE","le fromage","🧀 peynir"],
+    ["LAIT","le lait","🥛 süt"],
+    ["OEUF","un œuf","🥚 yumurta"],
+    ["GLACE","une glace","🍦 dondurma"],
+    ["SOUPE","la soupe","🍲 çorba"],
+    ["RIZ","le riz","🍚 pirinç"],
+    ["CAFE","le café","☕ kahve"]
+  ];
+  var COUNT=7;
+  var W,grid,cells,found,start;
+  var gEl=document.getElementById("ws"),lEl=document.getElementById("wl"),fb=document.getElementById("wfb");
+
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+
+  function place(words){
+    var g=[],i,j;
+    for(i=0;i<N;i++){g.push([]);for(j=0;j<N;j++)g[i].push("")}
+    var order=words.slice().sort(function(x,y){return y[0].length-x[0].length});
+    for(var wi=0;wi<order.length;wi++){
+      var w=order[wi][0],opts=[];
+      for(var d=0;d<2;d++){            /* 0: soldan sağa, 1: yukarıdan aşağıya */
+        var dr=d,dc=1-d;
+        for(i=0;i<N;i++)for(j=0;j<N;j++){
+          var ei=i+dr*(w.length-1),ej=j+dc*(w.length-1);
+          if(ei>=N||ej>=N)continue;
+          var ok=true;
+          for(var k=0;k<w.length;k++){
+            var c=g[i+dr*k][j+dc*k];
+            if(c&&c!==w.charAt(k)){ok=false;break}
+          }
+          if(ok)opts.push([i,j,dr,dc]);
+        }
+      }
+      if(!opts.length)return null;
+      var o=opts[Math.floor(Math.random()*opts.length)];
+      for(var m=0;m<w.length;m++)g[o[0]+o[2]*m][o[1]+o[3]*m]=w.charAt(m);
+    }
+    return g;
+  }
+
+  function build(){
+    var g=null,i,j;
+    while(!g){W=shuffle(POOL).slice(0,COUNT);g=place(W)}
+    grid=g;cells=[];found={};start=null;
+    var F="ABCDEFILMNOPRSTU";
+    for(i=0;i<N;i++)for(j=0;j<N;j++)if(!grid[i][j])grid[i][j]=F.charAt(Math.floor(Math.random()*F.length));
+    gEl.innerHTML="";lEl.innerHTML="";fb.textContent="";
+    for(i=0;i<N;i++){cells.push([]);for(j=0;j<N;j++){
+      (function(i,j){
+        var b=el("button","",grid[i][j]);
+        b.setAttribute("aria-label",grid[i][j]);
+        b.onclick=function(){pick(i,j)};
+        gEl.appendChild(b);cells[i].push(b);
+      })(i,j);
+    }}
+    W.forEach(function(w){
+      var sp=el("span","",w[2]);sp.id="wl-"+w[0];lEl.appendChild(sp);
+    });
+  }
+
+  function pick(i,j){
+    if(!start){start=[i,j];cells[i][j].classList.add("st");fb.textContent="Şimdi son harfe dokun.";return}
+    var a=start;start=null;cells[a[0]][a[1]].classList.remove("st");
+    var s="",cs=[],k;
+    if(a[0]===i&&j>=a[1]){for(k=a[1];k<=j;k++){s+=grid[i][k];cs.push([i,k])}}
+    else if(a[1]===j&&i>=a[0]){for(k=a[0];k<=i;k++){s+=grid[k][j];cs.push([k,j])}}
+    var hit=null;
+    W.forEach(function(w){if(w[0]===s&&!found[s])hit=w});
+    if(hit){
+      found[s]=1;
+      cs.forEach(function(c){cells[c[0]][c[1]].classList.add("fd")});
+      document.getElementById("wl-"+s).classList.add("fd");
+      say(hit[1]);
+      var n=Object.keys(found).length;
+      fb.textContent=n===W.length?"Bravo ! Bütün sözcükleri buldun! 🎉":"Doğru! "+hit[1]+" ("+n+" / "+W.length+")";
+    }else{
+      fb.textContent="Olmadı, tekrar dene. (Sözcükler soldan sağa veya yukarıdan aşağıya.)";
+    }
+  }
+  document.getElementById("wreset").onclick=build;
+  build();
+})();
 
 /* Etkinlik */
 var Q=[
