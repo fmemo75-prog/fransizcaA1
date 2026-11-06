@@ -7,26 +7,34 @@
 <link rel="stylesheet" href="ders.css">
 <style>
 :root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
-.d7{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d7{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,-apple-system,sans-serif;line-height:1.55;color:#1a1a2e}
 .d7 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
 .d7 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
 .vid{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#e8ecf8}
 .vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit;transition:background .2s,outline .2s}
 .kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
 .kart b{display:block;font-size:1.1rem;color:var(--lac)}
 .kart small{color:#555}
 .kart .em{display:block;font-size:2rem;line-height:1.2}
 .kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
 .ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
-.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
-.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
-.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
-.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
-.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:14px;margin:12px 0}
+.opts{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.opt{display:block;width:100%;text-align:left;padding:10px 12px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:600 1rem inherit;cursor:pointer;color:#1a1a2e;transition:background .2s,border-color .2s}
+.opt:hover{background:#eef1fb}
+.opt.ok{background:#dff5e3;border-color:#2e9e4f;color:#1e6b37}
+.opt.no{background:#fde3e3;border-color:var(--kir);color:#921b24}
+#bar{height:8px;background:#e2e6f3;border-radius:4px;overflow:hidden;margin:12px 0 16px}
+#bar i{display:block;height:100%;width:0%;background:var(--alt);transition:width .3s}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+.say:hover{opacity:.9}
+.btn{background:var(--lac);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:700 1rem inherit;cursor:pointer;margin-top:10px}
+.btn:hover{opacity:.9}
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
-.nav a{color:var(--lac);font-weight:700}
+.nav a{color:var(--lac);font-weight:700;text-decoration:none}
+.nav a:hover{text-decoration:underline}
 .vidler{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .vid-etiket{margin:0 0 4px;font-size:.9rem}
 @media(max-width:600px){.vidler{grid-template-columns:1fr}}
@@ -39,7 +47,7 @@
 .cw-c.ok{background:#dff5e3;border-color:#2e9e4f}
 .cw-c.no{background:#fde3e3;border-color:var(--kir)}
 .cw-c:focus-within{outline:3px solid var(--alt)}
-.cw-c input{width:100%;height:100%;border:0;background:transparent;text-align:center;font:700 clamp(18px,5.5vw,26px) system-ui,sans-serif;color:#1a1a2e;text-transform:uppercase;padding:8px 0 0;box-sizing:border-box;outline:none;caret-color:transparent;border-radius:0}
+.cw-c input{width:100%;height:100%;border:0;background:transparent;text-align:center;font:700 clamp(18px,5.5vw,26px) inherit;color:#1a1a2e;text-transform:uppercase;padding:8px 0 0;box-sizing:border-box;outline:none;caret-color:transparent;border-radius:0}
 .cw-c input.given{color:var(--lac)}
 .cw-n{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:var(--kir);pointer-events:none;z-index:1}
 .cw-clues{display:flex;flex-wrap:wrap;gap:8px 28px;margin:12px 0}
@@ -56,7 +64,7 @@
 .match-wrap{background:#f7f8fd;border:2px solid #d5dbf0;border-radius:14px;padding:14px;margin:14px 0}
 .match-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .match-col h3{font-size:1rem;color:var(--lac);text-align:center;margin:4px 0 8px}
-.match-item{width:100%;min-height:48px;margin:5px 0;padding:9px 8px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:600 1rem system-ui,sans-serif;cursor:pointer;color:#1a1a2e}
+.match-item{width:100%;min-height:48px;margin:5px 0;padding:9px 8px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:600 1rem inherit;cursor:pointer;color:#1a1a2e}
 .match-item:focus-visible{outline:3px solid var(--alt)}
 .match-item.selected{background:#fff3cc;border-color:var(--alt)}
 .match-item.visual-choice{display:flex;align-items:center;justify-content:flex-start;gap:10px;text-align:left}
@@ -67,7 +75,6 @@
 .match-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
 #match-msg{font-weight:700;color:var(--lac);min-height:26px;margin:8px 0 0}
 @media(max-width:420px){.match-columns{gap:7px}.match-item{font-size:.9rem;padding:8px 5px}}
-
 </style>
 </head>
 <body>
@@ -141,12 +148,11 @@
 
 <h2>6. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
-<div id="bar" style="margin:12px 0 16px"><i></i></div>
+<div id="bar"><i></i></div>
 <div id="quiz"></div>
 
 <div class="nav">
   <a href="a1-06-tekrar.html">← Önceki ders</a>
-  <!-- Ders 8 yüklenince bu bağlantıyı açın: <a href="a1-08-….html">Sonraki ders →</a> -->
 </div>
 </main>
 
@@ -162,11 +168,13 @@ var VIDEOLAR=["z0Xoip0PV1g","B_WLSI2tFdY"];
 
 function konus(t){
   try{
+    if(!('speechSynthesis' in window)) return;
     speechSynthesis.cancel();
     var u=new SpeechSynthesisUtterance(t);
     u.lang="fr-FR";
     u.rate=.85;
-    var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];
+    var voices=speechSynthesis.getVoices();
+    var f=voices.filter(function(x){return x.lang && x.lang.toLowerCase().indexOf("fr")===0})[0];
     if(f) u.voice=f;
     speechSynthesis.speak(u);
   }catch(e){}
@@ -193,8 +201,7 @@ doldur("kalip",[["Qu'est-ce que c'est ?","Bu nedir?"],["C'est un livre.","Bu bir
 doldur("esya",[["un livre","kitap","📖"],["un cahier","defter","📓"],["un crayon","kurşun kalem","✏️"],["une gomme","silgi","🧽"],["une règle","cetvel","📏"],["une trousse","kalemlik","👝"],["un cartable","okul çantası","🎒"],["une colle","yapıştırıcı","🧴"],["une chaise","sandalye","🪑"],["une table","masa","🪑"]]);
 doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar makas."]],"k");
 
-
-/* Eşleştirme: her açılışta 6 sözcük seçilir ve iki sütun ayrı ayrı karıştırılır. */
+/* Eşleştirme Etkinliği */
 (function(){
   var havuz=[
     {fr:'un livre',tr:'kitap',em:'📖'},
@@ -222,8 +229,8 @@ doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar
   function yeniOyun(){
     selected=null;matched=0;locked=false;
     round=karistir(havuz.slice()).slice(0,6);
-    var fr=karistir(round.map(function(x){return x;}));
-    var tr=karistir(round.map(function(x){return x;}));
+    var fr=karistir(round.slice());
+    var tr=karistir(round.slice());
     frEl.innerHTML='';trEl.innerHTML='';
     fr.forEach(function(x){
       var b=document.createElement('button');
@@ -274,7 +281,7 @@ doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar
   yeniOyun();
 })();
 
-/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
+/* Quiz Etkinliği */
 var Q=[
  {q:"Dinleyin. Bu soru ne soruyor?",say:"Qu'est-ce que c'est ?",o:["Bu nedir?","Adın ne?","Kaç yaşındasın?"],a:0},
  {q:"Dinleyin. Hangi eşyayı duydunuz?",say:"C'est un crayon.",o:["📏 une règle","✏️ un crayon","📖 un livre"],a:1},
@@ -332,7 +339,7 @@ function secimYap(j, btn){
     bs[s.a].classList.add("ok");
     fb.innerHTML='<span style="color:var(--kir,#e74c3c)">❌ Doğru cevap: '+s.o[s.a]+'</span>';
   }
-  fb.insertAdjacentHTML('afterend', '<button class="btn" style="margin-top:10px" type="button" onclick="sonrakiSoru()">'+(qIdx===Q.length-1?'Sonucu gör':'Sonraki soru →')+'</button>');
+  fb.insertAdjacentHTML('afterend', '<button class="btn" type="button" onclick="sonrakiSoru()">'+(qIdx===Q.length-1?'Sonucu gör':'Sonraki soru →')+'</button>');
 }
 
 function sonrakiSoru(){
@@ -348,7 +355,7 @@ function quizBastan(){
 
 if(box) soruGoster();
 
-/* Çengel bulmaca (her seferinde farklı sözcük ve yerleşim) */
+/* Çengel Bulmaca */
 (function(){
 var POOL=[
  {w:'LIVRE',k:'📖 kitap',a:'un livre'},
@@ -371,7 +378,6 @@ function rnd(n){return Math.floor(Math.random()*n)}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
 function find(w){return POOL.filter(function(q){return q.w===w})[0]}
 
-/* --- yerleşim üretici --- */
 function tryLayout(ws){
  var grid={},placed=[],i;
  function can(w,r,c,d){
@@ -423,7 +429,7 @@ function valid(pl){
  return a===b;
 }
 function generate(){
- for(var t=0;t<4000;t++){
+ for(var t=0;t<800;t++){
   var ws=shuffle(POOL.map(function(q){return q.w})).slice(0,6);
   var pl=tryLayout(ws);if(!pl)continue;
   var minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9,na=0;
@@ -455,12 +461,10 @@ function build(){
    cells[key].dirs[x.d]=i;
   }
  });
- /* numaralandırma */
  var starts=[];
  CW.forEach(function(x){var key=x.r+','+x.c;if(starts.indexOf(key)<0)starts.push(key)});
  starts.sort(function(a,b){var p=a.split(',').map(Number),q=b.split(',').map(Number);return p[0]-q[0]||p[1]-q[1]});
  CW.forEach(function(x){x.n=starts.indexOf(x.r+','+x.c)+1});
- /* verilen harfler: her sözcüğün ilk harfi + rastgele ~%40 */
  CW.forEach(function(x){GIVEN[x.r+','+x.c]=1});
  var keys=Object.keys(cells),target=Math.round(keys.length*0.4),given=Object.keys(GIVEN).length;
  function empties(i){var x=CW[i],n=0;for(var k=0;k<x.w.length;k++){if(!GIVEN[(x.r+(x.d==='D'?k:0))+','+(x.c+(x.d==='A'?k:0))])n++}return n}
@@ -470,7 +474,6 @@ function build(){
   for(var d in cells[key].dirs){if(empties(cells[key].dirs[d])<=2)ok=false}
   if(ok){GIVEN[key]=1;given++}
  });
- /* çizim */
  var h='';
  for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){
   var key=r+','+c,cell=cells[key];
