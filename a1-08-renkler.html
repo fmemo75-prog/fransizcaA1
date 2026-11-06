@@ -145,6 +145,39 @@
 .cw-btn { padding: 8px 20px; font-size: 18px; border-radius: 12px; border: 0; cursor: pointer; color: #fff; font-weight: bold; }
 .cw-btn.refresh { background: #475569; }
 .cw-btn.check { background: #16a34a; }
+
+/* --- GÜNLERİ SÜRÜKLE-BIRAK ETKİNLİĞİ --- */
+.gj{background:#f8fafc;border:2px solid #cbd5e1;border-radius:18px;padding:14px;margin:14px 0}
+.gj *{box-sizing:border-box}
+.gj-top{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.gj-btn{font:inherit;font-weight:700;border:2px solid var(--lac);background:#fff;color:var(--lac);border-radius:20px;padding:8px 16px;cursor:pointer;min-height:44px}
+.gj-btn[aria-pressed="true"],.gj-btn.rs{background:var(--lac);color:#fff}
+.gj-stats{display:flex;gap:12px;align-items:center;justify-content:center;font-weight:700;margin:10px 0}
+.gj-bar{flex:1;max-width:300px;height:14px;border-radius:7px;background:#e2e8f0;overflow:hidden}
+.gj-bar i{display:block;height:100%;width:0;background:#2e9e4f;transition:width .3s}
+.gj-leg{display:flex;gap:8px;justify-content:center;font-size:.85rem;font-weight:700}
+.gj-leg span{padding:3px 12px;border-radius:20px}
+.gj-msg{min-height:36px;text-align:center;font-size:1.4rem;font-weight:800;margin:6px 0 0}
+.gj-msg.ok{color:#1a6e35}.gj-msg.bad{color:#c0262d}
+.gj-task{text-align:center;margin:2px 0 6px;font-weight:600}
+.gj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+.gj-slot{position:relative;min-height:84px;border:3px dashed #94a3b8;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;padding:20px 6px 6px}
+.gj-slot .gj-num{position:absolute;top:4px;left:10px;font-size:.9rem;font-weight:800;color:#64748b}
+.gj-card{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;position:relative;z-index:1;width:100%;min-height:62px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:26px;font-weight:800;border-radius:14px;padding:8px;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.gj-card.wd{background:#CFE3FF;color:#12294d}.gj-card.we{background:#FFD9A8;color:#4a2300}
+.gj-card.drag{z-index:20;cursor:grabbing;box-shadow:0 10px 22px rgba(0,0,0,.35)}
+.gj-card.sel,.gj-card:focus-visible,.gj-target:focus-visible{outline:4px solid var(--alt);outline-offset:3px}
+.gj-card.locked{pointer-events:none;box-shadow:none;outline:4px solid #2e9e4f;outline-offset:-4px}
+.gj-card.shake{animation:gj-shake .4s}
+@keyframes gj-shake{20%{translate:-12px 0}40%{translate:12px 0}60%{translate:-8px 0}80%{translate:8px 0}}
+.gj-tray{padding:6px 10px;border-radius:14px;background:#e8ecf8}
+.gj-zones{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.gj-zone{flex:1 1 200px;min-height:140px;border:3px dashed #94a3b8;border-radius:14px;background:#fff;padding:8px}
+.gj-zone h4{margin:0 0 8px;text-align:center;font-size:1.3rem;color:var(--lac)}
+.gj-drop{display:grid;gap:8px}
+.gj-ref{flex:0 1 190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:700}
+.gj-conf{position:fixed;top:-20px;width:12px;height:18px;z-index:99;pointer-events:none;animation:gj-fall linear forwards}
+@keyframes gj-fall{to{transform:translateY(110vh) rotate(720deg)}}
 </style>
 </head>
 <body>
@@ -201,6 +234,91 @@
 <p>Fransızcada günler <b>küçük harfle</b> yazılır ve hafta <i>lundi</i> (Pazartesi) ile başlar. Kartlara tıklayıp dinleyin.</p>
 <div class="grid" id="gun"></div>
 <div class="ipucu"><b>İpucu:</b> Fransızcada günler büyük harfle başlamaz: <i>lundi, mardi, mercredi…</i> Türkçede olduğu gibi büyük yazmak yanlış sayılır.</div>
+
+<h3>Sürükle-Bırak: Günleri Sırala</h3>
+<p>Kartları tutup doğru yere sürükleyin. Dokunmatik ekran ve akıllı tahtada da çalışır. Karta dokununca günün okunuşunu duyarsınız.</p>
+<div class="gj" id="gj">
+  <div class="gj-top" role="group" aria-label="Etkinlik seçimi">
+    <button type="button" class="gj-btn" id="gj-m1" aria-pressed="true">1. Dans l’ordre</button>
+    <button type="button" class="gj-btn" id="gj-m2" aria-pressed="false">2. Avant ou après ?</button>
+    <button type="button" class="gj-btn rs" id="gj-reset">Recommencer</button>
+  </div>
+  <div class="gj-stats"><span>Score : <span id="gj-score">0</span></span><div class="gj-bar" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="gj-fill"></i></div></div>
+  <div class="gj-leg"><span style="background:#CFE3FF;color:#12294d">la semaine</span><span style="background:#FFD9A8;color:#4a2300">le week-end</span></div>
+  <div class="gj-msg" id="gj-msg" role="status" aria-live="polite"></div>
+  <p class="gj-task" id="gj-task"></p>
+  <div id="gj-board"></div>
+  <div class="gj-tray" id="gj-tray" aria-label="Cartes des jours"></div>
+</div>
+<script>
+(function(){
+var D=["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"],NB="\u00a0";
+var mode=1,score=0,done=0,total=7,ref=0,sel=null,drag=null;
+var root=document.getElementById("gj");
+function $(s){return root.querySelector(s);}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function say(t,ok){var m=$("#gj-msg");m.textContent=t;m.className="gj-msg"+(ok===true?" ok":ok===false?" bad":"");}
+function sp(t){if(typeof konus==="function")konus(t);}
+function update(){$("#gj-score").textContent=score;var p=Math.round(done/total*100);$("#gj-fill").style.width=p+"%";$(".gj-bar").setAttribute("aria-valuenow",p);}
+function confetti(){var c=["#e63946","#f4a261","#2a9d8f","#4361ee","#f72585","#ffd166"];
+  for(var i=0;i<70;i++){var e=document.createElement("div");e.className="gj-conf";e.style.left=Math.random()*100+"vw";e.style.background=c[i%c.length];
+    e.style.animationDuration=(2+Math.random()*2)+"s";e.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(e);(function(x){setTimeout(function(){x.remove();},5000);})(e);}}
+function mkCard(i){var c=document.createElement("div");c.className="gj-card "+(i<5?"wd":"we");c.textContent=D[i];c.dataset.i=i;
+  c.tabIndex=0;c.setAttribute("role","button");c.setAttribute("aria-label",D[i]+", carte à placer");
+  c.addEventListener("pointerdown",down);c.addEventListener("pointermove",move);c.addEventListener("pointerup",up);c.addEventListener("pointercancel",cancel);return c;}
+function build(){
+  var b=$("#gj-board"),t=$("#gj-tray");b.innerHTML="";t.innerHTML="";done=0;sel=null;
+  var idx=[0,1,2,3,4,5,6];
+  if(mode===1){total=7;$("#gj-task").textContent="Remets les jours dans l’ordre !";
+    var g=document.createElement("div");g.className="gj-grid";
+    for(var i=0;i<7;i++){var s=document.createElement("div");s.className="gj-slot gj-target";s.dataset.i=i;s.tabIndex=0;s.setAttribute("role","button");
+      s.setAttribute("aria-label","Case "+(i+1));s.innerHTML='<span class="gj-num">'+(i+1)+"</span>";g.appendChild(s);}
+    b.appendChild(g);
+  }else{total=6;ref=1+Math.floor(Math.random()*5);idx=idx.filter(function(i){return i!==ref;});
+    $("#gj-task").textContent="Quels jours sont avant et après "+D[ref]+" ?";
+    var z=document.createElement("div");z.className="gj-zones";
+    var mk=function(side,label){var d=document.createElement("div");d.className="gj-zone gj-target";d.dataset.side=side;d.tabIndex=0;d.setAttribute("role","button");
+      d.setAttribute("aria-label",label);d.innerHTML="<h4>"+label+'</h4><div class="gj-drop"></div>';return d;};
+    var r=document.createElement("div");r.className="gj-ref";r.innerHTML="<span>Aujourd’hui</span>";
+    var rc=mkCard(ref);rc.classList.add("locked");rc.tabIndex=-1;r.appendChild(rc);
+    z.appendChild(mk("avant","avant"));z.appendChild(r);z.appendChild(mk("apres","après"));b.appendChild(z);}
+  var g2=document.createElement("div");g2.className="gj-grid";shuffle(idx).forEach(function(i){g2.appendChild(mkCard(i));});t.appendChild(g2);
+  say("");update();
+  $("#gj-m1").setAttribute("aria-pressed",mode===1);$("#gj-m2").setAttribute("aria-pressed",mode===2);
+}
+function attempt(c,t){
+  var i=+c.dataset.i,ok;
+  if(mode===1)ok=(+t.dataset.i===i)&&!t.querySelector(".gj-card");
+  else ok=(i<ref?"avant":"apres")===t.dataset.side;
+  if(ok){(t.querySelector(".gj-drop")||t).appendChild(c);c.style.transform="";c.classList.remove("sel","drag");c.classList.add("locked");c.tabIndex=-1;
+    sel=null;done++;score+=10;update();sp(D[i]);
+    if(done===total){say("Félicitations"+NB+"!",true);confetti();}else say("Bravo"+NB+"!",true);
+  }else{say("Essaie encore"+NB+"!",false);back(c);}
+}
+function back(c){c.classList.remove("drag","sel");sel=null;c.style.transition="transform .25s";c.style.transform="";
+  c.classList.add("shake");setTimeout(function(){c.classList.remove("shake");c.style.transition="";},450);}
+function toggle(c){if(sel)sel.classList.remove("sel");sel=(sel===c)?null:c;if(sel)sel.classList.add("sel");sp(D[+c.dataset.i]);}
+function down(e){var c=e.currentTarget;if(c.classList.contains("locked"))return;
+  c.setPointerCapture(e.pointerId);drag={c:c,x:e.clientX,y:e.clientY,moved:false};c.style.transition="";}
+function move(e){if(!drag||drag.c!==e.currentTarget)return;var dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(Math.abs(dx)+Math.abs(dy)>6){drag.moved=true;drag.c.classList.add("drag");}
+  if(drag.moved)drag.c.style.transform="translate("+dx+"px,"+dy+"px)";}
+function up(e){if(!drag||drag.c!==e.currentTarget)return;var c=drag.c,moved=drag.moved;drag=null;
+  try{c.releasePointerCapture(e.pointerId);}catch(x){}
+  if(!moved){c.style.transform="";toggle(c);return;}
+  c.style.pointerEvents="none";var el=document.elementFromPoint(e.clientX,e.clientY);c.style.pointerEvents="";
+  var t=el&&el.closest(".gj-target");if(t&&root.contains(t))attempt(c,t);else back(c);}
+function cancel(){if(!drag)return;var c=drag.c;drag=null;back(c);}
+root.addEventListener("click",function(e){var t=e.target.closest(".gj-target");if(t&&sel)attempt(sel,t);});
+root.addEventListener("keydown",function(e){if(e.key!=="Enter"&&e.key!==" ")return;var a=document.activeElement;
+  if(a.classList.contains("gj-card")&&!a.classList.contains("locked")){e.preventDefault();toggle(a);}
+  else if(a.classList.contains("gj-target")&&sel){e.preventDefault();attempt(sel,a);}});
+$("#gj-m1").onclick=function(){mode=1;build();};
+$("#gj-m2").onclick=function(){mode=2;build();};
+$("#gj-reset").onclick=function(){score=0;build();};
+build();
+})();
+</script>
 
 <h3>Sözcük Avı</h3>
 <p>Haftanın yedi gününü ızgarada bulun. Tıklayıp sürükleyin (çapraz, yatay, dikey — her yönde olabilir).</p>
