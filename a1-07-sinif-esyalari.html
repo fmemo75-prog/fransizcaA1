@@ -51,6 +51,23 @@
 .cw-btns button:hover{background:#eef1fb}
 #cw-msg{min-height:26px;font-weight:700;color:var(--lac);margin:6px 0}
 #cw-done{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Eşleştirme etkinliği */
+.match-wrap{background:#f7f8fd;border:2px solid #d5dbf0;border-radius:14px;padding:14px;margin:14px 0}
+.match-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match-col h3{font-size:1rem;color:var(--lac);text-align:center;margin:4px 0 8px}
+.match-item{width:100%;min-height:48px;margin:5px 0;padding:9px 8px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:600 1rem system-ui,sans-serif;cursor:pointer;color:#1a1a2e}
+.match-item:focus-visible{outline:3px solid var(--alt)}
+.match-item.selected{background:#fff3cc;border-color:var(--alt)}
+.match-item.visual-choice{display:flex;align-items:center;justify-content:flex-start;gap:10px;text-align:left}
+.match-item.visual-choice .match-emoji{font-size:1.8rem;line-height:1.1;min-width:38px;text-align:center}
+.match-item.visual-choice .match-turkish{font-weight:700}
+.match-item.matched{background:#dff5e3;border-color:#2e9e4f;color:#246b37;cursor:default}
+.match-item.wrong{background:#fde3e3;border-color:var(--kir)}
+.match-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+#match-msg{font-weight:700;color:var(--lac);min-height:26px;margin:8px 0 0}
+@media(max-width:420px){.match-columns{gap:7px}.match-item{font-size:.9rem;padding:8px 5px}}
+
 </style>
 </head>
 <body>
@@ -78,6 +95,19 @@
 <h2>2. Sınıf eşyaları</h2>
 <p>Kartlara tıklayın, kelimeyi dinleyin. Kelimenin önündeki <i>un</i> veya <i>une</i> ile birlikte öğrenin.</p>
 <div class="grid" id="esya"></div>
+
+<div class="match-wrap" aria-label="Sınıf eşyalarını eşleştirme etkinliği">
+  <p><b>🎯 Eşleştirme:</b> Fransızca eşyanın Türkçe karşılığını bulun. Önce bir Fransızca, sonra ona karşılık gelen Türkçe sözcüğe dokunun.</p>
+  <div class="match-columns">
+    <div class="match-col"><h3>Français 🇫🇷</h3><div id="match-fr"></div></div>
+    <div class="match-col"><h3>Türkçe 🇹🇷</h3><div id="match-tr"></div></div>
+  </div>
+  <div class="match-actions">
+    <button class="say" type="button" id="match-new">🔄 Yeni eşleştirme</button>
+    <span id="match-score" aria-live="polite">0 / 6 eşleşti</span>
+  </div>
+  <div id="match-msg" aria-live="polite"></div>
+</div>
 <div class="ipucu"><b>Fark ettiniz mi?</b> Bazı kelimelerin önünde <i>un</i>, bazılarının önünde <i>une</i> var. Türkçede bunun karşılığı yok. Kelimeyi hep önündeki küçük sözcükle birlikte tekrar edin: <i>un cahier</i>, <i>une règle</i>.</div>
 
 <h2>3. Bir şey mi, birden fazla şey mi?</h2>
@@ -162,6 +192,87 @@ function doldur(id,liste,cls){
 doldur("kalip",[["Qu'est-ce que c'est ?","Bu nedir?"],["C'est un livre.","Bu bir kitap."],["C'est une gomme.","Bu bir silgi."]],"k");
 doldur("esya",[["un livre","kitap","📖"],["un cahier","defter","📓"],["un crayon","kurşun kalem","✏️"],["une gomme","silgi","🧽"],["une règle","cetvel","📏"],["une trousse","kalemlik","👝"],["un cartable","okul çantası","🎒"],["une colle","yapıştırıcı","🧴"],["une chaise","sandalye","🪑"],["une table","masa","🪑"]]);
 doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar makas."]],"k");
+
+
+/* Eşleştirme: her açılışta 6 sözcük seçilir ve iki sütun ayrı ayrı karıştırılır. */
+(function(){
+  var havuz=[
+    {fr:'un livre',tr:'kitap',em:'📖'},
+    {fr:'un cahier',tr:'defter',em:'📓'},
+    {fr:'un crayon',tr:'kurşun kalem',em:'✏️'},
+    {fr:'une gomme',tr:'silgi',em:'🧽'},
+    {fr:'une règle',tr:'cetvel',em:'📏'},
+    {fr:'une trousse',tr:'kalemlik',em:'👝'},
+    {fr:'un cartable',tr:'okul çantası',em:'🎒'},
+    {fr:'une colle',tr:'yapıştırıcı',em:'🧴'},
+    {fr:'une chaise',tr:'sandalye',em:'🪑'},
+    {fr:'une table',tr:'masa',em:'🪑'}
+  ];
+  var frEl=document.getElementById('match-fr');
+  var trEl=document.getElementById('match-tr');
+  var msg=document.getElementById('match-msg');
+  var score=document.getElementById('match-score');
+  var selected=null,matched=0,locked=false,round=[];
+  function karistir(a){
+    for(var i=a.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+  function yeniOyun(){
+    selected=null;matched=0;locked=false;
+    round=karistir(havuz.slice()).slice(0,6);
+    var fr=karistir(round.map(function(x){return x;}));
+    var tr=karistir(round.map(function(x){return x;}));
+    frEl.innerHTML='';trEl.innerHTML='';
+    fr.forEach(function(x){
+      var b=document.createElement('button');
+      b.type='button';b.className='match-item';b.textContent=x.fr;
+      b.dataset.key=x.fr;
+      b.addEventListener('click',function(){secFr(b);});
+      frEl.appendChild(b);
+    });
+    tr.forEach(function(x){
+      var b=document.createElement('button');
+      b.type='button';b.className='match-item visual-choice';
+      b.innerHTML='<span class="match-emoji" aria-hidden="true">'+x.em+'</span><span class="match-turkish">'+x.tr+'</span>';
+      b.dataset.key=x.fr;
+      b.addEventListener('click',function(){secTr(b);});
+      trEl.appendChild(b);
+    });
+    score.textContent='0 / '+round.length+' eşleşti';
+    msg.textContent='Haydi başlayalım!';
+  }
+  function secFr(b){
+    if(locked||b.classList.contains('matched'))return;
+    frEl.querySelectorAll('.match-item').forEach(function(x){x.classList.remove('selected');});
+    selected=b;b.classList.add('selected');
+    msg.textContent='Şimdi Türkçe karşılığını seçin.';
+  }
+  function secTr(b){
+    if(locked||b.classList.contains('matched'))return;
+    if(!selected){msg.textContent='Önce Fransızca bir sözcük seçin.';return;}
+    if(selected.dataset.key===b.dataset.key){
+      selected.classList.remove('selected');
+      selected.classList.add('matched');b.classList.add('matched');
+      selected.disabled=true;b.disabled=true;selected=null;matched++;
+      score.textContent=matched+' / '+round.length+' eşleşti';
+      if(matched===round.length)msg.textContent='🎉 Bravo! Bütün sözcükleri doğru eşleştirdiniz.';
+      else msg.textContent='✅ Doğru eşleşme! Devam edin.';
+    }else{
+      locked=true;b.classList.add('wrong');selected.classList.add('wrong');
+      msg.textContent='Tekrar deneyin. Bu iki sözcük eşleşmiyor.';
+      window.setTimeout(function(){
+        b.classList.remove('wrong');
+        if(selected)selected.classList.remove('wrong','selected');
+        selected=null;locked=false;
+        msg.textContent='Yeni bir eşleştirme deneyin.';
+      },650);
+    }
+  }
+  document.getElementById('match-new').addEventListener('click',yeniOyun);
+  yeniOyun();
+})();
 
 /* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
 var Q=[
