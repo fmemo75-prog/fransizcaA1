@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ders 7 · Sınıf eşyaları · Fransızca A1</title>
+<link rel="stylesheet" href="ders.css">
+<style>
+:root{--lac:#002395;--kir:#ED2939;--alt:#C9A227}
+.d7{max-width:760px;margin:0 auto;padding:12px 14px 40px;font-family:system-ui,sans-serif;line-height:1.55;color:#1a1a2e}
+.d7 h1{color:var(--lac);font-size:1.6rem;margin:.4em 0}
+.d7 h2{color:var(--lac);border-bottom:3px solid var(--alt);padding-bottom:4px;margin-top:1.6em}
+.vid{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#e8ecf8}
+.vid iframe,.vid div{position:absolute;inset:0;width:100%;height:100%;border:0;display:flex;align-items:center;justify-content:center;color:var(--lac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.kart{background:#fff;border:2px solid var(--lac);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font:inherit;color:inherit}
+.kart:hover,.kart:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.kart b{display:block;font-size:1.1rem;color:var(--lac)}
+.kart small{color:#555}
+.kart .em{display:block;font-size:2rem;line-height:1.2}
+.kart.k{border-color:var(--kir)}.kart.k b{color:var(--kir)}
+.ipucu{background:#fff8dc;border-left:5px solid var(--alt);padding:10px 14px;border-radius:8px;margin:12px 0}
+.q{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.q button.o{display:block;width:100%;text-align:left;margin:6px 0;padding:10px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:inherit;cursor:pointer}
+.q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
+.say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
+.sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
+.nav a{color:var(--lac);font-weight:700}
+.vidler{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.vid-etiket{margin:0 0 4px;font-size:.9rem}
+@media(max-width:600px){.vidler{grid-template-columns:1fr}}
+#cw-grid{display:grid;gap:3px;max-width:400px;margin:12px auto}
+.cw-x{aspect-ratio:1}
+.cw-c{position:relative;aspect-ratio:1;background:#fff;border:2px solid var(--lac);border-radius:6px;overflow:hidden}
+.cw-c.giv{background:#e6ebfa}
+.cw-c.hl{background:#fff8dc;border-color:var(--alt)}
+.cw-c.giv.hl{background:#dfe6fa}
+.cw-c.ok{background:#dff5e3;border-color:#2e9e4f}
+.cw-c.no{background:#fde3e3;border-color:var(--kir)}
+.cw-c:focus-within{outline:3px solid var(--alt)}
+.cw-c input{width:100%;height:100%;border:0;background:transparent;text-align:center;font:700 clamp(18px,5.5vw,26px) system-ui,sans-serif;color:#1a1a2e;text-transform:uppercase;padding:8px 0 0;box-sizing:border-box;outline:none;caret-color:transparent;border-radius:0}
+.cw-c input.given{color:var(--lac)}
+.cw-n{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:var(--kir);pointer-events:none;z-index:1}
+.cw-clues{display:flex;flex-wrap:wrap;gap:8px 28px;margin:12px 0}
+.cw-clues ul{margin:4px 0 0;padding-left:0;list-style:none}
+.cw-clues li{margin:3px 0}
+.cw-clues li b{color:var(--kir);margin-right:4px}
+.cw-btns{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.cw-btns button{padding:9px 16px;border-radius:10px;border:2px solid var(--lac);background:#fff;color:var(--lac);font:inherit;font-weight:700;cursor:pointer}
+.cw-btns button:hover{background:#eef1fb}
+#cw-msg{min-height:26px;font-weight:700;color:var(--lac);margin:6px 0}
+#cw-done{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Eşleştirme etkinliği */
+.match-wrap{background:#f7f8fd;border:2px solid #d5dbf0;border-radius:14px;padding:14px;margin:14px 0}
+.match-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match-col h3{font-size:1rem;color:var(--lac);text-align:center;margin:4px 0 8px}
+.match-item{width:100%;min-height:48px;margin:5px 0;padding:9px 8px;border:2px solid #c7cfe9;border-radius:10px;background:#fff;font:600 1rem system-ui,sans-serif;cursor:pointer;color:#1a1a2e}
+.match-item:focus-visible{outline:3px solid var(--alt)}
+.match-item.selected{background:#fff3cc;border-color:var(--alt)}
+.match-item.visual-choice{display:flex;align-items:center;justify-content:flex-start;gap:10px;text-align:left}
+.match-item.visual-choice .match-emoji{font-size:1.8rem;line-height:1.1;min-width:38px;text-align:center}
+.match-item.visual-choice .match-turkish{font-weight:700}
+.match-item.matched{background:#dff5e3;border-color:#2e9e4f;color:#246b37;cursor:default}
+.match-item.wrong{background:#fde3e3;border-color:var(--kir)}
+.match-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+#match-msg{font-weight:700;color:var(--lac);min-height:26px;margin:8px 0 0}
+@media(max-width:420px){.match-columns{gap:7px}.match-item{font-size:.9rem;padding:8px 5px}}
+
+</style>
+</head>
+<body>
+<main class="d7">
+<p><a href="index.html">← Ders listesi</a></p>
+<h1>Ders 7 · Sınıf eşyaları</h1>
+<p>Yeni ünitemiz <b>À l'école</b> (Okulda). Bu derste sınıftaki eşyaların adlarını öğreniyor, "Bu nedir?" diye sormayı ve cevap vermeyi öğreniyoruz. Kartlara tıklayıp dinleyin, sonra etkinlikle kendinizi deneyin.</p>
+
+<div class="vidler">
+  <div>
+    <p class="vid-etiket"><b>📹 Video 1</b></p>
+    <div class="vid" id="video1"></div>
+  </div>
+  <div>
+    <p class="vid-etiket"><b>📹 Video 2</b></p>
+    <div class="vid" id="video2"></div>
+  </div>
+</div>
+
+<h2>1. Bu nedir?</h2>
+<p>Bir şeyin adını sormak ve söylemek için iki kalıp yeterli:</p>
+<div class="grid" id="kalip"></div>
+<div class="ipucu"><b>İpucu:</b> <i>C'est</i> "bu ... dir" demek. Hem soruda hem cevapta aynı <i>c'est</i> geçiyor, dinleyip fark edin.</div>
+
+<h2>2. Sınıf eşyaları</h2>
+<p>Kartlara tıklayın, kelimeyi dinleyin. Kelimenin önündeki <i>un</i> veya <i>une</i> ile birlikte öğrenin.</p>
+<div class="grid" id="esya"></div>
+
+<div class="match-wrap" aria-label="Sınıf eşyalarını eşleştirme etkinliği">
+  <p><b>🎯 Eşleştirme:</b> Fransızca eşyanın Türkçe karşılığını bulun. Önce bir Fransızca, sonra ona karşılık gelen Türkçe sözcüğe dokunun.</p>
+  <div class="match-columns">
+    <div class="match-col"><h3>Français 🇫🇷</h3><div id="match-fr"></div></div>
+    <div class="match-col"><h3>Türkçe 🇹🇷</h3><div id="match-tr"></div></div>
+  </div>
+  <div class="match-actions">
+    <button class="say" type="button" id="match-new">🔄 Yeni eşleştirme</button>
+    <span id="match-score" aria-live="polite">0 / 6 eşleşti</span>
+  </div>
+  <div id="match-msg" aria-live="polite"></div>
+</div>
+<div class="ipucu"><b>Fark ettiniz mi?</b> Bazı kelimelerin önünde <i>un</i>, bazılarının önünde <i>une</i> var. Türkçede bunun karşılığı yok. Kelimeyi hep önündeki küçük sözcükle birlikte tekrar edin: <i>un cahier</i>, <i>une règle</i>.</div>
+
+<h2>3. Bir şey mi, birden fazla şey mi?</h2>
+<p>Bazı eşyalar çift olduğu için çoğul söylenir. Dinleyin:</p>
+<div class="grid" id="cogul"></div>
+
+<h2>4. Mini diyalog</h2>
+<p>Baloncuklara tıklayıp dinleyin.</p>
+<svg viewBox="0 0 360 210" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
+  <g style="cursor:pointer" onclick="konus('Qu\'est-ce que c\'est ?')"><rect x="10" y="8" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="33" font-size="13" fill="#002395">Mehmet: Qu'est-ce que c'est ?</text></g>
+  <g style="cursor:pointer" onclick="konus('C\'est un cahier.')"><rect x="50" y="58" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="83" font-size="13" fill="#a00">İpek: C'est un cahier.</text></g>
+  <g style="cursor:pointer" onclick="konus('Qu\'est-ce que c\'est ?')"><rect x="10" y="108" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: Qu'est-ce que c'est ?</text></g>
+  <g style="cursor:pointer" onclick="konus('C\'est une règle.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: C'est une règle.</text></g>
+</svg>
+
+<h2>5. Çengel bulmaca</h2>
+<p>Sınıf eşyalarını bulun ve Fransızca adlarını kutulara yazın (<i>un</i> / <i>une</i> yazmayın). Mavi kutulardaki harfler hazır verilmiştir. Her yeni bulmacada sözcükler ve yerleşim değişir.</p>
+<div id="cw-grid"></div>
+<div class="cw-clues">
+  <div><b>Yatay →</b><ul id="cw-a"></ul></div>
+  <div><b>Dikey ↓</b><ul id="cw-d"></ul></div>
+</div>
+<div class="cw-btns">
+  <button type="button" id="cw-check">✅ Kontrol et</button>
+  <button type="button" id="cw-hint">💡 Bir harf ver</button>
+  <button type="button" id="cw-reset">🔄 Temizle</button>
+  <button type="button" id="cw-new">🆕 Yeni bulmaca</button>
+</div>
+<div id="cw-msg" aria-live="polite"></div>
+<div id="cw-done"></div>
+
+<h2>6. Etkinlik</h2>
+<p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
+<div id="bar" style="margin:12px 0 16px"><i></i></div>
+<div id="quiz"></div>
+
+<div class="nav">
+  <a href="a1-06-tekrar.html">← Önceki ders</a>
+  <!-- Ders 8 yüklenince bu bağlantıyı açın: <a href="a1-08-….html">Sonraki ders →</a> -->
+</div>
+</main>
+
+<script>
+var VIDEOLAR=["z0Xoip0PV1g","B_WLSI2tFdY"];
+(function(){
+  VIDEOLAR.forEach(function(vid,i){
+    var v=document.getElementById("video"+(i+1));
+    if(!v) return;
+    v.innerHTML=vid?'<iframe src="https://www.youtube-nocookie.com/embed/'+vid+'" title="Ders 7 videosu '+(i+1)+'" allowfullscreen loading="lazy"></iframe>':'<div>Video yakında</div>';
+  });
+})();
+
+function konus(t){
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);
+    u.lang="fr-FR";
+    u.rate=.85;
+    var f=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("fr")==0})[0];
+    if(f) u.voice=f;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function kart(h,a,cls){
+  var x=document.createElement("button");
+  x.type="button";
+  x.className="kart "+(cls||"");
+  x.innerHTML=h;
+  x.onclick=function(){konus(a)};
+  return x;
+}
+
+function doldur(id,liste,cls){
+  var g=document.getElementById(id);
+  if(!g) return;
+  liste.forEach(function(e){
+    g.appendChild(kart((e[2]?'<span class="em">'+e[2]+'</span>':'')+"<b>"+e[0]+"</b><small>"+e[1]+"</small>",e[3]||e[0],cls));
+  });
+}
+
+doldur("kalip",[["Qu'est-ce que c'est ?","Bu nedir?"],["C'est un livre.","Bu bir kitap."],["C'est une gomme.","Bu bir silgi."]],"k");
+doldur("esya",[["un livre","kitap","📖"],["un cahier","defter","📓"],["un crayon","kurşun kalem","✏️"],["une gomme","silgi","🧽"],["une règle","cetvel","📏"],["une trousse","kalemlik","👝"],["un cartable","okul çantası","🎒"],["une colle","yapıştırıcı","🧴"],["une chaise","sandalye","🪑"],["une table","masa","🪑"]]);
+doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar makas."]],"k");
+
+
+/* Eşleştirme: her açılışta 6 sözcük seçilir ve iki sütun ayrı ayrı karıştırılır. */
+(function(){
+  var havuz=[
+    {fr:'un livre',tr:'kitap',em:'📖'},
+    {fr:'un cahier',tr:'defter',em:'📓'},
+    {fr:'un crayon',tr:'kurşun kalem',em:'✏️'},
+    {fr:'une gomme',tr:'silgi',em:'🧽'},
+    {fr:'une règle',tr:'cetvel',em:'📏'},
+    {fr:'une trousse',tr:'kalemlik',em:'👝'},
+    {fr:'un cartable',tr:'okul çantası',em:'🎒'},
+    {fr:'une colle',tr:'yapıştırıcı',em:'🧴'},
+    {fr:'une chaise',tr:'sandalye',em:'🪑'},
+    {fr:'une table',tr:'masa',em:'🪑'}
+  ];
+  var frEl=document.getElementById('match-fr');
+  var trEl=document.getElementById('match-tr');
+  var msg=document.getElementById('match-msg');
+  var score=document.getElementById('match-score');
+  var selected=null,matched=0,locked=false,round=[];
+  function karistir(a){
+    for(var i=a.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+  function yeniOyun(){
+    selected=null;matched=0;locked=false;
+    round=karistir(havuz.slice()).slice(0,6);
+    var fr=karistir(round.map(function(x){return x;}));
+    var tr=karistir(round.map(function(x){return x;}));
+    frEl.innerHTML='';trEl.innerHTML='';
+    fr.forEach(function(x){
+      var b=document.createElement('button');
+      b.type='button';b.className='match-item';b.textContent=x.fr;
+      b.dataset.key=x.fr;
+      b.addEventListener('click',function(){secFr(b);});
+      frEl.appendChild(b);
+    });
+    tr.forEach(function(x){
+      var b=document.createElement('button');
+      b.type='button';b.className='match-item visual-choice';
+      b.innerHTML='<span class="match-emoji" aria-hidden="true">'+x.em+'</span><span class="match-turkish">'+x.tr+'</span>';
+      b.dataset.key=x.fr;
+      b.addEventListener('click',function(){secTr(b);});
+      trEl.appendChild(b);
+    });
+    score.textContent='0 / '+round.length+' eşleşti';
+    msg.textContent='Haydi başlayalım!';
+  }
+  function secFr(b){
+    if(locked||b.classList.contains('matched'))return;
+    frEl.querySelectorAll('.match-item').forEach(function(x){x.classList.remove('selected');});
+    selected=b;b.classList.add('selected');
+    msg.textContent='Şimdi Türkçe karşılığını seçin.';
+  }
+  function secTr(b){
+    if(locked||b.classList.contains('matched'))return;
+    if(!selected){msg.textContent='Önce Fransızca bir sözcük seçin.';return;}
+    if(selected.dataset.key===b.dataset.key){
+      selected.classList.remove('selected');
+      selected.classList.add('matched');b.classList.add('matched');
+      selected.disabled=true;b.disabled=true;selected=null;matched++;
+      score.textContent=matched+' / '+round.length+' eşleşti';
+      if(matched===round.length)msg.textContent='🎉 Bravo! Bütün sözcükleri doğru eşleştirdiniz.';
+      else msg.textContent='✅ Doğru eşleşme! Devam edin.';
+    }else{
+      locked=true;b.classList.add('wrong');selected.classList.add('wrong');
+      msg.textContent='Tekrar deneyin. Bu iki sözcük eşleşmiyor.';
+      window.setTimeout(function(){
+        b.classList.remove('wrong');
+        if(selected)selected.classList.remove('wrong','selected');
+        selected=null;locked=false;
+        msg.textContent='Yeni bir eşleştirme deneyin.';
+      },650);
+    }
+  }
+  document.getElementById('match-new').addEventListener('click',yeniOyun);
+  yeniOyun();
+})();
+
+/* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
+var Q=[
+ {q:"Dinleyin. Bu soru ne soruyor?",say:"Qu'est-ce que c'est ?",o:["Bu nedir?","Adın ne?","Kaç yaşındasın?"],a:0},
+ {q:"Dinleyin. Hangi eşyayı duydunuz?",say:"C'est un crayon.",o:["📏 une règle","✏️ un crayon","📖 un livre"],a:1},
+ {q:"Dinleyin. Hangi eşyayı duydunuz?",say:"C'est une règle.",o:["✏️ un crayon","🎒 un cartable","📏 une règle"],a:2},
+ {q:"« C'est ___ cahier. » Boşluğa hangisi gelir?",o:["un","une","des"],a:0},
+ {q:"« C'est ___ trousse. » Boşluğa hangisi gelir?",o:["un","des","une"],a:2},
+ {q:"Dinleyin. Bu cümle ne demek?",say:"C'est un livre.",o:["Bu bir defter.","Bu bir kitap.","Bu bir silgi."],a:1},
+ {q:"🧴 « Qu'est-ce que c'est ? » Doğru cevap hangisi?",o:["C'est une colle.","Je m'appelle colle.","J'ai une colle."],a:0}
+];
+
+var qIdx=0, puan=0, cevaplandi=false, box=document.getElementById("quiz"), bar=document.querySelector("#bar i");
+
+function soruGoster(){
+  cevaplandi=false;
+  if(bar) bar.style.width=(qIdx/Q.length*100)+'%';
+  if(qIdx>=Q.length){
+    if(bar) bar.style.width='100%';
+    box.innerHTML='<div class="q" style="text-align:center;padding:24px 16px">' +
+      '<p style="font-size:1.3rem;font-weight:700;color:var(--lac);margin:0 0 10px">🎉 Etkinlik Tamamlandı!</p>' +
+      '<p style="font-size:1.15rem;margin:0 0 16px"><b>Skorunuz:</b> '+puan+' / '+Q.length+(puan>=5?' ⭐ Harika!':' · Kartları tekrar dinleyip yeniden deneyebilirsiniz.')+'</p>' +
+      '<button class="say" type="button" onclick="quizBastan()">🔄 Tekrar Dene</button>' +
+      '</div>';
+    return;
+  }
+  var s=Q[qIdx];
+  var h='<div class="q">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+     '<small style="font-weight:700;color:var(--lac)">Soru '+(qIdx+1)+' / '+Q.length+'</small>' +
+     '</div>';
+  h+='<p style="font-size:1.05rem;font-weight:600;margin:6px 0 12px">'+s.q+'</p>';
+  if(s.say){
+    h+='<button class="say" type="button" style="margin-bottom:12px" onclick="konus(\''+s.say.replace(/'/g, "\\'")+'\')">🔊 Dinle</button>';
+  }
+  h+='<div class="opts">';
+  s.o.forEach(function(opt,j){
+    h+='<button type="button" class="opt" onclick="secimYap('+j+',this)">'+opt+'</button>';
+  });
+  h+='</div>';
+  h+='<div id="fb" style="min-height:26px;font-weight:600;margin-top:12px" aria-live="polite"></div>';
+  h+='</div>';
+  box.innerHTML=h;
+  if(s.say) konus(s.say);
+}
+
+function secimYap(j, btn){
+  if(cevaplandi) return;
+  cevaplandi=true;
+  var s=Q[qIdx], fb=document.getElementById("fb"), bs=box.querySelectorAll(".opt");
+  if(j===s.a){
+    puan++;
+    btn.classList.add("ok");
+    fb.innerHTML='<span style="color:#27ae60">✅ Doğru!</span>';
+  } else {
+    btn.classList.add("no");
+    bs[s.a].classList.add("ok");
+    fb.innerHTML='<span style="color:var(--kir,#e74c3c)">❌ Doğru cevap: '+s.o[s.a]+'</span>';
+  }
+  fb.insertAdjacentHTML('afterend', '<button class="btn" style="margin-top:10px" type="button" onclick="sonrakiSoru()">'+(qIdx===Q.length-1?'Sonucu gör':'Sonraki soru →')+'</button>');
+}
+
+function sonrakiSoru(){
+  qIdx++;
+  soruGoster();
+}
+
+function quizBastan(){
+  qIdx=0;
+  puan=0;
+  soruGoster();
+}
+
+if(box) soruGoster();
+
+/* Çengel bulmaca (her seferinde farklı sözcük ve yerleşim) */
+(function(){
+var POOL=[
+ {w:'LIVRE',k:'📖 kitap',a:'un livre'},
+ {w:'CAHIER',k:'📓 defter',a:'un cahier'},
+ {w:'CRAYON',k:'✏️ kurşun kalem',a:'un crayon'},
+ {w:'GOMME',k:'🧽 silgi',a:'une gomme'},
+ {w:'TROUSSE',k:'👝 kalemlik',a:'une trousse'},
+ {w:'CARTABLE',k:'🎒 okul çantası',a:'un cartable'},
+ {w:'COLLE',k:'🧴 yapıştırıcı',a:'une colle'},
+ {w:'CHAISE',k:'🪑 sandalye',a:'une chaise'},
+ {w:'TABLE',k:'🪑 masa',a:'une table'},
+ {w:'CISEAUX',k:'✂️ makas',a:'des ciseaux'}
+];
+var FALLBACK=[{w:'LIVRE',r:0,c:3,d:'D'},{w:'CAHIER',r:1,c:0,d:'A'},{w:'COLLE',r:1,c:0,d:'D'},{w:'GOMME',r:2,c:6,d:'D'},{w:'CRAYON',r:3,c:2,d:'A'},{w:'TABLE',r:6,c:2,d:'A'}];
+var CW,cells,GIVEN,inputs,wraps,ROWS,COLS,dir='A',cur=null,wasCur=false;
+var gridEl=document.getElementById('cw-grid');
+if(!gridEl)return;
+var msg=document.getElementById('cw-msg'),doneEl=document.getElementById('cw-done');
+function rnd(n){return Math.floor(Math.random()*n)}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
+function find(w){return POOL.filter(function(q){return q.w===w})[0]}
+
+/* --- yerleşim üretici --- */
+function tryLayout(ws){
+ var grid={},placed=[],i;
+ function can(w,r,c,d){
+  var inter=0,k;
+  for(k=0;k<w.length;k++){
+   var rr=r+(d==='D'?k:0),cc=c+(d==='A'?k:0),ch=grid[rr+','+cc];
+   if(ch!==undefined){if(ch!==w.charAt(k))return -1;inter++}
+   else{
+    var a=d==='D'?[rr,cc+1]:[rr+1,cc],b=d==='D'?[rr,cc-1]:[rr-1,cc];
+    if(grid[a[0]+','+a[1]]!==undefined||grid[b[0]+','+b[1]]!==undefined)return -1;
+   }
+  }
+  var br=d==='D'?r-1:r,bc=d==='D'?c:c-1,ar=d==='D'?r+w.length:r,ac=d==='D'?c:c+w.length;
+  if(grid[br+','+bc]!==undefined||grid[ar+','+ac]!==undefined)return -1;
+  return inter;
+ }
+ function put(w,r,c,d){
+  for(var k=0;k<w.length;k++)grid[(r+(d==='D'?k:0))+','+(c+(d==='A'?k:0))]=w.charAt(k);
+  placed.push({w:w,r:r,c:c,d:d});
+ }
+ put(ws[0],0,0,'A');
+ for(i=1;i<ws.length;i++){
+  var w=ws[i],opts=[];
+  for(var key in grid){
+   var p=key.split(','),r0=+p[0],c0=+p[1];
+   for(var k=0;k<w.length;k++){
+    if(w.charAt(k)!==grid[key])continue;
+    var rr=r0-k,cc=c0-k;
+    if(can(w,rr,c0,'D')===1)opts.push([rr,c0,'D']);
+    if(can(w,r0,cc,'A')===1)opts.push([r0,cc,'A']);
+   }
+  }
+  if(!opts.length)return null;
+  var o=opts[rnd(opts.length)];put(w,o[0],o[1],o[2]);
+ }
+ return placed;
+}
+function valid(pl){
+ var g={},minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9;
+ pl.forEach(function(x){for(var k=0;k<x.w.length;k++){
+  var r=x.r+(x.d==='D'?k:0),c=x.c+(x.d==='A'?k:0);
+  g[r+','+c]=x.w.charAt(k);
+  if(r<minR)minR=r;if(r>maxR)maxR=r;if(c<minC)minC=c;if(c>maxC)maxC=c;
+ }});
+ var runs=[],r,c,s;
+ for(r=minR;r<=maxR;r++){s='';for(c=minC;c<=maxC+1;c++){var v=g[r+','+c];if(v)s+=v;else{if(s.length>1)runs.push(s);s=''}}}
+ for(c=minC;c<=maxC;c++){s='';for(r=minR;r<=maxR+1;r++){var v2=g[r+','+c];if(v2)s+=v2;else{if(s.length>1)runs.push(s);s=''}}}
+ var a=runs.sort().join('|'),b=pl.map(function(x){return x.w}).sort().join('|');
+ return a===b;
+}
+function generate(){
+ for(var t=0;t<4000;t++){
+  var ws=shuffle(POOL.map(function(q){return q.w})).slice(0,6);
+  var pl=tryLayout(ws);if(!pl)continue;
+  var minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9,na=0;
+  pl.forEach(function(x){
+   var er=x.r+(x.d==='D'?x.w.length-1:0),ec=x.c+(x.d==='A'?x.w.length-1:0);
+   if(x.r<minR)minR=x.r;if(er>maxR)maxR=er;if(x.c<minC)minC=x.c;if(ec>maxC)maxC=ec;
+   if(x.d==='A')na++;
+  });
+  if(maxR-minR+1>9||maxC-minC+1>9||na<2||na>4||!valid(pl))continue;
+  return pl;
+ }
+ return FALLBACK;
+}
+
+function inWord(cell,d){return cell&&cell.dirs[d]!==undefined}
+function build(){
+ var pl=generate(),minR=1e9,minC=1e9,maxR=-1e9,maxC=-1e9;
+ pl.forEach(function(x){
+  var er=x.r+(x.d==='D'?x.w.length-1:0),ec=x.c+(x.d==='A'?x.w.length-1:0);
+  if(x.r<minR)minR=x.r;if(x.c<minC)minC=x.c;if(er>maxR)maxR=er;if(ec>maxC)maxC=ec;
+ });
+ ROWS=maxR-minR+1;COLS=maxC-minC+1;
+ CW=pl.map(function(x){var q=find(x.w);return {w:x.w,r:x.r-minR,c:x.c-minC,d:x.d,k:q.k,a:q.a}});
+ cells={};inputs={};wraps={};GIVEN={};dir='A';cur=null;wasCur=false;
+ CW.forEach(function(x,i){
+  for(var k=0;k<x.w.length;k++){
+   var r=x.r+(x.d==='D'?k:0),c=x.c+(x.d==='A'?k:0),key=r+','+c;
+   if(!cells[key])cells[key]={r:r,c:c,ch:x.w.charAt(k),dirs:{}};
+   cells[key].dirs[x.d]=i;
+  }
+ });
+ /* numaralandırma */
+ var starts=[];
+ CW.forEach(function(x){var key=x.r+','+x.c;if(starts.indexOf(key)<0)starts.push(key)});
+ starts.sort(function(a,b){var p=a.split(',').map(Number),q=b.split(',').map(Number);return p[0]-q[0]||p[1]-q[1]});
+ CW.forEach(function(x){x.n=starts.indexOf(x.r+','+x.c)+1});
+ /* verilen harfler: her sözcüğün ilk harfi + rastgele ~%40 */
+ CW.forEach(function(x){GIVEN[x.r+','+x.c]=1});
+ var keys=Object.keys(cells),target=Math.round(keys.length*0.4),given=Object.keys(GIVEN).length;
+ function empties(i){var x=CW[i],n=0;for(var k=0;k<x.w.length;k++){if(!GIVEN[(x.r+(x.d==='D'?k:0))+','+(x.c+(x.d==='A'?k:0))])n++}return n}
+ shuffle(keys).forEach(function(key){
+  if(given>=target||GIVEN[key])return;
+  var ok=true;
+  for(var d in cells[key].dirs){if(empties(cells[key].dirs[d])<=2)ok=false}
+  if(ok){GIVEN[key]=1;given++}
+ });
+ /* çizim */
+ var h='';
+ for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){
+  var key=r+','+c,cell=cells[key];
+  if(!cell){h+='<div class="cw-x"></div>';continue}
+  var num=starts.indexOf(key)+1,g=GIVEN[key];
+  h+='<div class="cw-c'+(g?' giv':'')+'" data-k="'+key+'">'+(num?'<span class="cw-n">'+num+'</span>':'')+
+     '<input type="text" maxlength="1" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Satır '+(r+1)+', sütun '+(c+1)+'"'+
+     (g?' class="given" readonly tabindex="-1" value="'+cell.ch+'"':'')+'></div>';
+ }
+ gridEl.style.gridTemplateColumns='repeat('+COLS+',1fr)';
+ gridEl.style.maxWidth=Math.min(440,COLS*50)+'px';
+ gridEl.innerHTML=h;
+ var wl=gridEl.querySelectorAll('.cw-c');
+ for(var i=0;i<wl.length;i++){var k=wl[i].getAttribute('data-k');wraps[k]=wl[i];inputs[k]=wl[i].querySelector('input')}
+ var la='',ld='';
+ CW.slice().sort(function(a,b){return a.n-b.n}).forEach(function(x){
+  var li='<li><b>'+x.n+'.</b>'+x.k+' <small>('+x.w.length+' harf)</small></li>';
+  if(x.d==='A')la+=li;else ld+=li;
+ });
+ document.getElementById('cw-a').innerHTML=la;
+ document.getElementById('cw-d').innerHTML=ld;
+ msg.textContent='';doneEl.innerHTML='';
+ bindInputs();
+}
+
+function highlight(){
+ for(var k in wraps)wraps[k].classList.remove('hl');
+ if(!cur)return;
+ var cell=cells[cur],d=inWord(cell,dir)?dir:(dir==='A'?'D':'A');
+ if(!inWord(cell,d))return;
+ var x=CW[cell.dirs[d]];
+ for(var j=0;j<x.w.length;j++){
+  wraps[(x.r+(x.d==='D'?j:0))+','+(x.c+(x.d==='A'?j:0))].classList.add('hl');
+ }
+}
+function go(key){if(inputs[key]){inputs[key].focus()}}
+function step(r,c,d,s){return d==='A'?[r,c+s]:[r+s,c]}
+function move(d,s){
+ var cell=cells[cur];if(!cell)return;
+ var p=[cell.r,cell.c];
+ for(var n=0;n<COLS+ROWS;n++){
+  p=step(p[0],p[1],d,s);var key=p[0]+','+p[1],nx=cells[key];
+  if(!nx||!inWord(nx,d))return;
+  if(GIVEN[key])continue;
+  go(key);return;
+ }
+}
+function neighbour(dr,dc){
+ var cell=cells[cur];if(!cell)return;
+ var key=(cell.r+dr)+','+(cell.c+dc);
+ if(cells[key])go(key);
+}
+function clearMarks(){for(var k in wraps){wraps[k].classList.remove('ok');wraps[k].classList.remove('no')}}
+function bindInputs(){
+ Object.keys(inputs).forEach(function(key){
+  var inp=inputs[key],cell=cells[key];
+  inp.addEventListener('pointerdown',function(){wasCur=(cur===key)});
+  inp.addEventListener('focus',function(){
+   cur=key;
+   if(!inWord(cell,dir))dir=(dir==='A'?'D':'A');
+   highlight();
+  });
+  inp.addEventListener('click',function(){
+   if(wasCur&&inWord(cell,'A')&&inWord(cell,'D')){dir=(dir==='A'?'D':'A');highlight()}
+   wasCur=false;
+  });
+  if(GIVEN[key])return;
+  inp.addEventListener('input',function(){
+   var v=inp.value.toUpperCase().replace(/[^A-Z]/g,'');
+   v=v.slice(-1);inp.value=v;
+   wraps[key].classList.remove('ok');wraps[key].classList.remove('no');
+   if(v){var d=inWord(cell,dir)?dir:(dir==='A'?'D':'A');move(d,1)}
+  });
+ });
+}
+gridEl.addEventListener('keydown',function(e){
+ if(!cur)return;var k=e.key;
+ if(k==='ArrowRight'){e.preventDefault();dir='A';neighbour(0,1)}
+ else if(k==='ArrowLeft'){e.preventDefault();dir='A';neighbour(0,-1)}
+ else if(k==='ArrowDown'){e.preventDefault();dir='D';neighbour(1,0)}
+ else if(k==='ArrowUp'){e.preventDefault();dir='D';neighbour(-1,0)}
+ else if(k==='Backspace'&&!GIVEN[cur]&&inputs[cur].value===''){
+  e.preventDefault();
+  var cell=cells[cur],d=inWord(cell,dir)?dir:(dir==='A'?'D':'A');
+  var p=step(cell.r,cell.c,d,-1),key=p[0]+','+p[1];
+  if(cells[key]&&inWord(cells[key],d)){if(!GIVEN[key]){inputs[key].value='';wraps[key].classList.remove('ok');wraps[key].classList.remove('no')}go(key)}
+ }
+});
+function allCorrect(){
+ for(var k in cells){if(inputs[k].value.toUpperCase()!==cells[k].ch)return false}
+ return true;
+}
+function win(){
+ msg.textContent='🎉 Bravo! Bulmacayı tamamladınız. Sözcükleri dinleyin:';
+ var h='';
+ CW.forEach(function(x){h+='<button type="button" class="say" data-say="'+x.a+'">🔊 '+x.a+'</button>'});
+ doneEl.innerHTML=h;
+}
+doneEl.addEventListener('click',function(e){
+ var b=e.target.closest?e.target.closest('[data-say]'):null;
+ if(b&&window.konus)window.konus(b.getAttribute('data-say'));
+});
+document.getElementById('cw-check').addEventListener('click',function(){
+ clearMarks();
+ var total=0,right=0,empty=0;
+ for(var k in cells){
+  if(GIVEN[k])continue;total++;
+  var v=inputs[k].value.toUpperCase();
+  if(v==='')empty++;
+  else if(v===cells[k].ch){right++;wraps[k].classList.add('ok')}
+  else wraps[k].classList.add('no');
+ }
+ if(allCorrect()){win();return}
+ var wrong=total-right-empty;
+ msg.textContent=wrong?('Kırmızı kutulardaki harfleri düzeltin. ('+right+'/'+total+' doğru)'):('Şimdilik doğru gidiyorsunuz! ('+right+'/'+total+' doğru, '+empty+' boş)');
+ doneEl.innerHTML='';
+});
+document.getElementById('cw-hint').addEventListener('click',function(){
+ var list=[];
+ for(var k in cells){if(!GIVEN[k]&&inputs[k].value.toUpperCase()!==cells[k].ch)list.push(k)}
+ if(!list.length){msg.textContent='Tüm harfler doğru!';return}
+ var k=list[rnd(list.length)];
+ inputs[k].value=cells[k].ch;clearMarks();wraps[k].classList.add('ok');
+ msg.textContent='💡 Bir harf eklendi.';
+ if(allCorrect())win();
+});
+document.getElementById('cw-reset').addEventListener('click',function(){
+ for(var k in cells){if(!GIVEN[k])inputs[k].value=''}
+ clearMarks();msg.textContent='';doneEl.innerHTML='';
+});
+document.getElementById('cw-new').addEventListener('click',build);
+build();
+})();
+
+if(window.speechSynthesis) speechSynthesis.getVoices();
+</script>
+</body>
+</html>
