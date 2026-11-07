@@ -123,11 +123,11 @@
 
 <h2>4. Mini diyalog</h2>
 <p>Baloncuklara tıklayıp dinleyin.</p>
-<svg viewBox="0 0 360 210" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu">
-  <g style="cursor:pointer" onclick="konus('Qu\'est-ce que c\'est ?')"><rect x="10" y="8" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="33" font-size="13" fill="#002395">Mehmet: Qu'est-ce que c'est ?</text></g>
-  <g style="cursor:pointer" onclick="konus('C\'est un cahier.')"><rect x="50" y="58" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="83" font-size="13" fill="#a00">İpek: C'est un cahier.</text></g>
-  <g style="cursor:pointer" onclick="konus('Qu\'est-ce que c\'est ?')"><rect x="10" y="108" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: Qu'est-ce que c'est ?</text></g>
-  <g style="cursor:pointer" onclick="konus('C\'est une règle.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: C'est une règle.</text></g>
+<svg viewBox="0 0 360 210" width="100%" role="img" aria-label="Mehmet ve İpek diyaloğu" id="dialogue-svg">
+  <g style="cursor:pointer" data-say="Qu'est-ce que c'est ?"><rect x="10" y="8" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="33" font-size="13" fill="#002395">Mehmet: Qu'est-ce que c'est ?</text></g>
+  <g style="cursor:pointer" data-say="C'est un cahier."><rect x="50" y="58" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="83" font-size="13" fill="#a00">İpek: C'est un cahier.</text></g>
+  <g style="cursor:pointer" data-say="Qu'est-ce que c'est ?"><rect x="10" y="108" width="300" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: Qu'est-ce que c'est ?</text></g>
+  <g style="cursor:pointer" data-say="C'est une règle."><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: C'est une règle.</text></g>
 </svg>
 
 <h2>5. Çengel bulmaca</h2>
@@ -180,6 +180,15 @@ function konus(t){
   }catch(e){}
 }
 
+/* Diyalog SVG tıklama */
+var diaSvg = document.getElementById("dialogue-svg");
+if(diaSvg){
+  diaSvg.addEventListener("click", function(e){
+    var g = e.target.closest("g[data-say]");
+    if(g) konus(g.getAttribute("data-say"));
+  });
+}
+
 function kart(h,a,cls){
   var x=document.createElement("button");
   x.type="button";
@@ -219,18 +228,22 @@ doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar
   var trEl=document.getElementById('match-tr');
   var msg=document.getElementById('match-msg');
   var score=document.getElementById('match-score');
+  var btnNew=document.getElementById('match-new');
+  if(!frEl || !trEl || !msg || !score) return;
+
   var selected=null,matched=0,locked=false,round=[];
   function karistir(a){
-    for(var i=a.length-1;i>0;i--){
-      var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;
+    var arr=a.slice();
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)),t=arr[i];arr[i]=arr[j];arr[j]=t;
     }
-    return a;
+    return arr;
   }
   function yeniOyun(){
     selected=null;matched=0;locked=false;
-    round=karistir(havuz.slice()).slice(0,6);
-    var fr=karistir(round.slice());
-    var tr=karistir(round.slice());
+    round=karistir(havuz).slice(0,6);
+    var fr=karistir(round);
+    var tr=karistir(round);
     frEl.innerHTML='';trEl.innerHTML='';
     fr.forEach(function(x){
       var b=document.createElement('button');
@@ -277,7 +290,7 @@ doldur("cogul",[["des ciseaux","makas","✂️"],["Ce sont des ciseaux.","Bunlar
       },650);
     }
   }
-  document.getElementById('match-new').addEventListener('click',yeniOyun);
+  if(btnNew) btnNew.addEventListener('click',yeniOyun);
   yeniOyun();
 })();
 
@@ -295,6 +308,7 @@ var Q=[
 var qIdx=0, puan=0, cevaplandi=false, box=document.getElementById("quiz"), bar=document.querySelector("#bar i");
 
 function soruGoster(){
+  if(!box) return;
   cevaplandi=false;
   if(bar) bar.style.width=(qIdx/Q.length*100)+'%';
   if(qIdx>=Q.length){
@@ -313,16 +327,25 @@ function soruGoster(){
      '</div>';
   h+='<p style="font-size:1.05rem;font-weight:600;margin:6px 0 12px">'+s.q+'</p>';
   if(s.say){
-    h+='<button class="say" type="button" style="margin-bottom:12px" onclick="konus(\''+s.say.replace(/'/g, "\\'")+'\')">🔊 Dinle</button>';
+    h+='<button class="say" type="button" style="margin-bottom:12px" data-say="'+s.say+'">🔊 Dinle</button>';
   }
   h+='<div class="opts">';
   s.o.forEach(function(opt,j){
-    h+='<button type="button" class="opt" onclick="secimYap('+j+',this)">'+opt+'</button>';
+    h+='<button type="button" class="opt" data-opt="'+j+'">'+opt+'</button>';
   });
   h+='</div>';
   h+='<div id="fb" style="min-height:26px;font-weight:600;margin-top:12px" aria-live="polite"></div>';
   h+='</div>';
   box.innerHTML=h;
+
+  var dinleBtn = box.querySelector("button[data-say]");
+  if(dinleBtn){
+    dinleBtn.onclick = function(){ konus(s.say); };
+  }
+  box.querySelectorAll(".opt").forEach(function(b){
+    b.onclick = function(){ secimYap(parseInt(b.dataset.opt,10), b); };
+  });
+
   if(s.say) konus(s.say);
 }
 
@@ -336,7 +359,7 @@ function secimYap(j, btn){
     fb.innerHTML='<span style="color:#27ae60">✅ Doğru!</span>';
   } else {
     btn.classList.add("no");
-    bs[s.a].classList.add("ok");
+    if(bs[s.a]) bs[s.a].classList.add("ok");
     fb.innerHTML='<span style="color:var(--kir,#e74c3c)">❌ Doğru cevap: '+s.o[s.a]+'</span>';
   }
   fb.insertAdjacentHTML('afterend', '<button class="btn" type="button" onclick="sonrakiSoru()">'+(qIdx===Q.length-1?'Sonucu gör':'Sonraki soru →')+'</button>');
@@ -429,7 +452,7 @@ function valid(pl){
  return a===b;
 }
 function generate(){
- for(var t=0;t<800;t++){
+ for(var t=0;t<500;t++){
   var ws=shuffle(POOL.map(function(q){return q.w})).slice(0,6);
   var pl=tryLayout(ws);if(!pl)continue;
   var minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9,na=0;
@@ -493,9 +516,11 @@ function build(){
   var li='<li><b>'+x.n+'.</b>'+x.k+' <small>('+x.w.length+' harf)</small></li>';
   if(x.d==='A')la+=li;else ld+=li;
  });
- document.getElementById('cw-a').innerHTML=la;
- document.getElementById('cw-d').innerHTML=ld;
- msg.textContent='';doneEl.innerHTML='';
+ var aEl=document.getElementById('cw-a'), dEl=document.getElementById('cw-d');
+ if(aEl) aEl.innerHTML=la;
+ if(dEl) dEl.innerHTML=ld;
+ if(msg) msg.textContent='';
+ if(doneEl) doneEl.innerHTML='';
  bindInputs();
 }
 
@@ -567,44 +592,53 @@ function allCorrect(){
  return true;
 }
 function win(){
- msg.textContent='🎉 Bravo! Bulmacayı tamamladınız. Sözcükleri dinleyin:';
+ if(msg) msg.textContent='🎉 Bravo! Bulmacayı tamamladınız. Sözcükleri dinleyin:';
  var h='';
  CW.forEach(function(x){h+='<button type="button" class="say" data-say="'+x.a+'">🔊 '+x.a+'</button>'});
- doneEl.innerHTML=h;
+ if(doneEl) doneEl.innerHTML=h;
 }
-doneEl.addEventListener('click',function(e){
- var b=e.target.closest?e.target.closest('[data-say]'):null;
- if(b&&window.konus)window.konus(b.getAttribute('data-say'));
-});
-document.getElementById('cw-check').addEventListener('click',function(){
- clearMarks();
- var total=0,right=0,empty=0;
- for(var k in cells){
-  if(GIVEN[k])continue;total++;
-  var v=inputs[k].value.toUpperCase();
-  if(v==='')empty++;
-  else if(v===cells[k].ch){right++;wraps[k].classList.add('ok')}
-  else wraps[k].classList.add('no');
- }
- if(allCorrect()){win();return}
- var wrong=total-right-empty;
- msg.textContent=wrong?('Kırmızı kutulardaki harfleri düzeltin. ('+right+'/'+total+' doğru)'):('Şimdilik doğru gidiyorsunuz! ('+right+'/'+total+' doğru, '+empty+' boş)');
- doneEl.innerHTML='';
-});
-document.getElementById('cw-hint').addEventListener('click',function(){
- var list=[];
- for(var k in cells){if(!GIVEN[k]&&inputs[k].value.toUpperCase()!==cells[k].ch)list.push(k)}
- if(!list.length){msg.textContent='Tüm harfler doğru!';return}
- var k=list[rnd(list.length)];
- inputs[k].value=cells[k].ch;clearMarks();wraps[k].classList.add('ok');
- msg.textContent='💡 Bir harf eklendi.';
- if(allCorrect())win();
-});
-document.getElementById('cw-reset').addEventListener('click',function(){
- for(var k in cells){if(!GIVEN[k])inputs[k].value=''}
- clearMarks();msg.textContent='';doneEl.innerHTML='';
-});
-document.getElementById('cw-new').addEventListener('click',build);
+if(doneEl){
+  doneEl.addEventListener('click',function(e){
+   var b=e.target.closest('[data-say]');
+   if(b) konus(b.getAttribute('data-say'));
+  });
+}
+var chkBtn=document.getElementById('cw-check'), hintBtn=document.getElementById('cw-hint'), rstBtn=document.getElementById('cw-reset'), newBtn=document.getElementById('cw-new');
+if(chkBtn){
+  chkBtn.addEventListener('click',function(){
+   clearMarks();
+   var total=0,right=0,empty=0;
+   for(var k in cells){
+    if(GIVEN[k])continue;total++;
+    var v=inputs[k].value.toUpperCase();
+    if(v==='')empty++;
+    else if(v===cells[k].ch){right++;wraps[k].classList.add('ok')}
+    else wraps[k].classList.add('no');
+   }
+   if(allCorrect()){win();return}
+   var wrong=total-right-empty;
+   if(msg) msg.textContent=wrong?('Kırmızı kutulardaki harfleri düzeltin. ('+right+'/'+total+' doğru)'):('Şimdilik doğru gidiyorsunuz! ('+right+'/'+total+' doğru, '+empty+' boş)');
+   if(doneEl) doneEl.innerHTML='';
+  });
+}
+if(hintBtn){
+  hintBtn.addEventListener('click',function(){
+   var list=[];
+   for(var k in cells){if(!GIVEN[k]&&inputs[k].value.toUpperCase()!==cells[k].ch)list.push(k)}
+   if(!list.length){if(msg)msg.textContent='Tüm harfler doğru!';return}
+   var k=list[rnd(list.length)];
+   inputs[k].value=cells[k].ch;clearMarks();wraps[k].classList.add('ok');
+   if(msg) msg.textContent='💡 Bir harf eklendi.';
+   if(allCorrect())win();
+  });
+}
+if(rstBtn){
+  rstBtn.addEventListener('click',function(){
+   for(var k in cells){if(!GIVEN[k])inputs[k].value=''}
+   clearMarks();if(msg)msg.textContent='';if(doneEl)doneEl.innerHTML='';
+  });
+}
+if(newBtn) newBtn.addEventListener('click',build);
 build();
 })();
 
