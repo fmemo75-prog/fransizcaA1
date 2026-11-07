@@ -25,6 +25,16 @@
 .q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
 .say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
 .sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.esl{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.esl button{font:inherit;background:#fff;border:2px solid var(--lac);border-radius:12px;padding:12px 8px;cursor:pointer;color:var(--lac);font-weight:700;min-height:56px}
+.esl button.em2{font-size:2rem;line-height:1;border-color:var(--kir);padding:6px}
+.esl button.em2 img{display:block;width:100%;max-width:120px;aspect-ratio:1/1;object-fit:cover;border-radius:8px;margin:0 auto;pointer-events:none}
+.esl button:hover,.esl button:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.esl button.sec{background:#fff8dc;border-color:var(--alt)}
+.esl button.ok{background:#dff5e3;border-color:#2e9e4f;color:#1b6b34;cursor:default;outline:0}
+.esl button.hata{background:#fde3e3;animation:sal .35s}
+@keyframes sal{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.esl-alt{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
 .nav a{color:var(--lac);font-weight:700}
 </style>
@@ -70,7 +80,12 @@
   <g style="cursor:pointer" onclick="konus('Il pleut.')"><rect x="50" y="158" width="300" height="40" rx="14" fill="#fde8ea" stroke="#ED2939"/><text x="60" y="183" font-size="13" fill="#a00">İpek: Il pleut.</text></g>
 </svg>
 
-<h2>6. Etkinlik</h2>
+<h2>6. Eşleştirme</h2>
+<p>Önce soldaki Fransızca cümleye, sonra ona uyan resme dokunun. Doğru eşleşirse cümleyi duyarsınız.</p>
+<div class="esl" id="esl"></div>
+<div class="esl-alt"><span class="sonuc" id="eslskor" aria-live="polite"></span><button class="say" type="button" id="eslyeni">🔄 Yeniden başla</button></div>
+
+<h2>7. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
 <div id="quiz"></div>
 <p class="sonuc" id="skor"></p>
@@ -98,6 +113,51 @@ doldur("mevsimc",[["Au printemps, il fait beau.","İlkbaharda hava güzel.","�
 doldur("giysi",[["une chemise","gömlek","👔"],["un pantalon","pantolon","👖"],["un tee-shirt","tişört","👕"],["un short","şort","🩳"],["une robe","elbise","👗"],["un manteau","palto","🧥"],["des chaussures","ayakkabı","👟"],["des chaussettes","çorap","🧦"],["une écharpe","atkı","🧣"],["des gants","eldiven","🧤"],["une casquette","şapka (kasket)","🧢"],["un chapeau","şapka","👒"],["des vêtements","kıyafetler","👚"]]);
 doldur("soru",[["Qu'est-ce que tu mets ?","Ne giyiyorsun?"],["Je mets une robe.","Elbise giyiyorum."],["Mon vêtement préféré est un pantalon.","En sevdiğim kıyafet pantolon."]],"k");
 doldur("cumle",[["Il fait chaud. Je mets un tee-shirt.","Hava sıcak. Tişört giyiyorum.","🥵"],["Il fait chaud. Je mets un short.","Hava sıcak. Şort giyiyorum.","🏖️"],["Il fait froid. Je mets un manteau.","Hava soğuk. Palto giyiyorum.","🥶"],["En hiver, je porte une écharpe et des gants.","Kışın atkı ve eldiven takıyorum.","⛄"],["Au printemps, je porte une chemise.","İlkbaharda gömlek giyiyorum.","🌸"],["En été, on porte une casquette.","Yazın şapka takılır.","🏖️"]],"k");
+
+
+/* Eşleştirme etkinliği */
+var GORSEL_UZANTI="png"; /* jpg yaparsanız burayı "jpg" yapın */
+var EP=[["Il fait beau.","☀️"],["Il fait mauvais.","⛈️"],["Il fait chaud.","🥵"],["Il fait froid.","🥶"],["Il pleut.","🌧️"],["Il neige.","❄️"]];
+function karistir(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function eslBaslat(){
+ var kutu=document.getElementById("esl"),sk=document.getElementById("eslskor");
+ kutu.innerHTML="";sk.textContent="";
+ var secili=null,bulunan=0,deneme=0;
+ var sol=karistir(EP.map(function(_,i){return i})),sag=karistir(EP.map(function(_,i){return i}));
+ var solB=[],sagB=[];
+ function kontrol(){
+  if(!secili.l||!secili.r)return;
+  var l=secili.l,r=secili.r;secili={l:null,r:null};deneme++;
+  l.classList.remove("sec");r.classList.remove("sec");
+  if(l.dataset.i===r.dataset.i){
+   l.classList.add("ok");r.classList.add("ok");l.disabled=true;r.disabled=true;bulunan++;
+   konus(EP[+l.dataset.i][0]);
+   if(bulunan==EP.length)sk.textContent="Bitti! "+deneme+" denemede "+EP.length+" eşleşme"+(deneme==EP.length?" 🎉 Hiç hata yok!":" 👏");
+  }else{
+   l.classList.add("hata");r.classList.add("hata");
+   setTimeout(function(){l.classList.remove("hata");r.classList.remove("hata")},450);
+  }
+ }
+ secili={l:null,r:null};
+ function sec(b,taraf){
+  if(b.disabled)return;
+  if(secili[taraf])secili[taraf].classList.remove("sec");
+  secili[taraf]=b;b.classList.add("sec");
+  if(taraf=="l")konus(EP[+b.dataset.i][0]);
+  kontrol();
+ }
+ for(var k=0;k<EP.length;k++){
+  var a=document.createElement("button");a.type="button";a.dataset.i=sol[k];a.textContent=EP[sol[k]][0];
+  a.onclick=(function(b){return function(){sec(b,"l")}})(a);
+  var c=document.createElement("button");c.type="button";c.className="em2";c.dataset.i=sag[k];(function(btn,n,em){var im=document.createElement("img");im.alt="";im.src="images/15-"+(n+1)+"."+GORSEL_UZANTI;
+   im.onerror=function(){btn.textContent=em};btn.appendChild(im)})(c,sag[k],EP[sag[k]][1]);
+  c.setAttribute("aria-label",EP[sag[k]][0].replace(/\./,"")+" resmi");
+  c.onclick=(function(b){return function(){sec(b,"r")}})(c);
+  kutu.appendChild(a);kutu.appendChild(c);
+ }
+}
+document.getElementById("eslyeni").onclick=eslBaslat;
+eslBaslat();
 
 /* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
 var Q=[
