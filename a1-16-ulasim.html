@@ -25,6 +25,17 @@
 .q button.dog{background:#dff5e3;border-color:#2e9e4f}.q button.yan{background:#fde3e3;border-color:var(--kir)}
 .say{background:var(--lac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font:inherit;cursor:pointer}
 .sonuc{font-size:1.2rem;font-weight:700;color:var(--lac)}
+.cum{background:#fff;border:2px solid #d5dbf0;border-radius:12px;padding:12px;margin:12px 0}
+.cum .tr{font-weight:700;color:var(--lac);margin:0 0 6px}
+.cum .cevap{min-height:56px;border:2px dashed #c7cfe9;border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.cum .cevap.dogru{border-color:#2e9e4f;background:#dff5e3}
+.cum .cevap.yanlis{border-color:var(--kir);background:#fde3e3}
+.cum .havuz{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;min-height:44px}
+.cum .kel{border:2px solid var(--lac);background:#fff;color:var(--lac);border-radius:10px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}
+.cum .kel:hover,.cum .kel:focus-visible{background:#eef1fb;outline:3px solid var(--alt)}
+.cum .islem{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.cum .gri{background:#666}
+#cummsj{margin:8px 0 0;font-weight:700}
 .nav{display:flex;justify-content:space-between;margin-top:28px;gap:10px;flex-wrap:wrap}
 .nav a{color:var(--lac);font-weight:700}
 </style>
@@ -60,7 +71,21 @@
   <g style="cursor:pointer" onclick="konus('Je vais à l\'école à vélo.')"><rect x="10" y="108" width="320" height="40" rx="14" fill="#e6ebfa" stroke="#002395"/><text x="20" y="133" font-size="13" fill="#002395">Mehmet: Je vais à l'école à vélo.</text></g>
 </svg>
 
-<h2>5. Etkinlik</h2>
+<h2>5. Cümleyi kur</h2>
+<p>Karışık kelimelere sırayla tıklayarak Fransızca cümleyi oluşturun. Yanlış koyduğunuz kelimeye tekrar tıklarsanız geri döner.</p>
+<div class="cum">
+  <p class="tr" id="cumtr"></p>
+  <div class="cevap" id="cevap" aria-live="polite"></div>
+  <div class="havuz" id="havuz"></div>
+  <div class="islem">
+    <button class="say" type="button" id="kontrol">✔ Kontrol et</button>
+    <button class="say gri" type="button" id="temizle">↺ Baştan</button>
+    <button class="say" type="button" id="sonraki" hidden>Sonraki cümle →</button>
+  </div>
+  <p id="cummsj"></p>
+</div>
+
+<h2>6. Etkinlik</h2>
 <p><small>Ses çalmazsa cihazınızda Fransızca ses yüklü olmayabilir; farklı bir tarayıcıyı deneyin.</small></p>
 <div id="quiz"></div>
 <p class="sonuc" id="skor"></p>
@@ -86,6 +111,50 @@ doldur("arac",[["un bus","otobüs","🚌"],["un train","tren","🚆"],["un camio
 doldur("nasil",[["en bus","otobüsle","🚌"],["en train","trenle","🚆"],["en camion","kamyonla","🚚"],["à vélo","bisikletle","🚲"],["à pied","yürüyerek","🚶"]],"k");
 doldur("sehir",[["Je vais à Istanbul.","İstanbul'a gidiyorum.","🕌"],["Je vais à Paris.","Paris'e gidiyorum.","🗼"],["Je vais à l'école à vélo.","Okula bisikletle gidiyorum.","🏫"],["Je vais à l'école à pied.","Okula yürüyerek gidiyorum.","🚶"]],"k");
 
+/* Cümle kurma etkinliği */
+var CUM=[
+ {fr:"Je vais à l'école en train.",tr:"Okula trenle gidiyorum."},
+ {fr:"Je vais à l'école à vélo.",tr:"Okula bisikletle gidiyorum."},
+ {fr:"Je vais à l'école en bus.",tr:"Okula otobüsle gidiyorum."},
+ {fr:"Je vais à l'école à pied.",tr:"Okula yürüyerek gidiyorum."},
+ {fr:"Je vais à Paris en train.",tr:"Paris'e trenle gidiyorum."},
+ {fr:"Je vais à Istanbul en bus.",tr:"İstanbul'a otobüsle gidiyorum."}
+];
+var ci=0,cSira=[],cKel=[];
+function karistir(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t}return b}
+function cumYukle(){
+ var c=CUM[ci],w=c.fr.split(" ");
+ cKel=karistir(w.map(function(t,i){return {t:t,id:i}}));
+ if(w.length>1&&cKel.map(function(x){return x.t}).join(" ")==c.fr)cKel.reverse();
+ cSira=[];
+ document.getElementById("cumtr").textContent="Türkçesi: "+c.tr;
+ document.getElementById("cummsj").textContent="";
+ document.getElementById("sonraki").hidden=true;
+ document.getElementById("kontrol").hidden=false;
+ cizCum();
+}
+function cizCum(){
+ var cv=document.getElementById("cevap"),hv=document.getElementById("havuz");
+ cv.className="cevap";cv.innerHTML="";hv.innerHTML="";
+ cSira.forEach(function(x,k){var b=document.createElement("button");b.type="button";b.className="kel";b.textContent=x.t;
+  b.onclick=function(){cSira.splice(k,1);cizCum()};cv.appendChild(b)});
+ cKel.forEach(function(x){if(cSira.indexOf(x)>-1)return;var b=document.createElement("button");b.type="button";b.className="kel";b.textContent=x.t;
+  b.onclick=function(){cSira.push(x);cizCum();konus(x.t)};hv.appendChild(b)});
+}
+document.getElementById("temizle").onclick=function(){cSira=[];document.getElementById("cummsj").textContent="";cizCum()};
+document.getElementById("kontrol").onclick=function(){
+ var c=CUM[ci],m=document.getElementById("cummsj"),cv=document.getElementById("cevap");
+ if(cSira.length<cKel.length){m.textContent="Önce bütün kelimeleri yerleştirin.";return}
+ var yz=cSira.map(function(x){return x.t}).join(" ");
+ if(yz==c.fr){cv.className="cevap dogru";m.textContent="✅ Doğru! "+c.fr;konus(c.fr);
+  document.getElementById("kontrol").hidden=true;
+  var sn=document.getElementById("sonraki");sn.hidden=false;
+  sn.textContent=ci<CUM.length-1?"Sonraki cümle →":"Baştan başla ↺";
+ }else{cv.className="cevap yanlis";m.textContent="❌ Henüz değil. Kelime sırasını tekrar düşünün: önce kim? sonra hangi eylem? sonra nereye? en sonda nasıl?"}
+};
+document.getElementById("sonraki").onclick=function(){ci=(ci+1)%CUM.length;cumYukle()};
+cumYukle();
+
 /* Etkinlik: say = dinleme sorusu. Her soru Fransızca bilgisi gerektirir. */
 var Q=[
  {q:"Dinleyin. Bu soru ne soruyor?",say:"Comment vas-tu à l'école ?",o:["Okula nasıl gidiyorsun?","Okul nerede?","Adın ne?"],a:0},
@@ -96,14 +165,15 @@ var Q=[
  {q:"Dinleyin. Hangisini duydunuz?",say:"Je vais à l'école à pied.",o:["🚚 en camion","🚶 à pied","🚆 en train"],a:1},
  {q:"« Un camion » Türkçede ne demek?",o:["Kamyon","Tren","Bisiklet"],a:0}
 ];
-var puan=0,cevap=0,box=document.getElementById("quiz");
-Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";
+var puan=0,cevap=0,box=document.getElementById("quiz"),ds=[];
+Q.forEach(function(s,i){var d=document.createElement("div");d.className="q";ds.push(d);if(i>0)d.hidden=true;
  var h="<p><b>"+(i+1)+".</b> "+s.q+"</p>";if(s.say)h+='<button class="say" type="button">🔊 Dinle</button>';
  d.innerHTML=h;
  if(s.say)d.querySelector(".say").onclick=function(){konus(s.say)};
  var bs=[];s.o.forEach(function(t,j){var b=document.createElement("button");b.type="button";b.className="o";b.textContent=t;
   b.onclick=function(){if(d.dataset.k)return;d.dataset.k=1;cevap++;
    if(j==s.a){b.classList.add("dog");puan++}else{b.classList.add("yan");bs[s.a].classList.add("dog")}
+   if(ds[i+1]){ds[i+1].hidden=false;setTimeout(function(){ds[i+1].scrollIntoView({behavior:"smooth",block:"nearest"})},400)}
    if(cevap==Q.length)document.getElementById("skor").textContent="Sonuç: "+puan+" / "+Q.length+(puan==Q.length?" 🎉 Çok güzel!":" · Kartları tekrar dinleyip yeniden deneyin.")};
   bs.push(b);d.appendChild(b)});box.appendChild(d)});
 if(window.speechSynthesis)speechSynthesis.getVoices();
