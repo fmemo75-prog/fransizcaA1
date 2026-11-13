@@ -99,6 +99,48 @@
     </section>
   </div>
 
+  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#059669">❤️ Aimer, préférer · Beğeniler ve tercihler</h2>
+  <div class="grid">
+    <!-- AIMER 1 -->
+    <section class="card p3">
+      <span class="tag t3">Video 3</span>
+      <h2>Okulda · Tu aimes les maths ?</h2>
+      <div class="player"><div id="player-aimer1"></div></div>
+      <div class="btns">
+        <button data-p="aimer1" data-act="replay">↺ Baştan izle</button>
+        <button data-p="aimer1" data-act="slow">🐢 Yavaş (0.5x)</button>
+        <button data-p="aimer1" data-act="loop">🔁 Tekrar modu</button>
+        <button data-p="aimer1" data-act="text">📝 Metni göster</button>
+      </div>
+      <div class="text" id="text-aimer1">
+        <p>İpek, tu aimes les maths ?</p>
+        <p>Oui, j'aime les maths !</p>
+        <p>Et toi, qu'est-ce que tu préfères ?</p>
+        <p>Je préfère le français !</p>
+        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
+      </div>
+    </section>
+
+    <!-- AIMER 2 -->
+    <section class="card p4">
+      <span class="tag t4">Video 4</span>
+      <h2>Parkta · Tu aimes l'anglais ?</h2>
+      <div class="player"><div id="player-aimer2"></div></div>
+      <div class="btns">
+        <button data-p="aimer2" data-act="replay">↺ Baştan izle</button>
+        <button data-p="aimer2" data-act="slow">🐢 Yavaş (0.5x)</button>
+        <button data-p="aimer2" data-act="loop">🔁 Tekrar modu</button>
+        <button data-p="aimer2" data-act="text">📝 Metni göster</button>
+      </div>
+      <div class="text" id="text-aimer2">
+        <p>Mehmet, tu aimes l'anglais ?</p>
+        <p>Non, je n'aime pas l'anglais.</p>
+        <p>Je préfère le sport !</p>
+        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
+      </div>
+    </section>
+  </div>
+
   <p class="note">İpucu: "Tekrar modu" açıkken video bitince kendiliğinden yeniden başlar.</p>
 </div>
 
@@ -106,10 +148,12 @@
   // Video kimlikleri
   var VIDEOS = {
     mehmet: "6TbTJggQMJE",
-    ipek:   "Qls9RDiiKu8"
+    ipek:   "Qls9RDiiKu8",
+    aimer1: "Ia3iv9W-zv8",
+    aimer2: "LYoopboHy84"
   };
   var players = {};
-  var loops = { mehmet:false, ipek:false };
+  var loops = { mehmet:false, ipek:false, aimer1:false, aimer2:false };
 
   // YouTube IFrame API
   var tag = document.createElement("script");
