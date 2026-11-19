@@ -26,7 +26,7 @@
   .card h2{margin:0 0 2px;font-size:1.15rem}
   .tag{display:inline-block;font-size:.78rem;font-weight:600;color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:8px}
   .t1{background:var(--accent)} .t2{background:var(--accent2)}
-  .t3{background:#059669} .t4{background:#d97706} .t5{background:#7c3aed} .t6{background:#dc2626} .t7{background:#0891b2} .t8{background:#ea580c}
+  .t3{background:#059669} .t4{background:#d97706} .t5{background:#7c3aed} .t6{background:#dc2626} .t7{background:#0891b2} .t8{background:#ea580c} .t9{background:#0284c7}
   .player{position:relative;width:100%;max-width:300px;margin:10px auto;aspect-ratio:9/16;background:#000;border-radius:14px;overflow:hidden}
   .player iframe,.player div{position:absolute;inset:0;width:100%;height:100%;border:0}
   .btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
@@ -40,6 +40,7 @@
   .p6 button.on{background:#dc2626;border-color:#dc2626}
   .p7 button.on{background:#0891b2;border-color:#0891b2}
   .p8 button.on{background:#ea580c;border-color:#ea580c}
+  .p9 button.on{background:#0284c7;border-color:#0284c7}
   .text{display:none;margin-top:12px;padding:12px;border-left:4px solid var(--accent);background:var(--bg);border-radius:8px}
   .p2 .text{border-left-color:var(--accent2)}
   .p3 .text{border-left-color:#059669}
@@ -48,6 +49,7 @@
   .p6 .text{border-left-color:#dc2626}
   .p7 .text{border-left-color:#0891b2}
   .p8 .text{border-left-color:#ea580c}
+  .p9 .text{border-left-color:#0284c7}
   .text.show{display:block}
   .text p{margin:4px 0;font-size:1.02rem}
   .text em{color:var(--muted);font-size:.88rem}
@@ -245,6 +247,27 @@
     </section>
   </div>
 
+  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#0284c7">🏖️ En vacances · Tatilde</h2>
+  <div class="grid">
+    <!-- VACANCES -->
+    <section class="card p9">
+      <span class="tag t9">Video 9</span>
+      <h2>Tatilde · Nous sommes en vacances !</h2>
+      <div class="player"><div id="player-vacances"></div></div>
+      <div class="btns">
+        <button data-p="vacances" data-act="replay">↺ Baştan izle</button>
+        <button data-p="vacances" data-act="slow">🐢 Yavaş (0.5x)</button>
+        <button data-p="vacances" data-act="loop">🔁 Tekrar modu</button>
+        <button data-p="vacances" data-act="text">📝 Metni göster</button>
+      </div>
+      <div class="text" id="text-vacances">
+        <p>Mehmet : İpek, nous sommes en vacances !</p>
+        <p>İpek : Oui ! Il fait beau, allons à la plage !</p>
+        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
+      </div>
+    </section>
+  </div>
+
   <p class="note">İpucu: "Tekrar modu" açıkken video bitince kendiliğinden yeniden başlar.</p>
 </div>
 
@@ -258,10 +281,11 @@
     sport:  "mhYWMfut0rM",
     resto:  "YmEm6M1vY-8",
     shopping: "8pnDThnoi0w",
-    ulasim:  "OkeApI-PGAU"
+    ulasim:  "OkeApI-PGAU",
+    vacances: "1Gjf0Ll17fs"
   };
   var players = {};
-  var loops = { mehmet:false, ipek:false, aimer1:false, aimer2:false, sport:false, resto:false, shopping:false, ulasim:false };
+  var loops = { mehmet:false, ipek:false, aimer1:false, aimer2:false, sport:false, resto:false, shopping:false, ulasim:false, vacances:false };
 
   // YouTube IFrame API
   var tag = document.createElement("script");
