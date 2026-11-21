@@ -12,14 +12,23 @@
   @media (prefers-color-scheme: dark){
     :root{ --bg:#0f172a; --card:#1e293b; --text:#e5e7eb; --muted:#9ca3af; --line:#334155; }
   }
+  html{scroll-behavior:smooth}
   *{box-sizing:border-box}
   body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
   .wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
   .back{display:inline-block;margin-bottom:12px;color:var(--accent);text-decoration:none;font-size:.95rem}
   h1{margin:0 0 4px;font-size:1.7rem}
   .sub{color:var(--muted);margin:0 0 20px}
-  .steps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px;padding:0;list-style:none}
+  .steps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none}
   .steps li{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.9rem}
+  .toc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:24px}
+  .toc-card h3{margin:0 0 10px;font-size:1.05rem;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:8px}
+  .toc-item{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);padding:8px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line);transition:all .15s}
+  .toc-item:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .toc-item .tag{margin-bottom:0;flex-shrink:0;font-size:.7rem;padding:1px 8px}
+  .toc-item .info b{display:block;font-size:.88rem}
+  .toc-item .info small{color:var(--muted);font-size:.78rem}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   @media (max-width:760px){ .grid{grid-template-columns:1fr} }
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
@@ -70,10 +79,56 @@
     <li>3. Metni aç, birlikte söyle</li>
   </ol>
 
+  <div class="toc-card">
+    <h3>📋 Hızlı Dizin (İçindekiler)</h3>
+    <div class="toc-grid">
+      <a class="toc-item" href="#sec-mehmet">
+        <span class="tag t1">V1</span>
+        <div class="info"><b>Mehmet – Le matin</b><small>Ma journée</small></div>
+      </a>
+      <a class="toc-item" href="#sec-ipek">
+        <span class="tag t2">V2</span>
+        <div class="info"><b>İpek – Le soir</b><small>Ma journée</small></div>
+      </a>
+      <a class="toc-item" href="#sec-aimer1">
+        <span class="tag t3">V3</span>
+        <div class="info"><b>Tu aimes les maths ?</b><small>Aimer, préférer</small></div>
+      </a>
+      <a class="toc-item" href="#sec-aimer2">
+        <span class="tag t4">V4</span>
+        <div class="info"><b>Tu aimes l'anglais ?</b><small>Aimer, préférer</small></div>
+      </a>
+      <a class="toc-item" href="#sec-sport">
+        <span class="tag t5">V5</span>
+        <div class="info"><b>Tu fais du sport ?</b><small>Sport & Restoran</small></div>
+      </a>
+      <a class="toc-item" href="#sec-resto">
+        <span class="tag t6">V6</span>
+        <div class="info"><b>Bon appétit !</b><small>Sport & Restoran</small></div>
+      </a>
+      <a class="toc-item" href="#sec-shopping">
+        <span class="tag t7">V7</span>
+        <div class="info"><b>C'est combien ?</b><small>Alışveriş</small></div>
+      </a>
+      <a class="toc-item" href="#sec-ulasim">
+        <span class="tag t8">V8</span>
+        <div class="info"><b>Tu vas où ?</b><small>Ulaşım</small></div>
+      </a>
+      <a class="toc-item" href="#sec-vacances">
+        <span class="tag t9">V9</span>
+        <div class="info"><b>En vacances !</b><small>Tatilde</small></div>
+      </a>
+      <a class="toc-item" href="#sec-sante">
+        <span class="tag t10">V10</span>
+        <div class="info"><b>Tu es malade ?</b><small>Sağlık</small></div>
+      </a>
+    </div>
+  </div>
+
   <h2 style="margin:22px 0 6px;font-size:1.2rem;color:var(--accent)">🎬 Ma journée · Günlük rutin</h2>
   <div class="grid">
     <!-- MEHMET -->
-    <section class="card p1">
+    <section class="card p1" id="sec-mehmet">
       <span class="tag t1">Video 1</span>
       <h2>Mehmet – Le matin</h2>
       <div class="player"><div id="player-mehmet"></div></div>
@@ -92,7 +147,7 @@
     </section>
 
     <!-- İPEK -->
-    <section class="card p2">
+    <section class="card p2" id="sec-ipek">
       <span class="tag t2">Video 2</span>
       <h2>İpek – Le soir</h2>
       <div class="player"><div id="player-ipek"></div></div>
@@ -114,7 +169,7 @@
   <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#059669">❤️ Aimer, préférer · Beğeniler ve tercihler</h2>
   <div class="grid">
     <!-- AIMER 1 -->
-    <section class="card p3">
+    <section class="card p3" id="sec-aimer1">
       <span class="tag t3">Video 3</span>
       <h2>Okulda · Tu aimes les maths ?</h2>
       <div class="player"><div id="player-aimer1"></div></div>
@@ -134,7 +189,7 @@
     </section>
 
     <!-- AIMER 2 -->
-    <section class="card p4">
+    <section class="card p4" id="sec-aimer2">
       <span class="tag t4">Video 4</span>
       <h2>Parkta · Tu aimes l'anglais ?</h2>
       <div class="player"><div id="player-aimer2"></div></div>
@@ -156,7 +211,7 @@
   <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#7c3aed">⚽ Spor ve Restoran · Faire du sport & Au restaurant</h2>
   <div class="grid">
     <!-- SPORT -->
-    <section class="card p5">
+    <section class="card p5" id="sec-sport">
       <span class="tag t5">Video 5</span>
       <h2>Parkta · Tu fais du sport ?</h2>
       <div class="player"><div id="player-sport"></div></div>
@@ -176,7 +231,7 @@
     </section>
 
     <!-- RESTAURANT -->
-    <section class="card p6">
+    <section class="card p6" id="sec-resto">
       <span class="tag t6">Video 6</span>
       <h2>Restoranda · Bon appétit !</h2>
       <div class="player"><div id="player-resto"></div></div>
@@ -201,7 +256,7 @@
   <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#0891b2">🛍️ Alışveriş ve Ulaşım · Au magasin & Les transports</h2>
   <div class="grid">
     <!-- SHOPPING -->
-    <section class="card p7">
+    <section class="card p7" id="sec-shopping">
       <span class="tag t7">Video 7</span>
       <h2>Mağazada · C'est combien ?</h2>
       <div class="player"><div id="player-shopping"></div></div>
@@ -223,7 +278,7 @@
     </section>
 
     <!-- ULASIM -->
-    <section class="card p8">
+    <section class="card p8" id="sec-ulasim">
       <span class="tag t8">Video 8</span>
       <h2>Durakta · Tu vas où ?</h2>
       <div class="player"><div id="player-ulasim"></div></div>
@@ -246,7 +301,7 @@
   <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#0284c7">🏖️ En vacances · Tatilde</h2>
   <div class="grid">
     <!-- VACANCES -->
-    <section class="card p9">
+    <section class="card p9" id="sec-vacances">
       <span class="tag t9">Video 9</span>
       <h2>Tatilde · Nous sommes en vacances !</h2>
       <div class="player"><div id="player-vacances"></div></div>
@@ -267,7 +322,7 @@
   <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#4f46e5">💊 La santé · Sağlık</h2>
   <div class="grid">
     <!-- SANTE -->
-    <section class="card p10">
+    <section class="card p10" id="sec-sante">
       <span class="tag t10">Video 10</span>
       <h2>Sağlık · Tu es malade ?</h2>
       <div class="player"><div id="player-sante"></div></div>
