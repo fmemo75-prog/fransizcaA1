@@ -5,441 +5,139 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Video Dersler · İzle ve Tekrar Et</title>
 <style>
-  :root{
-    --bg:#f6f8fc; --card:#fff; --text:#1f2937; --muted:#6b7280;
-    --accent:#2563eb; --accent2:#e11d74; --line:#e5e7eb;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#0f172a; --card:#1e293b; --text:#e5e7eb; --muted:#9ca3af; --line:#334155; }
-  }
-  html{scroll-behavior:smooth}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
-  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
-  .back{display:inline-block;margin-bottom:12px;color:var(--accent);text-decoration:none;font-size:.95rem}
-  h1{margin:0 0 4px;font-size:1.7rem}
-  .sub{color:var(--muted);margin:0 0 20px}
-  .steps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none}
-  .steps li{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.9rem}
-  .toc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:24px}
-  .toc-card h3{margin:0 0 10px;font-size:1.05rem;color:var(--accent);display:flex;align-items:center;gap:8px}
-  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:8px}
-  .toc-item{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);padding:8px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line);transition:all .15s}
-  .toc-item:hover{border-color:var(--accent);transform:translateY(-1px)}
-  .toc-item .tag{margin-bottom:0;flex-shrink:0;font-size:.7rem;padding:1px 8px}
-  .toc-item .info b{display:block;font-size:.88rem}
-  .toc-item .info small{color:var(--muted);font-size:.78rem}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  @media (max-width:760px){ .grid{grid-template-columns:1fr} }
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-  .card h2{margin:0 0 2px;font-size:1.15rem}
-  .tag{display:inline-block;font-size:.78rem;font-weight:600;color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:8px}
-  .t1{background:var(--accent)} .t2{background:var(--accent2)}
-  .t3{background:#059669} .t4{background:#d97706} .t5{background:#7c3aed} .t6{background:#dc2626} .t7{background:#0891b2} .t8{background:#ea580c} .t9{background:#0284c7} .t10{background:#4f46e5} .t11{background:#0d9488}
-  .player{position:relative;width:100%;max-width:300px;margin:10px auto;aspect-ratio:9/16;background:#000;border-radius:14px;overflow:hidden}
-  .player iframe,.player div{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
-  button{font:inherit;font-size:.92rem;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer}
-  button:hover{border-color:var(--accent)}
-  button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .p2 button.on{background:var(--accent2);border-color:var(--accent2)}
-  .p3 button.on{background:#059669;border-color:#059669}
-  .p4 button.on{background:#d97706;border-color:#d97706}
-  .p5 button.on{background:#7c3aed;border-color:#7c3aed}
-  .p6 button.on{background:#dc2626;border-color:#dc2626}
-  .p7 button.on{background:#0891b2;border-color:#0891b2}
-  .p8 button.on{background:#ea580c;border-color:#ea580c}
-  .p9 button.on{background:#0284c7;border-color:#0284c7}
-  .p10 button.on{background:#4f46e5;border-color:#4f46e5}
-  .p11 button.on{background:#0d9488;border-color:#0d9488}
-  .text{display:none;margin-top:12px;padding:12px;border-left:4px solid var(--accent);background:var(--bg);border-radius:8px}
-  .p2 .text{border-left-color:var(--accent2)}
-  .p3 .text{border-left-color:#059669}
-  .p4 .text{border-left-color:#d97706}
-  .p5 .text{border-left-color:#7c3aed}
-  .p6 .text{border-left-color:#dc2626}
-  .p7 .text{border-left-color:#0891b2}
-  .p8 .text{border-left-color:#ea580c}
-  .p9 .text{border-left-color:#0284c7}
-  .p10 .text{border-left-color:#4f46e5}
-  .p11 .text{border-left-color:#0d9488}
-  .text.show{display:block}
-  .text p{margin:4px 0;font-size:1.02rem}
-  .text em{color:var(--muted);font-size:.88rem}
-  .note{margin-top:22px;color:var(--muted);font-size:.9rem;text-align:center}
+:root{--bg:#f6f8fc;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--c:#2563eb}
+@media(prefers-color-scheme:dark){:root{--bg:#0f172a;--card:#1e293b;--text:#e5e7eb;--muted:#9ca3af;--line:#334155}}
+html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
+.back{display:inline-block;margin-bottom:12px;color:#2563eb;text-decoration:none;font-size:.95rem}
+h1{margin:0 0 4px;font-size:1.7rem}
+.sub{color:var(--muted);margin:0 0 20px}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none}
+.steps li,.card,.toc-card{background:var(--card);border:1px solid var(--line)}
+.steps li{border-radius:999px;padding:6px 14px;font-size:.9rem}
+.card,.toc-card{border-radius:16px;padding:16px}
+.toc-card{margin-bottom:24px}
+.toc-card h3{margin:0 0 10px;font-size:1.05rem;color:#2563eb}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.toc-item{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);padding:8px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.toc-item:hover{border-color:var(--c)}
+.toc-item .tag{margin:0;flex-shrink:0;font-size:.7rem;padding:1px 8px}
+.toc-item b{display:block;font-size:.88rem}
+.toc-item small{color:var(--muted);font-size:.78rem}
+.sec-h{margin:28px 0 6px;font-size:1.2rem;color:var(--c)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card h2{margin:0 0 2px;font-size:1.15rem}
+.tag{display:inline-block;font-size:.78rem;font-weight:600;color:#fff;background:var(--c);border-radius:999px;padding:2px 10px;margin-bottom:8px}
+.player{position:relative;width:100%;max-width:300px;margin:10px auto;aspect-ratio:9/16;background:#000;border-radius:14px;overflow:hidden}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+button{font:inherit;font-size:.92rem;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--c)}
+button.on{background:var(--c);color:#fff;border-color:var(--c)}
+.text{display:none;margin-top:12px;padding:12px;border-left:4px solid var(--c);background:var(--bg);border-radius:8px}
+.text.show{display:block}
+.text p{margin:4px 0;font-size:1.02rem}
+.text em{color:var(--muted);font-size:.88rem}
+.note{margin-top:22px;color:var(--muted);font-size:.9rem;text-align:center}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="index.html">← Derslere dön</a>
+  <a class="back" href="index.html#unite1">← Derslere dön</a>
   <h1>Video Dersler · İzle ve tekrar et</h1>
   <p class="sub">Fransızca diyalog videoları. Sadece izle, dinle ve tekrar et.</p>
-
-  <ol class="steps">
-    <li>1. İzle</li>
-    <li>2. Yavaş izle</li>
-    <li>3. Metni aç, birlikte söyle</li>
-  </ol>
-
-  <div class="toc-card">
-    <h3>📋 Hızlı Dizin (İçindekiler)</h3>
-    <div class="toc-grid">
-      <a class="toc-item" href="#sec-mehmet">
-        <span class="tag t1">V1</span>
-        <div class="info"><b>Mehmet – Le matin</b><small>Ma journée</small></div>
-      </a>
-      <a class="toc-item" href="#sec-ipek">
-        <span class="tag t2">V2</span>
-        <div class="info"><b>İpek – Le soir</b><small>Ma journée</small></div>
-      </a>
-      <a class="toc-item" href="#sec-aimer1">
-        <span class="tag t3">V3</span>
-        <div class="info"><b>Tu aimes les maths ?</b><small>Aimer, préférer</small></div>
-      </a>
-      <a class="toc-item" href="#sec-aimer2">
-        <span class="tag t4">V4</span>
-        <div class="info"><b>Tu aimes l'anglais ?</b><small>Aimer, préférer</small></div>
-      </a>
-      <a class="toc-item" href="#sec-sport">
-        <span class="tag t5">V5</span>
-        <div class="info"><b>Tu fais du sport ?</b><small>Sport & Restoran</small></div>
-      </a>
-      <a class="toc-item" href="#sec-resto">
-        <span class="tag t6">V6</span>
-        <div class="info"><b>Bon appétit !</b><small>Sport & Restoran</small></div>
-      </a>
-      <a class="toc-item" href="#sec-shopping">
-        <span class="tag t7">V7</span>
-        <div class="info"><b>C'est combien ?</b><small>Alışveriş</small></div>
-      </a>
-      <a class="toc-item" href="#sec-ulasim">
-        <span class="tag t8">V8</span>
-        <div class="info"><b>Tu vas où ?</b><small>Ulaşım</small></div>
-      </a>
-      <a class="toc-item" href="#sec-vacances">
-        <span class="tag t9">V9</span>
-        <div class="info"><b>En vacances !</b><small>Tatilde</small></div>
-      </a>
-      <a class="toc-item" href="#sec-sante">
-        <span class="tag t10">V10</span>
-        <div class="info"><b>Tu es malade ?</b><small>Sağlık</small></div>
-      </a>
-      <a class="toc-item" href="#sec-weekend">
-        <span class="tag t11">V11</span>
-        <div class="info"><b>Le week-end</b><small>Loisirs</small></div>
-      </a>
-    </div>
-  </div>
-
-  <h2 style="margin:22px 0 6px;font-size:1.2rem;color:var(--accent)">🎬 Ma journée · Günlük rutin</h2>
-  <div class="grid">
-    <!-- MEHMET -->
-    <section class="card p1" id="sec-mehmet">
-      <span class="tag t1">Video 1</span>
-      <h2>Mehmet – Le matin</h2>
-      <div class="player"><div id="player-mehmet"></div></div>
-      <div class="btns">
-        <button data-p="mehmet" data-act="replay">↺ Baştan izle</button>
-        <button data-p="mehmet" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="mehmet" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="mehmet" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-mehmet">
-        <p>Bonjour ! Je m'appelle Mehmet.</p>
-        <p>J'ai quinze ans.</p>
-        <p>Le matin, je me lève à sept heures.</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-
-    <!-- İPEK -->
-    <section class="card p2" id="sec-ipek">
-      <span class="tag t2">Video 2</span>
-      <h2>İpek – Le soir</h2>
-      <div class="player"><div id="player-ipek"></div></div>
-      <div class="btns">
-        <button data-p="ipek" data-act="replay">↺ Baştan izle</button>
-        <button data-p="ipek" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="ipek" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="ipek" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-ipek">
-        <p>Salut ! Moi, c'est İpek.</p>
-        <p>Le soir, je fais mes devoirs.</p>
-        <p>Je me couche à neuf heures.</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
-  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#059669">❤️ Aimer, préférer · Beğeniler ve tercihler</h2>
-  <div class="grid">
-    <!-- AIMER 1 -->
-    <section class="card p3" id="sec-aimer1">
-      <span class="tag t3">Video 3</span>
-      <h2>Okulda · Tu aimes les maths ?</h2>
-      <div class="player"><div id="player-aimer1"></div></div>
-      <div class="btns">
-        <button data-p="aimer1" data-act="replay">↺ Baştan izle</button>
-        <button data-p="aimer1" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="aimer1" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="aimer1" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-aimer1">
-        <p>İpek, tu aimes les maths ?</p>
-        <p>Oui, j'aime les maths !</p>
-        <p>Et toi, qu'est-ce que tu préfères ?</p>
-        <p>Je préfère le français !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-
-    <!-- AIMER 2 -->
-    <section class="card p4" id="sec-aimer2">
-      <span class="tag t4">Video 4</span>
-      <h2>Parkta · Tu aimes l'anglais ?</h2>
-      <div class="player"><div id="player-aimer2"></div></div>
-      <div class="btns">
-        <button data-p="aimer2" data-act="replay">↺ Baştan izle</button>
-        <button data-p="aimer2" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="aimer2" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="aimer2" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-aimer2">
-        <p>Mehmet, tu aimes l'anglais ?</p>
-        <p>Non, je n'aime pas l'anglais.</p>
-        <p>Je préfère le sport !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
-  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#7c3aed">⚽ Spor ve Restoran · Faire du sport & Au restaurant</h2>
-  <div class="grid">
-    <!-- SPORT -->
-    <section class="card p5" id="sec-sport">
-      <span class="tag t5">Video 5</span>
-      <h2>Parkta · Tu fais du sport ?</h2>
-      <div class="player"><div id="player-sport"></div></div>
-      <div class="btns">
-        <button data-p="sport" data-act="replay">↺ Baştan izle</button>
-        <button data-p="sport" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="sport" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="sport" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-sport">
-        <p>Salut İpek, tu fais du sport ?</p>
-        <p>Oui, je joue au tennis.</p>
-        <p>Et toi Mehmet ?</p>
-        <p>Moi, je joue au football !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-
-    <!-- RESTAURANT -->
-    <section class="card p6" id="sec-resto">
-      <span class="tag t6">Video 6</span>
-      <h2>Restoranda · Bon appétit !</h2>
-      <div class="player"><div id="player-resto"></div></div>
-      <div class="btns">
-        <button data-p="resto" data-act="replay">↺ Baştan izle</button>
-        <button data-p="resto" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="resto" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="resto" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-resto">
-        <p>Pelin : Tu prends quoi, Mehmet ?</p>
-        <p>Mehmet : Je prends du poulet. Et toi ?</p>
-        <p>Pelin : Moi, de la salade.</p>
-        <p>Pelin : Miam ! C'est très bon !</p>
-        <p>Mehmet : Oui ! J'aime ça !</p>
-        <p>Pelin : Bon appétit, Mehmet !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
-  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#0891b2">🛍️ Alışveriş ve Ulaşım · Au magasin & Les transports</h2>
-  <div class="grid">
-    <!-- SHOPPING -->
-    <section class="card p7" id="sec-shopping">
-      <span class="tag t7">Video 7</span>
-      <h2>Mağazada · C'est combien ?</h2>
-      <div class="player"><div id="player-shopping"></div></div>
-      <div class="btns">
-        <button data-p="shopping" data-act="replay">↺ Baştan izle</button>
-        <button data-p="shopping" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="shopping" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="shopping" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-shopping">
-        <p>İpek : Mehmet, regarde ! Un pull bleu !</p>
-        <p>Mehmet : Il est beau ! C'est combien ?</p>
-        <p>İpek : Vingt euros.</p>
-        <p>Mehmet : Je prends le pull bleu !</p>
-        <p>İpek : Moi, je prends la robe rouge.</p>
-        <p>Mehmet : Super ! Allons payer !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-
-    <!-- ULASIM -->
-    <section class="card p8" id="sec-ulasim">
-      <span class="tag t8">Video 8</span>
-      <h2>Durakta · Tu vas où ?</h2>
-      <div class="player"><div id="player-ulasim"></div></div>
-      <div class="btns">
-        <button data-p="ulasim" data-act="replay">↺ Baştan izle</button>
-        <button data-p="ulasim" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="ulasim" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="ulasim" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-ulasim">
-        <p>Tu vas où, İpek ?</p>
-        <p>À l'école, en bus.</p>
-        <p>Et toi, Mehmet ?</p>
-        <p>Moi, je vais à l'école à pied.</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
-  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#0284c7">🏖️ En vacances · Tatilde</h2>
-  <div class="grid">
-    <!-- VACANCES -->
-    <section class="card p9" id="sec-vacances">
-      <span class="tag t9">Video 9</span>
-      <h2>Tatilde · Nous sommes en vacances !</h2>
-      <div class="player"><div id="player-vacances"></div></div>
-      <div class="btns">
-        <button data-p="vacances" data-act="replay">↺ Baştan izle</button>
-        <button data-p="vacances" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="vacances" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="vacances" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-vacances">
-        <p>Mehmet : İpek, nous sommes en vacances !</p>
-        <p>İpek : Oui ! Il fait beau, allons à la plage !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
-  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#4f46e5">💊 La santé · Sağlık</h2>
-  <div class="grid">
-    <!-- SANTE -->
-    <section class="card p10" id="sec-sante">
-      <span class="tag t10">Video 10</span>
-      <h2>Sağlık · Tu es malade ?</h2>
-      <div class="player"><div id="player-sante"></div></div>
-      <div class="btns">
-        <button data-p="sante" data-act="replay">↺ Baştan izle</button>
-        <button data-p="sante" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="sante" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="sante" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-sante">
-        <p>Tu vas bien ?</p>
-        <p>Non, je suis malade.</p>
-        <p>J'ai mal à la tête.</p>
-        <p>Prends soin de toi !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
-  <h2 style="margin:28px 0 6px;font-size:1.2rem;color:#0d9488">🎉 Le week-end · Hafta sonu ve Hobiler</h2>
-  <div class="grid">
-    <!-- WEEKEND -->
-    <section class="card p11" id="sec-weekend">
-      <span class="tag t11">Video 11</span>
-      <h2>Hafta sonu · Qu'est-ce que tu fais le week-end ?</h2>
-      <div class="player"><div id="player-weekend"></div></div>
-      <div class="btns">
-        <button data-p="weekend" data-act="replay">↺ Baştan izle</button>
-        <button data-p="weekend" data-act="slow">🐢 Yavaş (0.5x)</button>
-        <button data-p="weekend" data-act="loop">🔁 Tekrar modu</button>
-        <button data-p="weekend" data-act="text">📝 Metni göster</button>
-      </div>
-      <div class="text" id="text-weekend">
-        <p>Mehmet : İpek, qu'est-ce que tu fais le week-end ?</p>
-        <p>İpek : Je joue du piano et je lis des livres. Et toi ?</p>
-        <p>Mehmet : Moi, je fais du vélo avec mes amis !</p>
-        <p>İpek : C'est super ! Tu aimes le cinéma ?</p>
-        <p>Mehmet : Oui, j'adore regarder des films !</p>
-        <em>Metni videoyla birlikte yüksek sesle söyle.</em>
-      </div>
-    </section>
-  </div>
-
+  <ol class="steps"><li>1. İzle</li><li>2. Yavaş izle</li><li>3. Metni aç, birlikte söyle</li></ol>
+  <div class="toc-card"><h3>📋 Hızlı Dizin</h3><div class="toc-grid" id="toc"></div></div>
+  <div id="app"></div>
   <p class="note">İpucu: "Tekrar modu" açıkken video bitince kendiliğinden yeniden başlar.</p>
 </div>
 
 <script>
-  // Video kimlikleri
-  var VIDEOS = {
-    mehmet: "6TbTJggQMJE",
-    ipek:   "Qls9RDiiKu8",
-    aimer1: "Ia3iv9W-zv8",
-    aimer2: "LYoopboHy84",
-    sport:  "mhYWMfut0rM",
-    resto:  "YmEm6M1vY-8",
-    shopping: "8pnDThnoi0w",
-    ulasim:  "OkeApI-PGAU",
-    vacances: "1Gjf0Ll17fs",
-    sante: "prJcKGdtsXE",
-    weekend: "Vl1uKCA_fOc"
-  };
-  var players = {};
-  var loops = { mehmet:false, ipek:false, aimer1:false, aimer2:false, sport:false, resto:false, shopping:false, ulasim:false, vacances:false, sante:false, weekend:false };
+/* Yeni video eklemek için: ilgili bölümün v listesine bir satır ekle:
+   [anahtar, "YouTube kimliği", "Kart başlığı", "Dizin başlığı", ["replik 1", "replik 2", ...]] */
+var S = [
+ {t:"🎬 Ma journée · Günlük rutin", s:"Ma journée", c:"#2563eb", v:[
+  ["mehmet","6TbTJggQMJE","Mehmet – Le matin","Mehmet – Le matin",
+   ["Bonjour ! Je m'appelle Mehmet.","J'ai quinze ans.","Le matin, je me lève à sept heures."]],
+  ["ipek","Qls9RDiiKu8","İpek – Le soir","İpek – Le soir",
+   ["Salut ! Moi, c'est İpek.","Le soir, je fais mes devoirs.","Je me couche à neuf heures."]]]},
+ {t:"❤️ Aimer, préférer · Beğeniler ve tercihler", s:"Aimer, préférer", c:"#059669", v:[
+  ["aimer1","Ia3iv9W-zv8","Okulda · Tu aimes les maths ?","Tu aimes les maths ?",
+   ["İpek, tu aimes les maths ?","Oui, j'aime les maths !","Et toi, qu'est-ce que tu préfères ?","Je préfère le français !"]],
+  ["aimer2","LYoopboHy84","Parkta · Tu aimes l'anglais ?","Tu aimes l'anglais ?",
+   ["Mehmet, tu aimes l'anglais ?","Non, je n'aime pas l'anglais.","Je préfère le sport !"]]]},
+ {t:"⚽ Faire du sport · Spor", s:"Sport", c:"#7c3aed", v:[
+  ["sport","mhYWMfut0rM","Parkta · Tu fais du sport ?","Tu fais du sport ?",
+   ["Salut İpek, tu fais du sport ?","Oui, je joue au tennis.","Et toi Mehmet ?","Moi, je joue au football !"]]]},
+ {t:"🍽️ Au restaurant, au café · Restoran ve kafe", s:"Restoran ve kafe", c:"#dc2626", v:[
+  ["resto","YmEm6M1vY-8","Restoranda · Bon appétit !","Bon appétit !",
+   ["Pelin : Tu prends quoi, Mehmet ?","Mehmet : Je prends du poulet. Et toi ?","Pelin : Moi, de la salade.","Pelin : Miam ! C'est très bon !","Mehmet : Oui ! J'aime ça !","Pelin : Bon appétit, Mehmet !"]],
+  ["cafe","ldOZrtvQJm8","Kafede · Je voudrais un jus d'orange","Je voudrais…, s'il vous plaît",
+   ["İpek : Je voudrais un jus d'orange, s'il vous plaît.","Garson : Et pour vous ?","Mehmet : Un chocolat chaud, merci.","Garson : Voilà ! Bon appétit !","İpek : Merci ! C'est très bon !","Mehmet : Oui, c'est super !"]]]},
+ {t:"🛍️ Au magasin, les transports · Alışveriş ve ulaşım", s:"Alışveriş ve ulaşım", c:"#0891b2", v:[
+  ["shopping","8pnDThnoi0w","Mağazada · C'est combien ?","C'est combien ?",
+   ["İpek : Mehmet, regarde ! Un pull bleu !","Mehmet : Il est beau ! C'est combien ?","İpek : Vingt euros.","Mehmet : Je prends le pull bleu !","İpek : Moi, je prends la robe rouge.","Mehmet : Super ! Allons payer !"]],
+  ["ulasim","OkeApI-PGAU","Durakta · Tu vas où ?","Tu vas où ?",
+   ["Tu vas où, İpek ?","À l'école, en bus.","Et toi, Mehmet ?","Moi, je vais à l'école à pied."]]]},
+ {t:"🏖️ En vacances · Tatilde", s:"Tatil", c:"#0284c7", v:[
+  ["vacances","1Gjf0Ll17fs","Tatilde · Nous sommes en vacances !","En vacances !",
+   ["Mehmet : İpek, nous sommes en vacances !","İpek : Oui ! Il fait beau, allons à la plage !"]]]},
+ {t:"💊 La santé · Sağlık", s:"Sağlık", c:"#4f46e5", v:[
+  ["sante","prJcKGdtsXE","Sağlık · Tu es malade ?","Tu es malade ?",
+   ["Tu vas bien ?","Non, je suis malade.","J'ai mal à la tête.","Prends soin de toi !"]]]},
+ {t:"🎉 Le week-end · Hafta sonu ve hobiler", s:"Loisirs", c:"#0d9488", v:[
+  ["weekend","Vl1uKCA_fOc","Hafta sonu · Qu'est-ce que tu fais le week-end ?","Le week-end",
+   ["Mehmet : İpek, qu'est-ce que tu fais le week-end ?","İpek : Je joue du piano et je lis des livres. Et toi ?","Mehmet : Moi, je fais du vélo avec mes amis !","İpek : C'est super ! Tu aimes le cinéma ?","Mehmet : Oui, j'adore regarder des films !"]]]}
+];
 
-  // YouTube IFrame API
-  var tag = document.createElement("script");
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.head.appendChild(tag);
-
-  function onYouTubeIframeAPIReady(){
-    Object.keys(VIDEOS).forEach(function(key){
-      players[key] = new YT.Player("player-" + key, {
-        videoId: VIDEOS[key],
-        playerVars: { rel:0, playsinline:1, modestbranding:1, cc_load_policy:1, hl:"fr", cc_lang_pref:"fr" },
-        events: {
-          onStateChange: function(e){
-            if (e.data === YT.PlayerState.ENDED && loops[key]) {
-              players[key].seekTo(0); players[key].playVideo();
-            }
-          }
-        }
-      });
-    });
-  }
-  window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-
-  document.addEventListener("click", function(ev){
-    var b = ev.target.closest("button[data-act]");
-    if(!b) return;
-    var key = b.dataset.p, act = b.dataset.act, pl = players[key];
-    if(act === "text"){
-      var box = document.getElementById("text-" + key);
-      var open = box.classList.toggle("show");
-      b.classList.toggle("on", open);
-      b.textContent = open ? "📝 Metni gizle" : "📝 Metni göster";
-      return;
-    }
-    if(!pl || !pl.seekTo) return;
-    if(act === "replay"){ pl.seekTo(0); pl.playVideo(); }
-    if(act === "slow"){
-      var slow = !b.classList.contains("on");
-      pl.setPlaybackRate(slow ? 0.5 : 1);
-      b.classList.toggle("on", slow);
-      b.textContent = slow ? "🐢 Normal hıza dön" : "🐢 Yavaş (0.5x)";
-    }
-    if(act === "loop"){
-      loops[key] = !loops[key];
-      b.classList.toggle("on", loops[key]);
-      if(loops[key]){ pl.seekTo(0); pl.playVideo(); }
-    }
+/* Sayfayı verilerden oluştur */
+var BTNS = [["replay","↺ Baştan izle"],["slow","🐢 Yavaş (0.5x)"],["loop","🔁 Tekrar modu"],["text","📝 Metni göster"]];
+var html = "", toc = "", n = 0;
+S.forEach(function(s){
+  html += '<h2 class="sec-h" style="--c:'+s.c+'">'+s.t+'</h2><div class="grid" style="--c:'+s.c+'">';
+  s.v.forEach(function(v){
+    var k = v[0]; n++;
+    toc += '<a class="toc-item" style="--c:'+s.c+'" href="#sec-'+k+'"><span class="tag">V'+n+'</span><div><b>'+v[3]+'</b><small>'+s.s+'</small></div></a>';
+    html += '<section class="card" id="sec-'+k+'"><span class="tag">Video '+n+'</span><h2>'+v[2]+'</h2>'
+      + '<div class="player"><iframe id="player-'+k+'" src="https://www.youtube.com/embed/'+v[1]+'?rel=0&playsinline=1&enablejsapi=1&cc_load_policy=1&hl=fr" title="'+v[2]+'" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>'
+      + '<div class="btns">' + BTNS.map(function(b){return '<button data-p="'+k+'" data-act="'+b[0]+'">'+b[1]+'</button>'}).join("") + '</div>'
+      + '<div class="text" id="text-'+k+'">' + v[4].map(function(l){return '<p>'+l+'</p>'}).join("") + '<em>Metni videoyla birlikte yüksek sesle söyle.</em></div></section>';
   });
+  html += '</div>';
+});
+document.getElementById("app").innerHTML = html;
+document.getElementById("toc").innerHTML = toc;
+
+/* YouTube oynatıcı kontrolleri (videolar API olmadan da görünür) */
+var P = {}, L = {}, R = {};
+function bind(k){
+  if (P[k] || !R[k] || !(window.YT && YT.Player)) return;
+  P[k] = new YT.Player("player-"+k, {events:{onStateChange:function(e){
+    if (e.data === 0 && L[k]) { P[k].seekTo(0); P[k].playVideo(); }
+  }}});
+}
+document.querySelectorAll("iframe[id^=player-]").forEach(function(f){
+  f.addEventListener("load", function(){ R[f.id.slice(7)] = true; bind(f.id.slice(7)); });
+});
+window.onYouTubeIframeAPIReady = function(){ Object.keys(R).forEach(bind); };
+var yt = document.createElement("script"); yt.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(yt);
+
+document.addEventListener("click", function(ev){
+  var b = ev.target.closest("button[data-act]"); if (!b) return;
+  var k = b.dataset.p, a = b.dataset.act, on;
+  if (a === "text") {
+    on = document.getElementById("text-"+k).classList.toggle("show");
+    b.classList.toggle("on", on); b.textContent = on ? "📝 Metni gizle" : "📝 Metni göster"; return;
+  }
+  bind(k);
+  var pl = P[k]; if (!pl || !pl.seekTo) return;
+  if (a === "replay") { pl.seekTo(0); pl.playVideo(); }
+  if (a === "slow") { on = !b.classList.contains("on"); pl.setPlaybackRate(on ? 0.5 : 1); b.classList.toggle("on", on); b.textContent = on ? "🐢 Normal hıza dön" : "🐢 Yavaş (0.5x)"; }
+  if (a === "loop") { L[k] = !L[k]; b.classList.toggle("on", L[k]); if (L[k]) { pl.seekTo(0); pl.playVideo(); } }
+});
 </script>
 </body>
 </html>
